@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "export DATABASE_URL=${DATABASE_URL:-file:./prisma/prod.db} && prisma generate && next build",
-    "start": "export DATABASE_URL=${DATABASE_URL:-file:./prisma/prod.db} && prisma db push && next start",
+    "start": "export DATABASE_URL=${DATABASE_URL:-file:./prisma/prod.db} && prisma db push && node prisma/seed.js && next start",
     "lint": "eslint",
     "seed": "npx ts-node --compiler-options '{\"module\":\"CommonJS\"}' prisma/seed.ts"
   },
