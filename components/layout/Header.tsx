@@ -221,23 +221,23 @@ export default function Header() {
             <div style={{ padding: '12px 16px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <Link href="/about" onClick={() => setMobileOpen(false)}
-                  style={{ padding: '16px 8px', fontSize: 16, color: '#333', fontWeight: 600, borderBottom: '1px solid #F5F5F5', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}
+                  style={{ padding: '16px 8px', fontSize: 16, color: '#333', fontWeight: 600, borderBottom: '1px solid #F5F5F5', textDecoration: 'none' }}
                 >
-                  <span>👥</span> {lang === 'ru' ? 'О нас' : 'Biz haqimizda'}
+                  {lang === 'ru' ? 'О нас' : 'Biz haqimizda'}
                 </Link>
                 <Link href="/contacts" onClick={() => setMobileOpen(false)}
-                  style={{ padding: '16px 8px', fontSize: 16, color: '#333', fontWeight: 600, borderBottom: '1px solid #F5F5F5', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}
+                  style={{ padding: '16px 8px', fontSize: 16, color: '#333', fontWeight: 600, borderBottom: '1px solid #F5F5F5', textDecoration: 'none' }}
                 >
-                  <span>📞</span> {lang === 'ru' ? 'Контакты' : 'Kontaktlar'}
+                  {lang === 'ru' ? 'Контакты' : 'Kontaktlar'}
                 </Link>
                 <div style={{ padding: '12px 8px 8px', fontSize: 13, color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>
                   {lang === 'ru' ? 'Услуги' : 'Xizmatlar'}
                 </div>
                 {navServices.map((s: any) => (
                   <Link key={s.id} href={`/xizmatlar/${s.slug}`} onClick={() => setMobileOpen(false)}
-                    style={{ padding: '12px 8px', fontSize: 14, color: '#555', borderBottom: '1px solid #F9F9F9', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}
+                    style={{ padding: '12px 8px', fontSize: 14, color: '#555', borderBottom: '1px solid #F9F9F9', textDecoration: 'none' }}
                   >
-                    <span>🎨</span> {lang === 'ru' ? s.nameRu : s.nameUz}
+                    {lang === 'ru' ? s.nameRu : s.nameUz}
                   </Link>
                 ))}
               </div>
