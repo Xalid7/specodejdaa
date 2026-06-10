@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id       String    @id @default(cuid())
+  nameRu   String
+  nameUz   String
+  icon     String?
+  slug     String    @unique
+  order    Int       @default(0)
+  products Product[]
+}
+
+model Product {
+  id           String   @id @default(cuid())
+  nameRu       String
+  nameUz       String
+  descRu       String?
+  descUz       String?
+  images       String   @default("[]")
+  isNew        Boolean  @default(false)
+  isCollection Boolean  @default(false)
+  isHoliday    Boolean  @default(false)
+  slug         String   @unique
+  categoryId   String
+  category     Category @relation(fields: [categoryId], references: [id])
+  createdAt    DateTime @default(now())
+}
+
+model Banner {
+  id         String  @id @default(cuid())
+  imageUrl   String
+  titleRu    String?
+  titleUz    String?
+  subtitleRu String?
+  subtitleUz String?
+  ctaText    String?
+  ctaLink    String?
+  order      Int     @default(0)
+}
+
+model NavService {
+  id        String           @id @default(cuid())
+  nameRu    String
+  nameUz    String
+  slug      String           @unique
+  order     Int              @default(0)
+  imageUrl  String?
+  products  ServiceProduct[]
+}
+
+model ServiceProduct {
+  id           String     @id @default(cuid())
+  nameRu       String
+  nameUz       String
+  imageUrl     String?
+  descRu       String?
+  descUz       String?
+  navServiceId String
+  navService   NavService @relation(fields: [navServiceId], references: [id], onDelete: Cascade)
+}
+
+model Partner {
+  id      String  @id @default(cuid())
+  logoUrl String
+  name    String?
+  website String?
+  order   Int     @default(0)
+}
+
+model Settings {
+  id       String  @id @default(cuid())
+  telegram String?
+  email    String?
+  phone    String?
+  address  String?
+  mapLat   String?
+  mapLng   String?
+  aboutRu  String?
+  aboutUz  String?
+}
