@@ -219,26 +219,27 @@ export default function Header() {
               </button>
             </div>
             <div style={{ padding: '12px 16px' }}>
-              <form onSubmit={handleSearch} style={{ marginBottom: 16 }}>
-                <div style={{ display: 'flex', border: '1.5px solid #E0E0E0', borderRadius: 8, overflow: 'hidden' }}>
-                  <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Qidiruv..." style={{ flex: 1, padding: '10px 12px', fontSize: 14, border: 'none', outline: 'none' }} />
-                  <button type="submit" style={{ padding: '10px 12px', border: 'none', background: '#D32F2F', color: '#fff', cursor: 'pointer' }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                  </button>
-                </div>
-              </form>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Link href="/" onClick={() => setMobileOpen(false)} style={{ padding: '12px 4px', fontSize: 15, color: '#333', fontWeight: 500, borderBottom: '1px solid #F5F5F5', textDecoration: 'none' }}>Bosh sahifa</Link>
-                <div style={{ padding: '12px 4px 8px', fontSize: 13, color: '#999', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>Katalog</div>
-                {categories.map((cat: any) => (
-                  <Link key={cat.id} href={`/catalog?categoryId=${cat.id}`} onClick={() => setMobileOpen(false)}
-                    style={{ padding: '10px 4px', fontSize: 14, color: '#555', display: 'flex', alignItems: 'center', gap: 10, borderBottom: '1px solid #F9F9F9', textDecoration: 'none' }}
+                <Link href="/about" onClick={() => setMobileOpen(false)}
+                  style={{ padding: '16px 8px', fontSize: 16, color: '#333', fontWeight: 600, borderBottom: '1px solid #F5F5F5', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}
+                >
+                  <span>👥</span> {lang === 'ru' ? 'О нас' : 'Biz haqimizda'}
+                </Link>
+                <Link href="/contacts" onClick={() => setMobileOpen(false)}
+                  style={{ padding: '16px 8px', fontSize: 16, color: '#333', fontWeight: 600, borderBottom: '1px solid #F5F5F5', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}
+                >
+                  <span>📞</span> {lang === 'ru' ? 'Контакты' : 'Kontaktlar'}
+                </Link>
+                <div style={{ padding: '12px 8px 8px', fontSize: 13, color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>
+                  {lang === 'ru' ? 'Услуги' : 'Xizmatlar'}
+                </div>
+                {navServices.map((s: any) => (
+                  <Link key={s.id} href={`/xizmatlar/${s.slug}`} onClick={() => setMobileOpen(false)}
+                    style={{ padding: '12px 8px', fontSize: 14, color: '#555', borderBottom: '1px solid #F9F9F9', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}
                   >
-                    <span>{cat.icon || '📦'}</span>{lang === 'ru' ? cat.nameRu : cat.nameUz}
+                    <span>🎨</span> {lang === 'ru' ? s.nameRu : s.nameUz}
                   </Link>
                 ))}
-                <Link href="/about" onClick={() => setMobileOpen(false)} style={{ padding: '12px 4px', fontSize: 15, color: '#333', fontWeight: 500, borderTop: '1px solid #F0F0F0', marginTop: 8, textDecoration: 'none' }}>{lang === 'ru' ? 'О нас' : "Biz haqimizda"}</Link>
-                <Link href="/contacts" onClick={() => setMobileOpen(false)} style={{ padding: '12px 4px', fontSize: 15, color: '#333', fontWeight: 500, textDecoration: 'none' }}>{lang === 'ru' ? 'Контакты' : 'Kontaktlar'}</Link>
               </div>
             </div>
             <div style={{ marginTop: 'auto', padding: 16, borderTop: '1px solid #F0F0F0' }}>

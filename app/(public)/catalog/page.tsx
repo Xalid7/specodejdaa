@@ -70,14 +70,14 @@ function CatalogContent() {
         <aside style={{ width: 220, flexShrink: 0 }} className={`catalog-sidebar ${sidebarOpen ? 'open' : ''}`}>
           <div style={{ background: '#fff', border: '1.5px solid #F0F0F0', borderRadius: 14, overflow: 'hidden' }}>
             <div style={{ padding: '14px 16px', borderBottom: '1px solid #F5F5F5' }}>
-              <button onClick={() => setActiveCat(null)}
+              <button onClick={() => { setActiveCat(null); setSidebarOpen(false) }}
                 style={{ fontSize: 13, fontWeight: 700, color: activeCat === null ? '#D32F2F' : '#555', background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: 8 }}
               >
                 <span>📦</span> {lang === 'ru' ? 'Все категории' : 'Barcha kategoriyalar'}
               </button>
             </div>
             {categories.map((cat: any) => (
-              <button key={cat.id} onClick={() => setActiveCat(activeCat === cat.id ? null : cat.id)}
+              <button key={cat.id} onClick={() => { setActiveCat(activeCat === cat.id ? null : cat.id); setSidebarOpen(false) }}
                 style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', background: activeCat === cat.id ? '#FFF5F5' : 'transparent', border: 'none', borderBottom: '1px solid #FAFAFA', cursor: 'pointer', textAlign: 'left', transition: 'background .15s' }}
                 onMouseEnter={e => { if (activeCat !== cat.id) e.currentTarget.style.background = '#FAFAFA' }}
                 onMouseLeave={e => { if (activeCat !== cat.id) e.currentTarget.style.background = 'transparent' }}
