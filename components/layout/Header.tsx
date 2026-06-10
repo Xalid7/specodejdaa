@@ -54,7 +54,7 @@ export default function Header() {
       <header ref={headerRef} style={{ position: 'sticky', top: 0, zIndex: 100, background: '#fff', boxShadow: '0 1px 0 #eee' }}>
 
         {/* Top bar */}
-        <div style={{ background: '#FAFAFA', borderBottom: '1px solid #F0F0F0' }}>
+        <div className="header-topbar" style={{ background: '#FAFAFA', borderBottom: '1px solid #F0F0F0' }}>
           <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 16px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 16, height: 40 }}>
             {settings.telegram && (
               <a href={settings.telegram} target="_blank" rel="noreferrer"
@@ -92,14 +92,12 @@ export default function Header() {
             <div style={{ width: 44, height: 44, background: '#D32F2F', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <span style={{ color: '#fff', fontWeight: 800, fontSize: 11, textAlign: 'center', lineHeight: 1.2 }}>Art<br/>Print</span>
             </div>
-            <span style={{ fontWeight: 800, fontSize: 20, color: '#212121', letterSpacing: -0.5 }}>ART PRINT</span>
+            <span className="logo-text" style={{ fontWeight: 800, fontSize: 20, color: '#212121', letterSpacing: -0.5 }}>ART PRINT</span>
           </Link>
 
           {/* Search */}
-          <form onSubmit={handleSearch} style={{ flex: 1, maxWidth: 600, margin: '0 auto' }}>
-            <div style={{ display: 'flex', alignItems: 'center', border: '1.5px solid #E0E0E0', borderRadius: 10, overflow: 'hidden', transition: 'border-color .2s' }}
-              onFocus={() => {}}
-            >
+          <form onSubmit={handleSearch} className="header-search" style={{ flex: 1, maxWidth: 600, margin: '0 auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center', border: '1.5px solid #E0E0E0', borderRadius: 10, overflow: 'hidden', transition: 'border-color .2s' }}>
               <input
                 value={search}
                 onChange={e => setSearch(e.target.value)}
@@ -113,7 +111,7 @@ export default function Header() {
           </form>
 
           {/* Lang toggle */}
-          <button onClick={toggleLang}
+          <button onClick={toggleLang} className="header-lang"
             style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 12px', borderRadius: 8, border: '1.5px solid #E0E0E0', background: 'transparent', cursor: 'pointer', fontSize: 13, fontWeight: 600, color: '#555', transition: 'all .2s', flexShrink: 0 }}
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
@@ -121,8 +119,8 @@ export default function Header() {
           </button>
 
           {/* Hamburger (mobile) */}
-          <button onClick={() => setMobileOpen(true)} style={{ display: 'none', padding: 8, border: 'none', background: 'none', cursor: 'pointer', flexShrink: 0 }} className="mobile-menu-btn">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+          <button onClick={() => setMobileOpen(true)} style={{ display: 'none', padding: 8, border: 'none', background: 'none', cursor: 'pointer', flexShrink: 0, marginLeft: 'auto' }} className="mobile-menu-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
           </button>
         </div>
 
@@ -256,7 +254,13 @@ export default function Header() {
       <style>{`
         @media (max-width: 768px) {
           .mobile-menu-btn { display: flex !important; }
+          .header-search { display: none !important; }
+          .header-lang { display: none !important; }
           nav { display: none !important; }
+          .logo-text { display: none !important; }
+        }
+        @media (max-width: 480px) {
+          .header-topbar { display: none !important; }
         }
       `}</style>
     </>
