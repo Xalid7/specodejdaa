@@ -28,6 +28,12 @@ async function main() {
     }});
   }
 
+  // Banner — create if none exist
+  const bannerCount = await prisma.banner.count();
+  if (bannerCount === 0) {
+    await prisma.banner.create({ data: { imageUrl: '/uploads/banner-main.png', order: 0 } });
+  }
+
   // Skip seeding if data already exists — preserve admin changes
   const catCount = await prisma.category.count();
   if (catCount > 0) {
