@@ -164,42 +164,40 @@ export default function Header() {
             </nav>
           </div>
 
-          {/* Services Mega Menu — nav bar dan pastga tushadi */}
+          {/* Services Mega Menu */}
           {servicesOpen && navServices.length > 0 && (
-            <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 200, background: '#fff', borderTop: '2px solid #D32F2F', boxShadow: '0 12px 40px rgba(0,0,0,0.13)' }}>
-              <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 16px 28px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
-                  <h3 style={{ fontSize: 15, fontWeight: 800, color: '#111' }}>
-                    🎨 {lang === 'ru' ? 'Нанесение логотипа' : 'Logo bosish xizmatlari'}
-                  </h3>
-                  <button onClick={() => setServicesOpen(false)} style={{ border: 'none', background: '#F5F5F5', borderRadius: 8, width: 30, height: 30, cursor: 'pointer', fontSize: 17, color: '#555', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>×</button>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 12 }}>
-                  {navServices.map((s: any, i: number) => {
-                    const gradients = ['linear-gradient(135deg,#D32F2F,#7B0000)','linear-gradient(135deg,#1565C0,#0D47A1)','linear-gradient(135deg,#2E7D32,#1B5E20)','linear-gradient(135deg,#E65100,#BF360C)','linear-gradient(135deg,#6A1B9A,#4A148C)','linear-gradient(135deg,#00838F,#006064)','linear-gradient(135deg,#558B2F,#33691E)','linear-gradient(135deg,#AD1457,#880E4F)']
-                    return (
+            <>
+              <div style={{ position: 'fixed', inset: 0, zIndex: 199, background: 'rgba(0,0,0,0.25)' }} onClick={() => setServicesOpen(false)} />
+              <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 200, background: '#fff', borderTop: '3px solid #D32F2F', boxShadow: '0 16px 48px rgba(0,0,0,0.14)' }}>
+                <div style={{ maxWidth: 1280, margin: '0 auto', padding: '28px 20px 32px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 22 }}>
+                    <h3 style={{ fontSize: 16, fontWeight: 800, color: '#111', letterSpacing: -0.3 }}>
+                      {lang === 'ru' ? 'Нанесение логотипа' : 'Logo bosish xizmatlari'}
+                    </h3>
+                    <button onClick={() => setServicesOpen(false)} style={{ border: 'none', background: '#F5F5F5', borderRadius: 50, width: 32, height: 32, cursor: 'pointer', fontSize: 18, color: '#555', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>×</button>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))', gap: 16 }}>
+                    {navServices.map((s: any) => (
                       <Link key={s.id} href={`/xizmatlar/${s.slug}`} onClick={() => setServicesOpen(false)}
-                        style={{ textDecoration: 'none', borderRadius: 12, overflow: 'hidden', display: 'block', boxShadow: '0 2px 10px rgba(0,0,0,0.08)', transition: 'transform .2s, box-shadow .2s' }}
-                        onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.15)' }}
-                        onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.08)' }}
+                        style={{ textDecoration: 'none', background: '#fff', border: '1.5px solid #F0F0F0', borderRadius: 14, overflow: 'hidden', display: 'block', transition: 'all .25s', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}
+                        onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.12)'; e.currentTarget.style.borderColor = '#E0E0E0' }}
+                        onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'; e.currentTarget.style.borderColor = '#F0F0F0' }}
                       >
-                        <div style={{ aspectRatio: '4/3', position: 'relative', background: gradients[i % gradients.length] }}>
+                        <div style={{ aspectRatio: '16/9', background: '#F8F8F8', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                           {s.imageUrl
                             ? <img src={s.imageUrl} alt={s.nameRu} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                            : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36, opacity: 0.7 }}>🎨</div>
+                            : <span style={{ fontSize: 32, opacity: 0.3 }}>🎨</span>
                           }
-                          {s.imageUrl && <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.65), transparent)' }} />}
                         </div>
-                        <div style={{ padding: '10px 12px', background: '#fff' }}>
-                          <p style={{ fontSize: 12, fontWeight: 700, color: '#111', lineHeight: 1.3 }}>{lang === 'ru' ? s.nameRu : s.nameUz}</p>
+                        <div style={{ padding: '11px 13px 13px' }}>
+                          <p style={{ fontSize: 13, fontWeight: 700, color: '#111', lineHeight: 1.3 }}>{lang === 'ru' ? s.nameRu : s.nameUz}</p>
                         </div>
                       </Link>
-                    )
-                  })}
+                    ))}
+                  </div>
                 </div>
               </div>
-              <div style={{ position: 'fixed', inset: 0, zIndex: -1 }} onClick={() => setServicesOpen(false)} />
-            </div>
+            </>
           )}
         </div>
       </header>
