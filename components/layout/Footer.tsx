@@ -16,11 +16,8 @@ export default function Footer() {
 
           {/* Brand */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-              <div style={{ width: 40, height: 40, background: '#D32F2F', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ color: '#fff', fontWeight: 800, fontSize: 10, lineHeight: 1.2, textAlign: 'center' }}>Art<br/>Print</span>
-              </div>
-              <span style={{ color: '#fff', fontWeight: 800, fontSize: 18 }}>ART PRINT</span>
+            <div style={{ marginBottom: 16 }}>
+              <img src="/logo.svg" alt="Art Print Textile" style={{ height: 56, width: 'auto', display: 'block' }} />
             </div>
             <p style={{ fontSize: 13, lineHeight: 1.6, color: '#888', marginBottom: 20, maxWidth: 220 }}>
               O'zbekistonda maxsus kiyim ishlab chiqaruvchi etakchi kompaniya
