@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "export DATABASE_URL=${DATABASE_URL:-file:./prisma/prod.db} && prisma generate && next build",
-    "start": "export DATABASE_URL=${DATABASE_URL:-file:./prisma/prod.db} && prisma db push && node prisma/seed.js && next start",
+    "build": "export DATABASE_URL=${DATABASE_URL:-file:./prisma/prod.db} && export NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-artprint_secret_key_2024} && prisma generate && next build",
+    "start": "export DATABASE_URL=${DATABASE_URL:-file:./prisma/prod.db} && export NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-artprint_secret_key_2024} && prisma db push && node prisma/seed.js && next start",
     "lint": "eslint",
     "seed": "npx ts-node --compiler-options '{\"module\":\"CommonJS\"}' prisma/seed.ts"
   },
