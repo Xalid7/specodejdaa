@@ -1,8 +1,17 @@
 const { PrismaClient } = require('@prisma/client');
+const bcrypt = require('bcryptjs');
 const prisma = new PrismaClient();
 
 async function main() {
   console.log('Seeding database...');
+
+  // Admin user
+  const hash = await bcrypt.hash('admin123', 10);
+  await prisma.admin.upsert({
+    where: { email: 'admin@artprint.uz' },
+    update: {},
+    create: { email: 'admin@artprint.uz', password: hash, name: 'Admin' },
+  });
   await prisma.serviceProduct.deleteMany();
   await prisma.navService.deleteMany();
   await prisma.product.deleteMany();
