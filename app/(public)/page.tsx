@@ -86,7 +86,7 @@ export default function HomePage() {
             <div style={{ display: 'flex', transition: 'transform .5s cubic-bezier(.4,0,.2,1)', transform: `translateX(-${current * 100}%)` }}>
               {banners.map((b: any) => (
                 <div key={b.id} style={{ minWidth: '100%', position: 'relative' }}>
-                  <div style={{ width: '100%', aspectRatio: '16/6', minHeight: 280, background: '#f5f5f5', position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ width: '100%', aspectRatio: '16/9', minHeight: 320, background: '#f5f5f5', position: 'relative', overflow: 'hidden' }}>
                     <img src={b.imageUrl} alt={b.titleRu || ''} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
                     {(b.titleRu || b.ctaText) && (
                       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 50%, transparent 75%)', display: 'flex', alignItems: 'center', padding: '0 5%' }}>
