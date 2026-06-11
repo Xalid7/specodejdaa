@@ -34,58 +34,50 @@ export default function ServicesPage() {
           {lang === 'ru' ? 'Услуги не найдены' : 'Xizmatlar topilmadi'}
         </p>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
           {services.map((s: any) => (
-            <Link
-              key={s.id}
-              href={`/xizmatlar/${s.slug}`}
-              style={{ textDecoration: 'none' }}
-            >
+            <Link key={s.id} href={`/xizmatlar/${s.slug}`} style={{ textDecoration: 'none' }}>
               <div
                 style={{
                   background: '#fff',
                   border: '1.5px solid #eee',
-                  borderRadius: 14,
-                  padding: '28px 24px',
+                  borderRadius: 12,
+                  overflow: 'hidden',
                   transition: 'all .2s',
                   cursor: 'pointer',
-                  height: '100%',
-                  boxSizing: 'border-box',
                 }}
                 onMouseEnter={e => {
-                  const el = e.currentTarget
-                  el.style.borderColor = '#D32F2F'
-                  el.style.boxShadow = '0 8px 32px rgba(211,47,47,0.12)'
-                  el.style.transform = 'translateY(-4px)'
+                  e.currentTarget.style.borderColor = '#D32F2F'
+                  e.currentTarget.style.boxShadow = '0 6px 24px rgba(211,47,47,0.13)'
+                  e.currentTarget.style.transform = 'translateY(-3px)'
                 }}
                 onMouseLeave={e => {
-                  const el = e.currentTarget
-                  el.style.borderColor = '#eee'
-                  el.style.boxShadow = 'none'
-                  el.style.transform = 'translateY(0)'
+                  e.currentTarget.style.borderColor = '#eee'
+                  e.currentTarget.style.boxShadow = 'none'
+                  e.currentTarget.style.transform = 'translateY(0)'
                 }}
               >
-                <div style={{
-                  width: 44, height: 44, borderRadius: 10,
-                  background: '#FFF0F0', display: 'flex', alignItems: 'center',
-                  justifyContent: 'center', marginBottom: 16
-                }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D32F2F" strokeWidth="2">
-                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/>
-                    <line x1="7" y1="7" x2="7.01" y2="7"/>
-                  </svg>
+                {/* Image */}
+                <div style={{ width: '100%', aspectRatio: '4/3', background: '#f5f5f5', overflow: 'hidden' }}>
+                  {s.imageUrl ? (
+                    <img
+                      src={s.imageUrl}
+                      alt={lang === 'ru' ? s.nameRu : (s.nameUz || s.nameRu)}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    />
+                  ) : (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f9f9f9' }}>
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ddd" strokeWidth="1.5">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                      </svg>
+                    </div>
+                  )}
                 </div>
-                <h3 style={{ fontSize: 17, fontWeight: 700, color: '#111', marginBottom: 8, lineHeight: 1.3 }}>
-                  {lang === 'ru' ? s.nameRu : (s.nameUz || s.nameRu)}
-                </h3>
-                {s.products?.length > 0 && (
-                  <p style={{ fontSize: 13, color: '#999' }}>
-                    {s.products.length} {lang === 'ru' ? 'товаров' : 'mahsulot'}
+                {/* Name */}
+                <div style={{ padding: '12px 14px 14px' }}>
+                  <p style={{ fontSize: 14, fontWeight: 600, color: '#111', margin: 0, lineHeight: 1.4 }}>
+                    {lang === 'ru' ? s.nameRu : (s.nameUz || s.nameRu)}
                   </p>
-                )}
-                <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 4, color: '#D32F2F', fontSize: 13, fontWeight: 600 }}>
-                  {lang === 'ru' ? 'Подробнее' : "Batafsil"}
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
                 </div>
               </div>
             </Link>
