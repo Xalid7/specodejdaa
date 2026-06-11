@@ -149,7 +149,7 @@ export default function HomePage() {
                     boxShadow: '0 4px 16px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.05)',
                     transition: 'transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s cubic-bezier(.2,.8,.2,1)',
                   }} className="product-card-inner">
-                    <div style={{ aspectRatio: '4/3', background: 'linear-gradient(145deg, #f8f8f8, #efefef)', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ aspectRatio: '4/3', background: '#fff', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       {imgs[0] ? (
                         <img src={imgs[0]} alt={p.nameRu} style={{ width: '88%', height: '88%', objectFit: 'contain', transition: 'transform .5s cubic-bezier(.2,.8,.2,1)' }} className="product-img" />
                       ) : (

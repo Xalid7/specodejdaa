@@ -125,7 +125,7 @@ function CatalogContent() {
                       onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.09)'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.borderColor = '#E0E0E0' }}
                       onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = ''; e.currentTarget.style.borderColor = '#F0F0F0' }}
                     >
-                      <div style={{ aspectRatio: '1', background: '#F8F8F8', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div style={{ aspectRatio: '1', background: '#fff', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         {imgs[0] ? (
                           <img src={imgs[0]} alt={lang === 'ru' ? p.nameRu : p.nameUz} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                         ) : (
