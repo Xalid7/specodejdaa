@@ -126,43 +126,60 @@ export default function HomePage() {
 
       {/* ─── PRODUCTS ─── */}
       {products.length > 0 && (
-        <section style={{ maxWidth: 1280, margin: '0 auto', padding: '32px 16px 48px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-            <h2 style={{ fontSize: 22, fontWeight: 800, color: '#111', letterSpacing: -0.3 }}>{lang === 'ru' ? 'Товары' : 'Mahsulotlar'}</h2>
-            <Link href="/catalog" style={{ fontSize: 13, color: '#D32F2F', fontWeight: 600, textDecoration: 'none' }}>{lang === 'ru' ? 'Все товары →' : "Barchasini ko'rish →"}</Link>
+        <section style={{ maxWidth: 1280, margin: '0 auto', padding: '48px 20px 64px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 32 }}>
+            <h2 style={{ fontSize: 26, fontWeight: 900, color: '#111', letterSpacing: -0.5 }}>{lang === 'ru' ? 'Товары' : 'Mahsulotlar'}</h2>
+            <Link href="/catalog" style={{ fontSize: 14, color: '#D32F2F', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
+              {lang === 'ru' ? 'Все товары' : "Barchasini ko'rish"} →
+            </Link>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))', gap: 24 }}>
             {products.map((p: any) => {
               const imgs = (() => { try { return JSON.parse(p.images) } catch { return [] } })()
               return (
-                <Link key={p.id} href={`/catalog/${p.slug}`}
-                  style={{ textDecoration: 'none', background: '#fff', border: '1.5px solid #F0F0F0', borderRadius: 14, overflow: 'hidden', transition: 'all .2s', display: 'block' }}
-                  onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.1)'; e.currentTarget.style.borderColor = '#E0E0E0'; e.currentTarget.style.transform = 'translateY(-2px)' }}
-                  onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = '#F0F0F0'; e.currentTarget.style.transform = '' }}
+                <Link key={p.id} href={`/catalog/${p.slug}`} className="product-card-3d"
+                  style={{ textDecoration: 'none', display: 'block', borderRadius: 20, overflow: 'visible', position: 'relative' }}
                 >
-                  <div style={{ aspectRatio: '1', background: '#F8F8F8', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {imgs[0] ? (
-                      <img src={imgs[0]} alt={p.nameRu} style={{ width: '100%', height: '100%', objectFit: 'contain', transition: 'transform .4s' }}
-                        onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.06)')}
-                        onMouseLeave={e => (e.currentTarget.style.transform = '')}
-                      />
-                    ) : (
-                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48, color: '#DDD' }}>📦</div>
-                    )}
-                    {p.isNew && (
-                      <span style={{ position: 'absolute', top: 10, left: 10, background: '#D32F2F', color: '#fff', fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 6, letterSpacing: 0.5 }}>NEW</span>
-                    )}
-                  </div>
-                  <div style={{ padding: '12px 14px' }}>
-                    <p style={{ fontSize: 13, color: '#999', marginBottom: 4 }}>{lang === 'ru' ? p.category?.nameRu : p.category?.nameUz}</p>
-                    <p style={{ fontSize: 14, fontWeight: 600, color: '#111', lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                      {lang === 'ru' ? p.nameRu : p.nameUz}
-                    </p>
+                  <div style={{
+                    background: '#fff',
+                    borderRadius: 20,
+                    overflow: 'hidden',
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.05)',
+                    transition: 'transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s cubic-bezier(.2,.8,.2,1)',
+                  }} className="product-card-inner">
+                    <div style={{ aspectRatio: '4/3', background: 'linear-gradient(145deg, #f8f8f8, #efefef)', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {imgs[0] ? (
+                        <img src={imgs[0]} alt={p.nameRu} style={{ width: '88%', height: '88%', objectFit: 'contain', transition: 'transform .5s cubic-bezier(.2,.8,.2,1)' }} className="product-img" />
+                      ) : (
+                        <div style={{ fontSize: 52, color: '#DDD' }}>📦</div>
+                      )}
+                      {p.isNew && (
+                        <span style={{ position: 'absolute', top: 12, left: 12, background: 'linear-gradient(135deg,#D32F2F,#FF5252)', color: '#fff', fontSize: 10, fontWeight: 800, padding: '4px 10px', borderRadius: 8, letterSpacing: 1, boxShadow: '0 2px 8px rgba(211,47,47,0.4)' }}>NEW</span>
+                      )}
+                    </div>
+                    <div style={{ padding: '14px 16px 18px' }}>
+                      <p style={{ fontSize: 11, color: '#D32F2F', marginBottom: 5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5 }}>{lang === 'ru' ? p.category?.nameRu : p.category?.nameUz}</p>
+                      <p style={{ fontSize: 14, fontWeight: 700, color: '#111', lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                        {lang === 'ru' ? p.nameRu : p.nameUz}
+                      </p>
+                    </div>
                   </div>
                 </Link>
               )
             })}
           </div>
+          <style>{`
+            .product-card-3d:hover .product-card-inner {
+              transform: translateY(-8px) scale(1.02);
+              box-shadow: 0 20px 48px rgba(0,0,0,0.14), 0 4px 12px rgba(0,0,0,0.08);
+            }
+            .product-card-3d:hover .product-img {
+              transform: scale(1.1);
+            }
+            @media (max-width: 480px) {
+              .product-card-3d { min-width: 0; }
+            }
+          `}</style>
         </section>
       )}
 
