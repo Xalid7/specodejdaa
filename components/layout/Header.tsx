@@ -88,11 +88,8 @@ export default function Header() {
         {/* Main nav */}
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 16 }}>
           {/* Logo */}
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', flexShrink: 0 }}>
-            <div style={{ width: 44, height: 44, background: '#D32F2F', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <span style={{ color: '#fff', fontWeight: 800, fontSize: 11, textAlign: 'center', lineHeight: 1.2 }}>Art<br/>Print</span>
-            </div>
-            <span className="logo-text" style={{ fontWeight: 800, fontSize: 20, color: '#212121', letterSpacing: -0.5 }}>ART PRINT</span>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
+            <img src="/logo.svg" alt="Art Print Textile" style={{ height: 52, width: 'auto', display: 'block' }} />
           </Link>
 
           {/* Search */}
@@ -258,7 +255,6 @@ export default function Header() {
           .header-search { display: none !important; }
           .header-lang { display: none !important; }
           nav { display: none !important; }
-          .logo-text { display: none !important; }
         }
         @media (max-width: 480px) {
           .header-topbar { display: none !important; }

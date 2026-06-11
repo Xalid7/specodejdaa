@@ -17,7 +17,16 @@ export default function HomePage() {
     const onLangChange = () => { const l = localStorage.getItem('lang') as 'ru'|'uz'|null; if (l) setLang(l) }
     window.addEventListener('langchange', onLangChange)
     fetch('/api/banners').then(r => r.json()).then(setBanners).catch(() => {})
-    fetch('/api/products').then(r => r.json()).then(d => setProducts(Array.isArray(d) ? d.slice(0, 8) : [])).catch(() => {})
+    fetch('/api/products').then(r => r.json()).then(d => {
+      if (!Array.isArray(d)) return setProducts([])
+      // 1 product per category
+      const seen = new Set<string>()
+      const sample: any[] = []
+      for (const p of d) {
+        if (!seen.has(p.categoryId)) { seen.add(p.categoryId); sample.push(p) }
+      }
+      setProducts(sample)
+    }).catch(() => {})
     fetch('/api/categories').then(r => r.json()).then(setCategories).catch(() => {})
     fetch('/api/partners').then(r => r.json()).then(setPartners).catch(() => {})
     return () => window.removeEventListener('langchange', onLangChange)
@@ -99,29 +108,6 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* ─── CATEGORIES ─── */}
-      {categories.length > 0 && (
-        <section style={{ maxWidth: 1280, margin: '0 auto', padding: '40px 16px 0' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-            <h2 style={{ fontSize: 22, fontWeight: 800, color: '#111', letterSpacing: -0.3 }}>{lang === 'ru' ? 'Категории' : 'Kategoriyalar'}</h2>
-            <Link href="/catalog" style={{ fontSize: 13, color: '#D32F2F', fontWeight: 600, textDecoration: 'none' }}>{lang === 'ru' ? 'Все категории →' : "Barchasini ko'rish →"}</Link>
-          </div>
-          <div style={{ display: 'flex', gap: 10, overflowX: 'auto', paddingBottom: 4, scrollbarWidth: 'none' }}>
-            {categories.map((cat: any) => (
-              <Link key={cat.id} href={`/catalog?categoryId=${cat.id}`}
-                style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', border: '1.5px solid #E8E8E8', borderRadius: 10, padding: '10px 18px', whiteSpace: 'nowrap', fontSize: 14, fontWeight: 600, color: '#333', textDecoration: 'none', transition: 'all .2s', flexShrink: 0 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#D32F2F'; e.currentTarget.style.color = '#D32F2F'; e.currentTarget.style.background = '#FFF5F5' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = '#E8E8E8'; e.currentTarget.style.color = '#333'; e.currentTarget.style.background = '#fff' }}
-              >
-                <span style={{ fontSize: 20 }}>{cat.icon || '📦'}</span>
-                {lang === 'ru' ? cat.nameRu : cat.nameUz}
-                <span style={{ fontSize: 11, background: '#F5F5F5', color: '#999', padding: '1px 7px', borderRadius: 99, fontWeight: 500 }}>{cat._count?.products || 0}</span>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
-
       {/* ─── PRODUCTS ─── */}
       {products.length > 0 && (
         <section style={{ maxWidth: 1280, margin: '0 auto', padding: '32px 16px 48px' }}>
@@ -129,7 +115,7 @@ export default function HomePage() {
             <h2 style={{ fontSize: 22, fontWeight: 800, color: '#111', letterSpacing: -0.3 }}>{lang === 'ru' ? 'Товары' : 'Mahsulotlar'}</h2>
             <Link href="/catalog" style={{ fontSize: 13, color: '#D32F2F', fontWeight: 600, textDecoration: 'none' }}>{lang === 'ru' ? 'Все товары →' : "Barchasini ko'rish →"}</Link>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 12 }}>
             {products.map((p: any) => {
               const imgs = (() => { try { return JSON.parse(p.images) } catch { return [] } })()
               return (
