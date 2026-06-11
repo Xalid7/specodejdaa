@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 const PARTNER_LOGOS = [
@@ -19,23 +19,18 @@ const PARTNER_LOGOS = [
 ]
 
 export default function HomePage() {
-  const [banners, setBanners] = useState<any[]>([])
   const [products, setProducts] = useState<any[]>([])
   const [categories, setCategories] = useState<any[]>([])
   const [partners, setPartners] = useState<any[]>([])
-  const [current, setCurrent] = useState(0)
   const [lang, setLang] = useState<'ru' | 'uz'>('ru')
-  const intervalRef = useRef<any>(null)
 
   useEffect(() => {
     const saved = localStorage.getItem('lang') as 'ru' | 'uz' | null
     if (saved) setLang(saved)
     const onLangChange = () => { const l = localStorage.getItem('lang') as 'ru'|'uz'|null; if (l) setLang(l) }
     window.addEventListener('langchange', onLangChange)
-    fetch('/api/banners').then(r => r.json()).then(setBanners).catch(() => {})
     fetch('/api/products').then(r => r.json()).then(d => {
       if (!Array.isArray(d)) return setProducts([])
-      // 1 product per category
       const seen = new Set<string>()
       const sample: any[] = []
       for (const p of d) {
@@ -48,84 +43,8 @@ export default function HomePage() {
     return () => window.removeEventListener('langchange', onLangChange)
   }, [])
 
-  const goNext = useCallback(() => setCurrent(c => (c + 1) % Math.max(banners.length, 1)), [banners.length])
-  const goPrev = useCallback(() => setCurrent(c => (c - 1 + Math.max(banners.length, 1)) % Math.max(banners.length, 1)), [banners.length])
-
-  useEffect(() => {
-    if (banners.length < 2) return
-    intervalRef.current = setInterval(goNext, 5000)
-    return () => clearInterval(intervalRef.current)
-  }, [banners.length, goNext])
-
   return (
     <div>
-      {/* ─── HERO SLIDER ─── */}
-      <section style={{ position: 'relative', width: '100%', background: '#111', overflow: 'hidden' }}>
-        {banners.length === 0 ? (
-          <div style={{ background: 'linear-gradient(135deg, #D32F2F 0%, #7B0000 100%)', minHeight: 420, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px', textAlign: 'center' }}>
-            <div>
-              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, letterSpacing: 3, textTransform: 'uppercase', marginBottom: 16 }}>Art Print & Textile</p>
-              <h1 style={{ color: '#fff', fontSize: 'clamp(28px, 5vw, 52px)', fontWeight: 900, letterSpacing: -1, lineHeight: 1.1, marginBottom: 16 }}>
-                {lang === 'ru' ? <>Производство<br/>спецодежды</> : <>Maxsus kiyim<br/>ishlab chiqarish</>}
-              </h1>
-              <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 'clamp(14px, 2vw, 18px)', marginBottom: 32, maxWidth: 480 }}>
-                {lang === 'ru' ? 'Спецодежда, unifорма и брендированная продукция в Узбекистане' : "O'zbekistonda maxsus kiyim, uniform va brendlangan mahsulotlar"}
-              </p>
-              <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-                <Link href="/catalog" style={{ background: '#fff', color: '#D32F2F', padding: '14px 32px', borderRadius: 10, fontWeight: 700, fontSize: 15, textDecoration: 'none', transition: 'transform .2s, box-shadow .2s', boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}>
-                  {lang === 'ru' ? 'Смотреть каталог' : "Katalogni ko'rish"}
-                </Link>
-                <Link href="/contacts" style={{ border: '2px solid rgba(255,255,255,0.5)', color: '#fff', padding: '14px 32px', borderRadius: 10, fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
-                  {lang === 'ru' ? 'Связаться' : "Bog'lanish"}
-                </Link>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <>
-            <div style={{ display: 'flex', transition: 'transform .5s cubic-bezier(.4,0,.2,1)', transform: `translateX(-${current * 100}%)` }}>
-              {banners.map((b: any) => (
-                <div key={b.id} style={{ minWidth: '100%', position: 'relative' }}>
-                  <div style={{ width: '100%', aspectRatio: '16/9', minHeight: 320, background: '#f5f5f5', position: 'relative', overflow: 'hidden' }}>
-                    <img src={b.imageUrl} alt={b.titleRu || ''} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
-                    {(b.titleRu || b.ctaText) && (
-                      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 50%, transparent 75%)', display: 'flex', alignItems: 'center', padding: '0 5%' }}>
-                        <div style={{ maxWidth: 520, color: '#fff' }}>
-                          {b.titleRu && <h2 style={{ fontSize: 'clamp(20px, 3.5vw, 42px)', fontWeight: 900, letterSpacing: -0.5, marginBottom: 8, lineHeight: 1.1 }}>{lang === 'ru' ? b.titleRu : b.titleUz}</h2>}
-                          {b.subtitleRu && <p style={{ fontSize: 'clamp(13px, 1.8vw, 18px)', opacity: 0.85, marginBottom: 24 }}>{lang === 'ru' ? b.subtitleRu : b.subtitleUz}</p>}
-                          {b.ctaText && b.ctaLink && (
-                            <Link href={b.ctaLink} style={{ display: 'inline-block', background: '#D32F2F', color: '#fff', padding: '12px 28px', borderRadius: 8, fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
-                              {b.ctaText}
-                            </Link>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Arrows */}
-            {banners.length > 1 && (
-              <>
-                <button onClick={goPrev} style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.9)', border: 'none', borderRadius: '50%', width: 40, height: 40, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.2)', zIndex: 10 }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-                </button>
-                <button onClick={goNext} style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.9)', border: 'none', borderRadius: '50%', width: 40, height: 40, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.2)', zIndex: 10 }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
-                </button>
-                <div style={{ position: 'absolute', bottom: 16, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 6, zIndex: 10 }}>
-                  {banners.map((_: any, i: number) => (
-                    <button key={i} onClick={() => setCurrent(i)} style={{ width: i === current ? 24 : 8, height: 8, borderRadius: 99, background: i === current ? '#D32F2F' : 'rgba(255,255,255,0.6)', border: 'none', cursor: 'pointer', transition: 'all .3s' }} />
-                  ))}
-                </div>
-              </>
-            )}
-          </>
-        )}
-      </section>
-
       {/* ─── PRODUCTS ─── */}
       {products.length > 0 && (
         <section style={{ maxWidth: 1280, margin: '0 auto', padding: '48px 20px 64px' }}>
