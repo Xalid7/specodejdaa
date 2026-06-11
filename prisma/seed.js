@@ -16,11 +16,11 @@ async function main() {
   // Settings — upsert with default address, preserve existing changes
   const existingSettings = await prisma.settings.findFirst();
   if (existingSettings) {
-    await prisma.settings.update({ where: { id: existingSettings.id }, data: { telegram: "https://t.me/PromoMarket_Tashkent" } });
+    await prisma.settings.update({ where: { id: existingSettings.id }, data: { telegram: "https://t.me/PromoMarket_Tashkent", email: "info@specodejda.uz" } });
   } else {
     await prisma.settings.create({ data: {
       telegram: "https://t.me/PromoMarket_Tashkent",
-      email: "info@artprint.uz",
+      email: "info@specodejda.uz",
       phone: "+998 77 741 66 88",
       address: "Республика Узбекистан, г. Ташкент, Яккасарайский район, ул. Нукус, дом 12",
       mapLat: "41.2995",
