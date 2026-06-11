@@ -4,10 +4,34 @@ import Link from 'next/link'
 
 export default function Footer() {
   const [settings, setSettings] = useState<any>({})
+  const [lang, setLang] = useState<'ru' | 'uz'>('ru')
 
   useEffect(() => {
+    const saved = localStorage.getItem('lang') as 'ru' | 'uz' | null
+    if (saved) setLang(saved)
+    const onLangChange = () => {
+      const l = localStorage.getItem('lang') as 'ru' | 'uz' | null
+      if (l) setLang(l)
+    }
+    window.addEventListener('langchange', onLangChange)
     fetch('/api/settings').then(r => r.json()).then(setSettings).catch(() => {})
+    return () => window.removeEventListener('langchange', onLangChange)
   }, [])
+
+  const t = {
+    desc: {
+      ru: 'Производство спецодежды, униформы и брендированной продукции в Узбекистане',
+      uz: "O'zbekistonda maxsus kiyim, uniform va brendlangan mahsulotlar ishlab chiqarish",
+    },
+    catalog: { ru: 'Каталог', uz: 'Katalog' },
+    allCatalog: { ru: 'Весь каталог', uz: 'Barcha mahsulotlar' },
+    services: { ru: 'Услуги', uz: 'Xizmatlar' },
+    company: { ru: 'Компания', uz: 'Kompaniya' },
+    about: { ru: 'О нас', uz: 'Biz haqimizda' },
+    contacts: { ru: 'Контакты', uz: 'Kontaktlar' },
+    address: { ru: 'Наш адрес', uz: 'Bizning manzil' },
+    rights: { ru: 'Все права защищены.', uz: 'Barcha huquqlar himoyalangan.' },
+  }
 
   return (
     <footer style={{ background: '#1A1A1A', color: '#ccc', marginTop: 'auto' }}>
@@ -20,7 +44,7 @@ export default function Footer() {
               <img src="/logo.svg" alt="Art Print Textile" style={{ height: 56, width: 'auto', display: 'block' }} />
             </div>
             <p style={{ fontSize: 13, lineHeight: 1.6, color: '#888', marginBottom: 20, maxWidth: 220 }}>
-              O'zbekistonda maxsus kiyim ishlab chiqaruvchi etakchi kompaniya
+              {t.desc[lang]}
             </p>
             <div style={{ display: 'flex', gap: 10 }}>
               {settings.telegram && (
@@ -55,13 +79,11 @@ export default function Footer() {
 
           {/* Catalog */}
           <div>
-            <h3 style={{ color: '#fff', fontWeight: 700, fontSize: 14, letterSpacing: 0.5, textTransform: 'uppercase', marginBottom: 20 }}>Каталог</h3>
+            <h3 style={{ color: '#fff', fontWeight: 700, fontSize: 14, letterSpacing: 0.5, textTransform: 'uppercase', marginBottom: 20 }}>{t.catalog[lang]}</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {[
-                { href: '/catalog', label: 'Весь каталог' },
-                { href: '/catalog?filter=new', label: 'Новинки' },
-                { href: '/catalog?filter=collection', label: 'Подборки' },
-                { href: '/catalog?filter=holiday', label: 'К праздникам' },
+                { href: '/catalog', label: t.allCatalog[lang] },
+                { href: '/services', label: t.services[lang] },
               ].map(link => (
                 <Link key={link.href} href={link.href}
                   style={{ color: '#888', fontSize: 14, textDecoration: 'none', transition: 'color .2s' }}
@@ -76,11 +98,11 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h3 style={{ color: '#fff', fontWeight: 700, fontSize: 14, letterSpacing: 0.5, textTransform: 'uppercase', marginBottom: 20 }}>Kompaniya</h3>
+            <h3 style={{ color: '#fff', fontWeight: 700, fontSize: 14, letterSpacing: 0.5, textTransform: 'uppercase', marginBottom: 20 }}>{t.company[lang]}</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {[
-                { href: '/about', label: 'O\'nas haqimizda' },
-                { href: '/contacts', label: 'Kontaktlar' },
+                { href: '/about', label: t.about[lang] },
+                { href: '/contacts', label: t.contacts[lang] },
               ].map(link => (
                 <Link key={link.href} href={link.href}
                   style={{ color: '#888', fontSize: 14, textDecoration: 'none', transition: 'color .2s' }}
@@ -95,7 +117,7 @@ export default function Footer() {
 
           {/* Map */}
           <div>
-            <h3 style={{ color: '#fff', fontWeight: 700, fontSize: 14, letterSpacing: 0.5, textTransform: 'uppercase', marginBottom: 20 }}>Bizning manzil</h3>
+            <h3 style={{ color: '#fff', fontWeight: 700, fontSize: 14, letterSpacing: 0.5, textTransform: 'uppercase', marginBottom: 20 }}>{t.address[lang]}</h3>
             {settings.mapLat && settings.mapLng ? (
               <div style={{ borderRadius: 10, overflow: 'hidden', height: 140 }}>
                 <iframe
@@ -113,7 +135,7 @@ export default function Footer() {
       </div>
 
       <div style={{ borderTop: '1px solid #2A2A2A', padding: '16px', textAlign: 'center' }}>
-        <p style={{ fontSize: 13, color: '#555' }}>© {new Date().getFullYear()} ART PRINT & TEXTILE. Barcha huquqlar himoyalangan.</p>
+        <p style={{ fontSize: 13, color: '#555' }}>© {new Date().getFullYear()} ART PRINT & TEXTILE. {t.rights[lang]}</p>
       </div>
     </footer>
   )
