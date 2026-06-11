@@ -172,7 +172,7 @@ export default function Header() {
                 <div style={{ maxWidth: 1280, margin: '0 auto', padding: '28px 20px 32px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 22 }}>
                     <h3 style={{ fontSize: 16, fontWeight: 800, color: '#111', letterSpacing: -0.3 }}>
-                      {lang === 'ru' ? 'Нанесение логотипа' : 'Logo bosish xizmatlari'}
+                      {lang === 'ru' ? 'Услуги' : 'Xizmatlar'}
                     </h3>
                     <button onClick={() => setServicesOpen(false)} style={{ border: 'none', background: '#F5F5F5', borderRadius: 50, width: 32, height: 32, cursor: 'pointer', fontSize: 18, color: '#555', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>×</button>
                   </div>
