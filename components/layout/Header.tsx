@@ -6,13 +6,11 @@ import { useRouter } from 'next/navigation'
 export default function Header() {
   const [lang, setLang] = useState<'ru' | 'uz'>('ru')
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [servicesOpen, setServicesOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [categories, setCategories] = useState<any[]>([])
   const [navServices, setNavServices] = useState<any[]>([])
   const [settings, setSettings] = useState<any>({})
   const router = useRouter()
-  const svcRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -29,14 +27,6 @@ export default function Header() {
     localStorage.setItem('lang', next)
     window.dispatchEvent(new Event('langchange'))
   }
-
-  useEffect(() => {
-    const fn = (e: MouseEvent) => {
-      if (svcRef.current && !svcRef.current.contains(e.target as Node)) setServicesOpen(false)
-    }
-    document.addEventListener('mousedown', fn)
-    return () => document.removeEventListener('mousedown', fn)
-  }, [])
 
   useEffect(() => {
     if (mobileOpen) document.body.style.overflow = 'hidden'
@@ -122,7 +112,7 @@ export default function Header() {
         </div>
 
         {/* Nav bar */}
-        <div ref={svcRef} style={{ borderTop: '1px solid #F5F5F5', position: 'relative' }}>
+        <div style={{ borderTop: '1px solid #F5F5F5', position: 'relative' }}>
           <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 16px', display: 'flex', alignItems: 'center', height: 48 }}>
 
             {/* Catalog */}
@@ -150,55 +140,17 @@ export default function Header() {
                 </Link>
               ))}
 
-              {/* Services mega-menu trigger */}
-              <div ref={svcRef} style={{ position: 'relative' }}>
-                <button onClick={() => setServicesOpen(o => !o)}
-                  style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 14px', fontSize: 14, borderRadius: 8, border: 'none', cursor: 'pointer', fontWeight: 600, transition: 'all .15s', background: servicesOpen ? '#FFF5F5' : 'none', color: servicesOpen ? '#D32F2F' : '#555' }}
-                  onMouseEnter={e => { e.currentTarget.style.color = '#D32F2F'; e.currentTarget.style.background = '#FFF5F5' }}
-                  onMouseLeave={e => { if (!servicesOpen) { e.currentTarget.style.color = '#555'; e.currentTarget.style.background = '' } }}
-                >
-                  {lang === 'ru' ? 'Услуги' : 'Xizmatlar'}
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ transition: 'transform .2s', transform: servicesOpen ? 'rotate(180deg)' : 'none' }}><path d="M6 9l6 6 6-6"/></svg>
-                </button>
-              </div>
+              {/* Services link */}
+              <Link href="/services"
+                style={{ padding: '6px 14px', fontSize: 14, color: '#555', borderRadius: 8, transition: 'all .15s', textDecoration: 'none', fontWeight: 500 }}
+                onMouseEnter={e => { e.currentTarget.style.color = '#D32F2F'; e.currentTarget.style.background = '#FFF5F5' }}
+                onMouseLeave={e => { e.currentTarget.style.color = '#555'; e.currentTarget.style.background = '' }}
+              >
+                {lang === 'ru' ? 'Услуги' : 'Xizmatlar'}
+              </Link>
             </nav>
           </div>
 
-          {/* Services Mega Menu */}
-          {servicesOpen && navServices.length > 0 && (
-            <>
-              <div style={{ position: 'fixed', inset: 0, zIndex: 199, background: 'rgba(0,0,0,0.25)' }} onClick={() => setServicesOpen(false)} />
-              <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 200, background: '#fff', borderTop: '3px solid #D32F2F', boxShadow: '0 16px 48px rgba(0,0,0,0.14)' }}>
-                <div style={{ maxWidth: 1280, margin: '0 auto', padding: '28px 20px 32px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 22 }}>
-                    <h3 style={{ fontSize: 16, fontWeight: 800, color: '#111', letterSpacing: -0.3 }}>
-                      {lang === 'ru' ? 'Услуги' : 'Xizmatlar'}
-                    </h3>
-                    <button onClick={() => setServicesOpen(false)} style={{ border: 'none', background: '#F5F5F5', borderRadius: 50, width: 32, height: 32, cursor: 'pointer', fontSize: 18, color: '#555', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>×</button>
-                  </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))', gap: 16 }}>
-                    {navServices.map((s: any) => (
-                      <Link key={s.id} href={`/xizmatlar/${s.slug}`} onClick={() => setServicesOpen(false)}
-                        style={{ textDecoration: 'none', background: '#fff', border: '1.5px solid #F0F0F0', borderRadius: 14, overflow: 'hidden', display: 'block', transition: 'all .25s', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}
-                        onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.12)'; e.currentTarget.style.borderColor = '#E0E0E0' }}
-                        onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'; e.currentTarget.style.borderColor = '#F0F0F0' }}
-                      >
-                        <div style={{ aspectRatio: '16/9', background: '#F8F8F8', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          {s.imageUrl
-                            ? <img src={s.imageUrl} alt={s.nameRu} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                            : <span style={{ fontSize: 32, opacity: 0.3 }}>🎨</span>
-                          }
-                        </div>
-                        <div style={{ padding: '11px 13px 13px' }}>
-                          <p style={{ fontSize: 13, fontWeight: 700, color: '#111', lineHeight: 1.3 }}>{lang === 'ru' ? s.nameRu : s.nameUz}</p>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
         </div>
       </header>
 
