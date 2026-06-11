@@ -2,6 +2,22 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 
+const PARTNER_LOGOS = [
+  { src: '/partners/akfa_logo.svg', name: 'Akfa' },
+  { src: '/partners/cocacola_logo.svg', name: 'Coca-Cola' },
+  { src: '/partners/evos_logo.svg', name: 'EVOS' },
+  { src: '/partners/golden_house_logo.svg', name: 'Golden House' },
+  { src: '/partners/kapitalbank_logo.svg', name: 'Kapital Bank' },
+  { src: '/partners/lg_logo.svg', name: 'LG' },
+  { src: '/partners/murad_buildings_logo.svg', name: 'Murad Buildings' },
+  { src: '/partners/pepsi_logo.svg', name: 'Pepsi' },
+  { src: '/partners/romstar_logo.svg', name: 'Romstar' },
+  { src: '/partners/samsung_logo.svg', name: 'Samsung' },
+  { src: '/partners/undp_logo.svg', name: 'UNDP' },
+  { src: '/partners/uzauto_motors_logo.svg', name: 'UzAuto Motors' },
+  { src: '/partners/uzbekneftegaz_logo.svg', name: 'Uzbekneftegaz' },
+]
+
 export default function HomePage() {
   const [banners, setBanners] = useState<any[]>([])
   const [products, setProducts] = useState<any[]>([])
@@ -178,22 +194,37 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── PARTNERS ─── */}
-      {partners.length > 0 && (
-        <section style={{ maxWidth: 1280, margin: '0 auto', padding: '48px 16px' }}>
-          <h2 style={{ fontSize: 22, fontWeight: 800, color: '#111', textAlign: 'center', marginBottom: 32, letterSpacing: -0.3 }}>{lang === 'ru' ? 'Наши партнёры' : 'Hamkorlarimiz'}</h2>
-          <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
-            {partners.map((p: any) => (
-              <div key={p.id} style={{ padding: '16px 24px', border: '1.5px solid #F0F0F0', borderRadius: 12 }}>
-                <img src={p.logoUrl} alt={p.name || ''} style={{ height: 40, objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.6, transition: 'all .2s' }}
-                  onMouseEnter={e => { e.currentTarget.style.filter = ''; e.currentTarget.style.opacity = '1' }}
-                  onMouseLeave={e => { e.currentTarget.style.filter = 'grayscale(100%)'; e.currentTarget.style.opacity = '0.6' }}
+      {/* ─── PARTNERS MARQUEE ─── */}
+      <section style={{ padding: '48px 0', borderTop: '1px solid #F0F0F0' }}>
+        <h2 style={{ fontSize: 22, fontWeight: 800, color: '#111', textAlign: 'center', marginBottom: 32, letterSpacing: -0.3 }}>
+          {lang === 'ru' ? 'Наши партнёры' : 'Hamkorlarimiz'}
+        </h2>
+        <div style={{ overflow: 'hidden', position: 'relative' }}>
+          <div className="marquee-track">
+            {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((logo, i) => (
+              <div key={i} style={{ flexShrink: 0, padding: '0 32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img src={logo.src} alt={logo.name} style={{ height: 48, width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.55, transition: 'all .3s' }}
+                  onMouseEnter={e => { e.currentTarget.style.filter = 'none'; e.currentTarget.style.opacity = '1' }}
+                  onMouseLeave={e => { e.currentTarget.style.filter = 'grayscale(100%)'; e.currentTarget.style.opacity = '0.55' }}
                 />
               </div>
             ))}
           </div>
-        </section>
-      )}
+        </div>
+        <style>{`
+          .marquee-track {
+            display: flex;
+            align-items: center;
+            animation: marquee 28s linear infinite;
+            width: max-content;
+          }
+          .marquee-track:hover { animation-play-state: paused; }
+          @keyframes marquee {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+        `}</style>
+      </section>
     </div>
   )
 }
