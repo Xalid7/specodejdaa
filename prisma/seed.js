@@ -5,18 +5,35 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Seeding database...');
 
-  // Admin user
+  // Admin user — always upsert, never overwrite
   const hash = await bcrypt.hash('admin123', 10);
   await prisma.admin.upsert({
     where: { email: 'admin@artprint.uz' },
     update: {},
     create: { email: 'admin@artprint.uz', password: hash, name: 'Admin' },
   });
-  await prisma.serviceProduct.deleteMany();
-  await prisma.navService.deleteMany();
-  await prisma.product.deleteMany();
-  await prisma.category.deleteMany();
-  await prisma.settings.deleteMany();
+
+  // Settings — upsert with default address, preserve existing changes
+  const existingSettings = await prisma.settings.findFirst();
+  if (!existingSettings) {
+    await prisma.settings.create({ data: {
+      telegram: "https://t.me/artprint_uz",
+      email: "info@artprint.uz",
+      phone: "+998 77 741 66 88",
+      address: "Республика Узбекистан, г. Ташкент, Яккасарайский район, ул. Нукус, дом 12",
+      mapLat: "41.2995",
+      mapLng: "69.2401",
+      aboutRu: "Art Print and Textile является одним из ведущих производителей швейной продукции в Узбекистане.",
+      aboutUz: "Art Print and Textile — O'zbekistondagi etakchi tikuvchilik mahsulotlari ishlab chiqaruvchilaridan biri."
+    }});
+  }
+
+  // Skip seeding if data already exists — preserve admin changes
+  const catCount = await prisma.category.count();
+  if (catCount > 0) {
+    console.log('Database already has data, skipping categories/products/services seed.');
+    return;
+  }
   const categoryMap = {};
   const cat_cmq8ejy170000kpkl4st4xpou = await prisma.category.create({ data: { nameRu: "Спецодежда", nameUz: "Maxsus kiyim", icon: "🦺", slug: "specodejda", order: 0 } });
   categoryMap["cmq8ejy170000kpkl4st4xpou"] = cat_cmq8ejy170000kpkl4st4xpou.id;
@@ -89,7 +106,6 @@ async function main() {
   const nav_cmq8ejy1r0025kpkl3zyidwl6 = await prisma.navService.create({ data: { nameRu: "Лазерная гравировка", nameUz: "Lazer gravirovka", slug: "lazernaya-gravirovka", order: 6, imageUrl: "/uploads/svc-lazer.jpg" } });
   const nav_cmq8ejy1r0026kpkluobg8tmz = await prisma.navService.create({ data: { nameRu: "Сублимация", nameUz: "Sublimatsiya", slug: "sublimatsiya", order: 7, imageUrl: "/uploads/svc-sublim.jpg" } });
 
-  await prisma.settings.create({ data: { telegram: "https://t.me/artprint_uz", email: "info@artprint.uz", phone: "+998 77 741 66 88", address: "Toshkent, Yakkasaroy tumani, Nukus ko'chasi 12-uy", mapLat: "41.2995", mapLng: "69.2401", aboutRu: "Art Print and Textile является одним из ведущих производителей швейной продукции в Узбекистане. Собственное производство и современное оборудование обеспечивают конкурентоспособную ценовую политику и позволяют выпускать широкий спектр текстильной продукции.", aboutUz: "Art Print and Textile — O'zbekistondagi etakchi tikuvchilik mahsulotlari ishlab chiqaruvchilaridan biri. O'z ishlab chiqarishi va zamonaviy jihozlari raqobatbardosh narx siyosatini ta'minlaydi." } });
 
   console.log('Seeding complete!');
 }
