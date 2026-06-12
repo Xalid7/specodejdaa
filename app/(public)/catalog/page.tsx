@@ -3,6 +3,20 @@ import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 
+function useReveal() {
+  useEffect(() => {
+    const run = () => {
+      const els = document.querySelectorAll('.reveal')
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target) } })
+      }, { threshold: 0.08 })
+      els.forEach(el => io.observe(el))
+      return () => io.disconnect()
+    }
+    return run()
+  })
+}
+
 function CatalogContent() {
   const searchParams = useSearchParams()
   const [products, setProducts] = useState<any[]>([])
@@ -12,6 +26,8 @@ function CatalogContent() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [activeCat, setActiveCat] = useState<string | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  useReveal()
 
   useEffect(() => {
     const saved = localStorage.getItem('lang') as 'ru' | 'uz' | null
@@ -117,22 +133,21 @@ function CatalogContent() {
             <>
               <p style={{ fontSize: 13, color: '#999', marginBottom: 16 }}>{lang === 'ru' ? `Найдено товаров: ${products.length}` : `${products.length} ta mahsulot topildi`}</p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
-                {products.map((p: any) => {
+                {products.map((p: any, idx: number) => {
                   const imgs = (() => { try { return JSON.parse(p.images) } catch { return [] } })()
+                  const delay = `${(idx % 10) * 0.04}s`
                   return (
-                    <Link key={p.id} href={`/catalog/${p.slug}`}
-                      style={{ textDecoration: 'none', background: '#fff', border: '1.5px solid #F0F0F0', borderRadius: 14, overflow: 'hidden', transition: 'all .2s', display: 'block' }}
-                      onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.09)'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.borderColor = '#E0E0E0' }}
-                      onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = ''; e.currentTarget.style.borderColor = '#F0F0F0' }}
+                    <Link key={p.id} href={`/catalog/${p.slug}`} className="product-card reveal"
+                      style={{ textDecoration: 'none', background: '#fff', border: '1.5px solid #F0F0F0', borderRadius: 14, overflow: 'hidden', display: 'block', transitionDelay: delay }}
                     >
-                      <div style={{ aspectRatio: '1', background: '#fff', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div className="prod-img" style={{ aspectRatio: '1', background: '#fff', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         {imgs[0] ? (
                           <img src={imgs[0]} alt={lang === 'ru' ? p.nameRu : p.nameUz} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                         ) : (
                           <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48, color: '#DDD' }}>📦</div>
                         )}
                         {(p.isNew || p.isCollection) && (
-                          <span style={{ position: 'absolute', top: 8, left: 8, background: p.isNew ? '#D32F2F' : '#1565C0', color: '#fff', fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 6 }}>
+                          <span className="badge-anim" style={{ position: 'absolute', top: 8, left: 8, background: p.isNew ? '#D32F2F' : '#1565C0', color: '#fff', fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: 6 }}>
                             {p.isNew ? 'NEW' : 'HIT'}
                           </span>
                         )}
