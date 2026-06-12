@@ -204,7 +204,7 @@ export default function HomePage() {
       {/* ─── WHY US ─── */}
       <section style={{ background: '#FAFAFA', borderTop: '1px solid #F0F0F0', borderBottom: '1px solid #F0F0F0' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '48px 16px' }}>
-          <h2 className="section-title reveal" style={{ fontSize: 22, fontWeight: 800, color: '#111', textAlign: 'center', marginBottom: 36, letterSpacing: -0.3, display: 'block' }}>
+          <h2 className="reveal" style={{ fontSize: 22, fontWeight: 800, color: '#111', textAlign: 'center', marginBottom: 36, letterSpacing: -0.3, display: 'block' }}>
             {lang === 'ru' ? 'Почему ART PRINT?' : 'Nima uchun ART PRINT?'}
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20 }}>
