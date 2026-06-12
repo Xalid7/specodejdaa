@@ -23,19 +23,48 @@ function useReveal() {
     const els = document.querySelectorAll('.reveal, .reveal-left')
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target) } })
-    }, { threshold: 0.1 })
+    }, { threshold: 0.08 })
     els.forEach(el => io.observe(el))
     return () => io.disconnect()
   })
 }
 
+function useCountUp(target: number, active: boolean, duration = 1600) {
+  const [val, setVal] = useState(0)
+  useEffect(() => {
+    if (!active) return
+    let start = 0
+    const step = target / (duration / 16)
+    const timer = setInterval(() => {
+      start += step
+      if (start >= target) { setVal(target); clearInterval(timer) }
+      else setVal(Math.floor(start))
+    }, 16)
+    return () => clearInterval(timer)
+  }, [active, target, duration])
+  return val
+}
+
+function StatCard({ value, suffix, label, active }: { value: number; suffix: string; label: string; active: boolean }) {
+  const count = useCountUp(value, active)
+  return (
+    <div style={{ textAlign: 'center', padding: '0 16px' }}>
+      <div style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, color: '#D32F2F', lineHeight: 1, marginBottom: 6 }}>
+        {count}{suffix}
+      </div>
+      <div style={{ fontSize: 13, color: '#666', fontWeight: 500 }}>{label}</div>
+    </div>
+  )
+}
+
 export default function HomePage() {
   const [banners, setBanners] = useState<any[]>([])
   const [products, setProducts] = useState<any[]>([])
-  const [categories, setCategories] = useState<any[]>([])
-  const [partners, setPartners] = useState<any[]>([])
+  const [navServices, setNavServices] = useState<any[]>([])
   const [current, setCurrent] = useState(0)
   const [lang, setLang] = useState<'ru' | 'uz'>('ru')
+  const [statsActive, setStatsActive] = useState(false)
+  const statsRef = useRef<HTMLDivElement>(null)
   const intervalRef = useRef<any>(null)
 
   useReveal()
@@ -55,9 +84,15 @@ export default function HomePage() {
       }
       setProducts(sample)
     }).catch(() => {})
-    fetch('/api/categories').then(r => r.json()).then(setCategories).catch(() => {})
-    fetch('/api/partners').then(r => r.json()).then(setPartners).catch(() => {})
+    fetch('/api/nav-services').then(r => r.json()).then(setNavServices).catch(() => {})
     return () => window.removeEventListener('langchange', onLangChange)
+  }, [])
+
+  useEffect(() => {
+    if (!statsRef.current) return
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setStatsActive(true); io.disconnect() } }, { threshold: 0.3 })
+    io.observe(statsRef.current)
+    return () => io.disconnect()
   }, [])
 
   const goNext = useCallback(() => setCurrent(c => (c + 1) % Math.max(banners.length, 1)), [banners.length])
@@ -69,31 +104,78 @@ export default function HomePage() {
     return () => clearInterval(intervalRef.current)
   }, [banners.length, goNext])
 
+  const services = [
+    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>, ru: 'Шелкография', uz: 'Shikografiya' },
+    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>, ru: 'Вышивка', uz: 'Kashta' },
+    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>, ru: 'УФ-печать', uz: 'UV-bosma' },
+    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>, ru: 'Сублимация', uz: 'Sublimatsiya' },
+    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>, ru: 'Лазер', uz: 'Lazer' },
+    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, ru: 'Тиснение', uz: 'Bosma' },
+  ]
+
   return (
     <div>
-      {/* ─── HERO SLIDER ─── */}
-      <section style={{ position: 'relative', width: '100%', background: '#111', overflow: 'hidden' }}>
+
+      {/* ══════════ HERO ══════════ */}
+      <section style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
         {banners.length === 0 ? (
-          <div style={{ background: 'linear-gradient(135deg, #D32F2F 0%, #7B0000 100%)', minHeight: 420, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '60px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 70% 50%, rgba(255,80,80,0.18) 0%, transparent 60%)', pointerEvents: 'none' }} />
-            <div style={{ position: 'relative', zIndex: 1 }}>
-              <p className="hero-text-1" style={{ color: 'rgba(255,255,255,0.65)', fontSize: 13, letterSpacing: 4, textTransform: 'uppercase', marginBottom: 16 }}>Art Print & Textile</p>
-              <h1 className="hero-text-2" style={{ color: '#fff', fontSize: 'clamp(28px, 5vw, 52px)', fontWeight: 900, letterSpacing: -1, lineHeight: 1.1, marginBottom: 16 }}>
-                {lang === 'ru' ? <>Производство<br/>спецодежды</> : <>Maxsus kiyim<br/>ishlab chiqarish</>}
-              </h1>
-              <p className="hero-text-3" style={{ color: 'rgba(255,255,255,0.78)', fontSize: 'clamp(14px, 2vw, 18px)', marginBottom: 32, maxWidth: 480 }}>
-                {lang === 'ru' ? 'Спецодежда, униформа и брендированная продукция в Узбекистане' : "O'zbekistonda maxsus kiyim, uniform va brendlangan mahsulotlar"}
-              </p>
-              <div className="hero-btns" style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-                <Link href="/catalog" className="btn-cta" style={{ background: '#fff', color: '#D32F2F', padding: '14px 32px', borderRadius: 10, fontWeight: 700, fontSize: 15, textDecoration: 'none', boxShadow: '0 4px 16px rgba(0,0,0,0.2)', display: 'inline-block' }}>
-                  {lang === 'ru' ? 'Смотреть каталог' : "Katalogni ko'rish"}
-                </Link>
-                <Link href="/contacts" style={{ border: '2px solid rgba(255,255,255,0.55)', color: '#fff', padding: '14px 32px', borderRadius: 10, fontWeight: 700, fontSize: 15, textDecoration: 'none', transition: 'background .2s', display: 'inline-block' }}
-                  onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.12)')}
-                  onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-                >
-                  {lang === 'ru' ? 'Связаться' : "Bog'lanish"}
-                </Link>
+          <div style={{ background: 'linear-gradient(135deg, #C62828 0%, #B71C1C 40%, #7B0000 100%)', minHeight: 520, display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
+            {/* Animated background shapes */}
+            <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+              <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: '55%', height: '120%', background: 'rgba(255,255,255,0.04)', borderRadius: '60% 0 0 60%', animation: 'float 7s ease-in-out infinite' }} />
+              <div style={{ position: 'absolute', bottom: '-20%', left: '30%', width: 400, height: 400, background: 'rgba(255,255,255,0.03)', borderRadius: '50%', animation: 'float 9s ease-in-out infinite reverse' }} />
+              <div style={{ position: 'absolute', top: '10%', right: '15%', width: 12, height: 12, background: 'rgba(255,255,255,0.25)', borderRadius: '50%', animation: 'float 4s ease-in-out infinite' }} />
+              <div style={{ position: 'absolute', bottom: '25%', right: '25%', width: 8, height: 8, background: 'rgba(255,255,255,0.2)', borderRadius: '50%', animation: 'float 5s ease-in-out infinite 1s' }} />
+              <div style={{ position: 'absolute', top: '40%', right: '8%', width: 6, height: 6, background: 'rgba(255,255,255,0.3)', borderRadius: '50%', animation: 'float 6s ease-in-out infinite 0.5s' }} />
+            </div>
+
+            <div style={{ maxWidth: 1280, margin: '0 auto', padding: '72px 24px', width: '100%', display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', gap: 40, position: 'relative', zIndex: 1 }}>
+              <div>
+                <div className="hero-text-1" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 99, padding: '6px 16px', marginBottom: 24 }}>
+                  <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#FF8A80', animation: 'pulseRed 1.8s ease infinite' }} />
+                  <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: 12, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase' }}>
+                    {lang === 'ru' ? 'Производство в Узбекистане' : "O'zbekistonda ishlab chiqarish"}
+                  </span>
+                </div>
+                <h1 className="hero-text-2" style={{ color: '#fff', fontSize: 'clamp(32px, 5.5vw, 60px)', fontWeight: 900, letterSpacing: -1.5, lineHeight: 1.05, marginBottom: 20 }}>
+                  {lang === 'ru' ? <><span style={{ display: 'block' }}>Спецодежда</span><span style={{ display: 'block', color: 'rgba(255,255,255,0.7)' }}>и Unifорма</span></> : <><span style={{ display: 'block' }}>Maxsus kiyim</span><span style={{ display: 'block', color: 'rgba(255,255,255,0.7)' }}>va Uniform</span></>}
+                </h1>
+                <p className="hero-text-3" style={{ color: 'rgba(255,255,255,0.72)', fontSize: 'clamp(14px, 1.8vw, 17px)', marginBottom: 36, maxWidth: 420, lineHeight: 1.6 }}>
+                  {lang === 'ru' ? 'Производим спецодежду, медицинскую одежду, промотекстиль и брендированную продукцию под заказ' : "Buyurtma asosida maxsus kiyim, tibbiy kiyim, promo to'qimachilik va brendlangan mahsulotlar ishlab chiqaramiz"}
+                </p>
+                <div className="hero-btns" style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                  <Link href="/catalog" className="btn-cta" style={{ background: '#fff', color: '#D32F2F', padding: '14px 28px', borderRadius: 10, fontWeight: 700, fontSize: 15, textDecoration: 'none', boxShadow: '0 6px 20px rgba(0,0,0,0.25)', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M3 6h18M3 12h18M3 18h12"/></svg>
+                    {lang === 'ru' ? 'Каталог' : 'Katalog'}
+                  </Link>
+                  <Link href="/services" style={{ background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.3)', color: '#fff', padding: '14px 28px', borderRadius: 10, fontWeight: 600, fontSize: 15, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, transition: 'background .2s' }}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.2)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.12)')}
+                  >
+                    {lang === 'ru' ? 'Услуги' : 'Xizmatlar'}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Right: feature chips */}
+              <div className="hero-text-3" style={{ display: 'flex', flexDirection: 'column', gap: 12, minWidth: 220 }}>
+                {(lang === 'ru' ? [
+                  { icon: '🚀', text: 'Быстрое изготовление' },
+                  { icon: '✅', text: 'Гарантия качества' },
+                  { icon: '📦', text: 'Доставка по Узбекистану' },
+                  { icon: '🎨', text: 'Любой дизайн под заказ' },
+                ] : [
+                  { icon: '🚀', text: 'Tez tayyorlash' },
+                  { icon: '✅', text: 'Sifat kafolati' },
+                  { icon: '📦', text: "O'zbekiston bo'ylab yetkazish" },
+                  { icon: '🎨', text: 'Istalgan dizayn buyurtma' },
+                ]).map((f, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.1)', borderRadius: 10, padding: '10px 14px', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.15)' }}>
+                    <span style={{ fontSize: 18 }}>{f.icon}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: 13, fontWeight: 500 }}>{f.text}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -110,9 +192,7 @@ export default function HomePage() {
                           {b.titleRu && <h2 style={{ fontSize: 'clamp(20px, 3.5vw, 42px)', fontWeight: 900, letterSpacing: -0.5, marginBottom: 8, lineHeight: 1.1 }}>{lang === 'ru' ? b.titleRu : b.titleUz}</h2>}
                           {b.subtitleRu && <p style={{ fontSize: 'clamp(13px, 1.8vw, 18px)', opacity: 0.85, marginBottom: 24 }}>{lang === 'ru' ? b.subtitleRu : b.subtitleUz}</p>}
                           {b.ctaText && b.ctaLink && (
-                            <Link href={b.ctaLink} style={{ display: 'inline-block', background: '#D32F2F', color: '#fff', padding: '12px 28px', borderRadius: 8, fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
-                              {b.ctaText}
-                            </Link>
+                            <Link href={b.ctaLink} style={{ display: 'inline-block', background: '#D32F2F', color: '#fff', padding: '12px 28px', borderRadius: 8, fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>{b.ctaText}</Link>
                           )}
                         </div>
                       </div>
@@ -121,8 +201,6 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
-
-            {/* Arrows */}
             {banners.length > 1 && (
               <>
                 <button onClick={goPrev} style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.9)', border: 'none', borderRadius: '50%', width: 40, height: 40, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.2)', zIndex: 10 }}>
@@ -142,33 +220,100 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* ─── PRODUCTS ─── */}
-      {products.length > 0 && (
-        <section style={{ maxWidth: 1280, margin: '0 auto', padding: '48px 20px 64px' }}>
-          <div className="reveal" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 32 }}>
-            <h2 className="section-title" style={{ fontSize: 26, fontWeight: 900, color: '#111', letterSpacing: -0.5 }}>{lang === 'ru' ? 'Товары' : 'Mahsulotlar'}</h2>
-            <Link href="/catalog" style={{ fontSize: 14, color: '#D32F2F', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4, transition: 'gap .2s' }}
-              onMouseEnter={e => (e.currentTarget.style.gap = '8px')}
-              onMouseLeave={e => (e.currentTarget.style.gap = '4px')}
+      {/* ══════════ STATS ══════════ */}
+      <section ref={statsRef} style={{ background: '#fff', borderBottom: '1px solid #F0F0F0' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '32px 24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 8, alignItems: 'center' }}>
+          <StatCard value={10} suffix="+" label={lang === 'ru' ? 'Лет на рынке' : 'Yil bozorda'} active={statsActive} />
+          <div style={{ width: 1, height: 40, background: '#F0F0F0', margin: '0 auto' }} />
+          <StatCard value={500} suffix="+" label={lang === 'ru' ? 'Клиентов' : 'Mijozlar'} active={statsActive} />
+          <div style={{ width: 1, height: 40, background: '#F0F0F0', margin: '0 auto' }} />
+          <StatCard value={50} suffix="+" label={lang === 'ru' ? 'Видов продукции' : 'Mahsulot turi'} active={statsActive} />
+          <div style={{ width: 1, height: 40, background: '#F0F0F0', margin: '0 auto' }} />
+          <StatCard value={8} suffix="" label={lang === 'ru' ? 'Видов печати' : 'Bosma turlari'} active={statsActive} />
+        </div>
+      </section>
+
+      {/* ══════════ SERVICES ══════════ */}
+      <section style={{ background: '#FAFAFA', padding: '64px 0' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
+          <div className="reveal" style={{ textAlign: 'center', marginBottom: 44 }}>
+            <p style={{ color: '#D32F2F', fontWeight: 700, fontSize: 12, letterSpacing: 3, textTransform: 'uppercase', marginBottom: 10 }}>
+              {lang === 'ru' ? 'Что мы делаем' : 'Biz nima qilamiz'}
+            </p>
+            <h2 style={{ fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 900, color: '#111', letterSpacing: -0.5 }}>
+              {lang === 'ru' ? 'Наши услуги' : 'Xizmatlarimiz'}
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 16 }}>
+            {(navServices.length > 0 ? navServices : services).map((s: any, i: number) => (
+              <Link key={s.id || i} href={s.slug ? `/xizmatlar/${s.slug}` : '/services'} className="reveal"
+                style={{ textDecoration: 'none', transitionDelay: `${i * 0.05}s` }}
+              >
+                <div style={{ background: '#fff', border: '1.5px solid #EEEEEE', borderRadius: 16, overflow: 'hidden', transition: 'all .28s cubic-bezier(0.34,1.56,0.64,1)', cursor: 'pointer' }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = '0 16px 40px rgba(211,47,47,0.12)'; e.currentTarget.style.borderColor = '#D32F2F' }}
+                  onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = ''; e.currentTarget.style.borderColor = '#EEEEEE' }}
+                >
+                  {s.imageUrl ? (
+                    <div style={{ aspectRatio: '4/3', overflow: 'hidden' }}>
+                      <img src={s.imageUrl} alt={lang === 'ru' ? s.nameRu : s.nameUz} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform .4s' }}
+                        onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.07)')}
+                        onMouseLeave={e => (e.currentTarget.style.transform = '')}
+                      />
+                    </div>
+                  ) : (
+                    <div style={{ aspectRatio: '4/3', background: '#FFF0F0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D32F2F' }}>
+                      {s.icon || <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>}
+                    </div>
+                  )}
+                  <div style={{ padding: '11px 13px 14px' }}>
+                    <p style={{ fontSize: 13, fontWeight: 700, color: '#111', lineHeight: 1.3 }}>
+                      {lang === 'ru' ? (s.nameRu || s.ru) : (s.nameUz || s.uz || s.nameRu || s.ru)}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="reveal" style={{ textAlign: 'center', marginTop: 32 }}>
+            <Link href="/services" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#D32F2F', fontWeight: 700, fontSize: 14, textDecoration: 'none', border: '1.5px solid #D32F2F', padding: '10px 24px', borderRadius: 8, transition: 'all .2s' }}
+              onMouseEnter={e => { e.currentTarget.style.background = '#D32F2F'; e.currentTarget.style.color = '#fff' }}
+              onMouseLeave={e => { e.currentTarget.style.background = ''; e.currentTarget.style.color = '#D32F2F' }}
             >
-              {lang === 'ru' ? 'Все товары' : "Barchasini ko'rish"} →
+              {lang === 'ru' ? 'Все услуги' : "Barcha xizmatlar"}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
             </Link>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))', gap: 24 }}>
+        </div>
+      </section>
+
+      {/* ══════════ PRODUCTS ══════════ */}
+      {products.length > 0 && (
+        <section style={{ maxWidth: 1280, margin: '0 auto', padding: '64px 24px' }}>
+          <div className="reveal" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 36, flexWrap: 'wrap', gap: 12 }}>
+            <div>
+              <p style={{ color: '#D32F2F', fontWeight: 700, fontSize: 12, letterSpacing: 3, textTransform: 'uppercase', marginBottom: 8 }}>
+                {lang === 'ru' ? 'Ассортимент' : 'Assortiment'}
+              </p>
+              <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 900, color: '#111', letterSpacing: -0.5 }}>
+                {lang === 'ru' ? 'Популярные товары' : 'Mashhur mahsulotlar'}
+              </h2>
+            </div>
+            <Link href="/catalog" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 14, color: '#D32F2F', fontWeight: 700, textDecoration: 'none', transition: 'gap .2s' }}
+              onMouseEnter={e => (e.currentTarget.style.gap = '10px')}
+              onMouseLeave={e => (e.currentTarget.style.gap = '6px')}
+            >
+              {lang === 'ru' ? 'Весь каталог' : "Barcha mahsulotlar"}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
+            </Link>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))', gap: 20 }}>
             {products.map((p: any, idx: number) => {
               const imgs = (() => { try { return JSON.parse(p.images) } catch { return [] } })()
-              const delay = `${idx * 0.06}s`
               return (
                 <Link key={p.id} href={`/catalog/${p.slug}`} className="product-card-3d reveal"
-                  style={{ textDecoration: 'none', display: 'block', borderRadius: 20, overflow: 'visible', position: 'relative', transitionDelay: delay, animationDelay: delay }}
+                  style={{ textDecoration: 'none', display: 'block', borderRadius: 18, overflow: 'visible', transitionDelay: `${idx * 0.05}s` }}
                 >
-                  <div style={{
-                    background: '#fff',
-                    borderRadius: 20,
-                    overflow: 'hidden',
-                    boxShadow: '0 4px 16px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.05)',
-                    transition: 'transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s cubic-bezier(.2,.8,.2,1)',
-                  }} className="product-card-inner">
+                  <div className="product-card-inner" style={{ background: '#fff', borderRadius: 18, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', transition: 'transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s' }}>
                     <div className="prod-img" style={{ aspectRatio: '4/3', background: '#fff', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       {imgs[0] ? (
                         <img src={imgs[0]} alt={p.nameRu} style={{ width: '88%', height: '88%', objectFit: 'contain' }} className="product-img" />
@@ -176,12 +321,12 @@ export default function HomePage() {
                         <div style={{ fontSize: 52, color: '#DDD' }}>📦</div>
                       )}
                       {p.isNew && (
-                        <span className="badge-anim" style={{ position: 'absolute', top: 12, left: 12, background: 'linear-gradient(135deg,#D32F2F,#FF5252)', color: '#fff', fontSize: 10, fontWeight: 800, padding: '4px 10px', borderRadius: 8, letterSpacing: 1, boxShadow: '0 2px 8px rgba(211,47,47,0.4)' }}>NEW</span>
+                        <span className="badge-anim" style={{ position: 'absolute', top: 10, left: 10, background: 'linear-gradient(135deg,#D32F2F,#FF5252)', color: '#fff', fontSize: 10, fontWeight: 800, padding: '3px 9px', borderRadius: 7, letterSpacing: 0.8, boxShadow: '0 2px 8px rgba(211,47,47,0.4)' }}>NEW</span>
                       )}
                     </div>
-                    <div style={{ padding: '14px 16px 18px' }}>
-                      <p style={{ fontSize: 11, color: '#D32F2F', marginBottom: 5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5 }}>{lang === 'ru' ? p.category?.nameRu : p.category?.nameUz}</p>
-                      <p style={{ fontSize: 14, fontWeight: 700, color: '#111', lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    <div style={{ padding: '12px 14px 16px' }}>
+                      <p style={{ fontSize: 11, color: '#D32F2F', marginBottom: 4, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5 }}>{lang === 'ru' ? p.category?.nameRu : p.category?.nameUz}</p>
+                      <p style={{ fontSize: 13, fontWeight: 700, color: '#111', lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                         {lang === 'ru' ? p.nameRu : p.nameUz}
                       </p>
                     </div>
@@ -190,79 +335,112 @@ export default function HomePage() {
               )
             })}
           </div>
-          <style>{`
-            .product-card-3d:hover .product-card-inner {
-              transform: translateY(-8px) scale(1.02);
-              box-shadow: 0 20px 48px rgba(0,0,0,0.14), 0 4px 12px rgba(211,47,47,0.08);
-            }
-            .product-card-3d:hover .product-img { transform: scale(1.1); }
-            @media (max-width: 480px) { .product-card-3d { min-width: 0; } }
-          `}</style>
         </section>
       )}
 
-      {/* ─── WHY US ─── */}
-      <section style={{ background: '#FAFAFA', borderTop: '1px solid #F0F0F0', borderBottom: '1px solid #F0F0F0' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '48px 16px' }}>
-          <h2 className="reveal" style={{ fontSize: 22, fontWeight: 800, color: '#111', textAlign: 'center', marginBottom: 36, letterSpacing: -0.3, display: 'block' }}>
-            {lang === 'ru' ? 'Почему ART PRINT?' : 'Nima uchun ART PRINT?'}
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20 }}>
+      {/* ══════════ WHY US ══════════ */}
+      <section style={{ background: 'linear-gradient(135deg, #D32F2F 0%, #B71C1C 100%)', padding: '72px 24px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div className="reveal" style={{ textAlign: 'center', marginBottom: 48 }}>
+            <h2 style={{ fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 900, color: '#fff', letterSpacing: -0.5, marginBottom: 12 }}>
+              {lang === 'ru' ? 'Почему выбирают нас?' : 'Nima uchun bizni tanlashadi?'}
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 15 }}>
+              {lang === 'ru' ? 'Мы производим качественную продукцию с 2014 года' : "Biz 2014 yildan beri sifatli mahsulot ishlab chiqaramiz"}
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
             {(lang === 'ru' ? [
-              { icon: '🏭', title: 'Собственное производство', desc: 'Современное оборудование и собственный склад' },
-              { icon: '⚡', title: 'Быстрое исполнение', desc: 'Доставляем заказ в указанные сроки' },
-              { icon: '✅', title: 'Гарантия качества', desc: 'Каждый продукт проходит контроль качества' },
-              { icon: '👔', title: 'Широкий ассортимент', desc: 'Спецодежда, медицинская одежда, мерч и другое' },
+              { num: '01', title: 'Собственное производство', desc: 'Современное оборудование на собственной фабрике в Ташкенте' },
+              { num: '02', title: 'Быстрое исполнение', desc: 'Выполняем заказы точно в срок, без задержек' },
+              { num: '03', title: 'Гарантия качества', desc: 'Каждое изделие проходит ОТК перед отправкой' },
+              { num: '04', title: 'Любой тираж', desc: 'От 1 штуки до корпоративных заказов на тысячи единиц' },
             ] : [
-              { icon: '🏭', title: "O'z ishlab chiqarish", desc: "Zamonaviy uskunalar va o'z omborimiz" },
-              { icon: '⚡', title: 'Tez bajarish', desc: 'Buyurtmani belgilangan muddatda yetkazamiz' },
-              { icon: '✅', title: 'Sifat kafolati', desc: "Har bir mahsulot sifat nazoratidan o'tadi" },
-              { icon: '👔', title: 'Keng assortiment', desc: 'Maxsus kiyim, tibbiy kiyim, merch va boshqalar' },
+              { num: '01', title: "O'z ishlab chiqarish", desc: "Toshkentdagi o'z fabrikamizda zamonaviy uskunalar" },
+              { num: '02', title: 'Tez bajarish', desc: "Buyurtmalarni o'z vaqtida, kechiktirmasdan bajaramiz" },
+              { num: '03', title: 'Sifat kafolati', desc: "Har bir buyum jo'natishdan oldin tekshiruvdan o'tadi" },
+              { num: '04', title: 'Har qanday tirāj', desc: "1 donadan minglab birlikdagi korporativ buyurtmalargacha" },
             ]).map((item, i) => (
-              <div key={i} className="reveal service-card" style={{ background: '#fff', border: '1.5px solid #F0F0F0', borderRadius: 14, padding: '24px 20px', textAlign: 'center', transitionDelay: `${i * 0.08}s` }}>
-                <div style={{ fontSize: 40, marginBottom: 14, display: 'inline-block', transition: 'transform .3s', cursor: 'default' }}
-                  onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.25) rotate(-5deg)')}
-                  onMouseLeave={e => (e.currentTarget.style.transform = '')}
-                >{item.icon}</div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: '#111', marginBottom: 8 }}>{item.title}</h3>
-                <p style={{ fontSize: 13, color: '#888', lineHeight: 1.5 }}>{item.desc}</p>
+              <div key={i} className="reveal" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 16, padding: '28px 24px', backdropFilter: 'blur(4px)', transition: 'background .25s', transitionDelay: `${i * 0.08}s`, cursor: 'default' }}
+                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.15)')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
+              >
+                <div style={{ fontSize: 36, fontWeight: 900, color: 'rgba(255,255,255,0.2)', lineHeight: 1, marginBottom: 16 }}>{item.num}</div>
+                <h3 style={{ fontSize: 15, fontWeight: 800, color: '#fff', marginBottom: 8 }}>{item.title}</h3>
+                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', lineHeight: 1.6 }}>{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── PARTNERS MARQUEE ─── */}
-      <section style={{ padding: '48px 0', borderTop: '1px solid #F0F0F0' }}>
-        <h2 style={{ fontSize: 22, fontWeight: 800, color: '#111', textAlign: 'center', marginBottom: 32, letterSpacing: -0.3 }}>
-          {lang === 'ru' ? 'Наши партнёры' : 'Hamkorlarimiz'}
-        </h2>
+      {/* ══════════ PARTNERS ══════════ */}
+      <section style={{ padding: '56px 0', background: '#fff', borderTop: '1px solid #F0F0F0' }}>
+        <div className="reveal" style={{ textAlign: 'center', marginBottom: 36 }}>
+          <p style={{ color: '#D32F2F', fontWeight: 700, fontSize: 12, letterSpacing: 3, textTransform: 'uppercase', marginBottom: 8 }}>
+            {lang === 'ru' ? 'Доверяют нам' : 'Bizga ishonadi'}
+          </p>
+          <h2 style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 900, color: '#111', letterSpacing: -0.3 }}>
+            {lang === 'ru' ? 'Наши партнёры' : 'Hamkorlarimiz'}
+          </h2>
+        </div>
         <div style={{ overflow: 'hidden', position: 'relative' }}>
-          <div className="marquee-track">
+          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 80, background: 'linear-gradient(to right, #fff, transparent)', zIndex: 2, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 80, background: 'linear-gradient(to left, #fff, transparent)', zIndex: 2, pointerEvents: 'none' }} />
+          <div className="marquee-track" style={{ display: 'flex', alignItems: 'center', width: 'max-content' }}>
             {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((logo, i) => (
-              <div key={i} style={{ flexShrink: 0, padding: '0 32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img src={logo.src} alt={logo.name} style={{ height: 48, width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.55, transition: 'all .3s' }}
-                  onMouseEnter={e => { e.currentTarget.style.filter = 'none'; e.currentTarget.style.opacity = '1' }}
-                  onMouseLeave={e => { e.currentTarget.style.filter = 'grayscale(100%)'; e.currentTarget.style.opacity = '0.55' }}
+              <div key={i} style={{ flexShrink: 0, padding: '0 36px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img src={logo.src} alt={logo.name} style={{ height: 44, width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.5, transition: 'all .3s' }}
+                  onMouseEnter={e => { e.currentTarget.style.filter = 'none'; e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'scale(1.1)' }}
+                  onMouseLeave={e => { e.currentTarget.style.filter = 'grayscale(100%)'; e.currentTarget.style.opacity = '0.5'; e.currentTarget.style.transform = '' }}
                 />
               </div>
             ))}
           </div>
         </div>
-        <style>{`
-          .marquee-track {
-            display: flex;
-            align-items: center;
-            animation: marquee 28s linear infinite;
-            width: max-content;
-          }
-          .marquee-track:hover { animation-play-state: paused; }
-          @keyframes marquee {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-        `}</style>
       </section>
+
+      {/* ══════════ CTA ══════════ */}
+      <section style={{ background: '#111', padding: '64px 24px' }}>
+        <div className="reveal" style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center' }}>
+          <h2 style={{ fontSize: 'clamp(22px, 3vw, 36px)', fontWeight: 900, color: '#fff', marginBottom: 16, letterSpacing: -0.5 }}>
+            {lang === 'ru' ? 'Готовы сделать заказ?' : "Buyurtma berishga tayyormisiz?"}
+          </h2>
+          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 15, marginBottom: 32, lineHeight: 1.6 }}>
+            {lang === 'ru' ? 'Свяжитесь с нами — рассчитаем стоимость и сроки бесплатно' : "Biz bilan bog'laning — narx va muddatni bepul hisoblaymiz"}
+          </p>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link href="/contacts" className="btn-cta" style={{ background: '#D32F2F', color: '#fff', padding: '14px 32px', borderRadius: 10, fontWeight: 700, fontSize: 15, textDecoration: 'none', display: 'inline-block' }}>
+              {lang === 'ru' ? 'Связаться с нами' : "Biz bilan bog'lanish"}
+            </Link>
+            <Link href="/catalog" style={{ background: 'rgba(255,255,255,0.08)', border: '1.5px solid rgba(255,255,255,0.2)', color: '#fff', padding: '14px 32px', borderRadius: 10, fontWeight: 600, fontSize: 15, textDecoration: 'none', display: 'inline-block', transition: 'background .2s' }}
+              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.14)')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
+            >
+              {lang === 'ru' ? 'Смотреть каталог' : "Katalogni ko'rish"}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <style>{`
+        .product-card-3d:hover .product-card-inner {
+          transform: translateY(-8px) scale(1.02);
+          box-shadow: 0 20px 48px rgba(0,0,0,0.13), 0 4px 12px rgba(211,47,47,0.07) !important;
+        }
+        .product-card-3d:hover .product-img { transform: scale(1.1); }
+        @keyframes float {
+          0%,100% { transform: translateY(0); }
+          50% { transform: translateY(-8px); }
+        }
+        @keyframes pulseRed {
+          0%,100% { box-shadow: 0 0 0 0 rgba(211,47,47,0.4); }
+          60% { box-shadow: 0 0 0 8px rgba(211,47,47,0); }
+        }
+        @media (max-width: 768px) {
+          .hero-right { display: none !important; }
+        }
+      `}</style>
     </div>
   )
 }
