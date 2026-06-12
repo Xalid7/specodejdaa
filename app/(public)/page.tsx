@@ -225,30 +225,41 @@ export default function HomePage() {
               {lang === 'ru' ? 'Наши услуги' : 'Xizmatlarimiz'}
             </h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 16 }}>
+          <div className="services-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
             {(navServices.length > 0 ? navServices : services).map((s: any, i: number) => (
               <Link key={s.id || i} href={s.slug ? `/xizmatlar/${s.slug}` : '/services'} className="reveal"
                 style={{ textDecoration: 'none', transitionDelay: `${i * 0.05}s` }}
               >
-                <div style={{ background: '#fff', border: '1.5px solid #EEEEEE', borderRadius: 16, overflow: 'hidden', transition: 'all .28s cubic-bezier(0.34,1.56,0.64,1)', cursor: 'pointer' }}
-                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = '0 16px 40px rgba(211,47,47,0.12)'; e.currentTarget.style.borderColor = '#D32F2F' }}
+                <div style={{ background: '#fff', border: '1.5px solid #EEEEEE', borderRadius: 18, overflow: 'hidden', transition: 'all .28s cubic-bezier(0.34,1.56,0.64,1)', cursor: 'pointer', height: '100%' }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = '0 20px 48px rgba(211,47,47,0.13)'; e.currentTarget.style.borderColor = '#D32F2F' }}
                   onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = ''; e.currentTarget.style.borderColor = '#EEEEEE' }}
                 >
-                  {s.imageUrl ? (
-                    <div style={{ aspectRatio: '4/3', overflow: 'hidden' }}>
-                      <img src={s.imageUrl} alt={lang === 'ru' ? s.nameRu : s.nameUz} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform .4s' }}
-                        onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.07)')}
+                  {/* Image */}
+                  <div style={{ aspectRatio: '16/10', overflow: 'hidden', position: 'relative' }}>
+                    {s.imageUrl ? (
+                      <img src={s.imageUrl} alt={lang === 'ru' ? s.nameRu : s.nameUz}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform .5s cubic-bezier(0.34,1.2,0.64,1)', display: 'block' }}
+                        onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.08)')}
                         onMouseLeave={e => (e.currentTarget.style.transform = '')}
                       />
+                    ) : (
+                      <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg,#FFF0F0,#FFE0E0)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D32F2F' }}>
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                      </div>
+                    )}
+                    {/* Number badge */}
+                    <div style={{ position: 'absolute', top: 10, left: 10, width: 28, height: 28, borderRadius: '50%', background: '#D32F2F', color: '#fff', fontSize: 12, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(211,47,47,0.4)' }}>
+                      {i + 1}
                     </div>
-                  ) : (
-                    <div style={{ aspectRatio: '4/3', background: '#FFF0F0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D32F2F' }}>
-                      {s.icon || <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>}
-                    </div>
-                  )}
-                  <div style={{ padding: '11px 13px 14px' }}>
-                    <p style={{ fontSize: 13, fontWeight: 700, color: '#111', lineHeight: 1.3 }}>
+                  </div>
+                  {/* Name */}
+                  <div style={{ padding: '14px 16px 16px' }}>
+                    <p style={{ fontSize: 14, fontWeight: 700, color: '#111', lineHeight: 1.35 }}>
                       {lang === 'ru' ? (s.nameRu || s.ru) : (s.nameUz || s.uz || s.nameRu || s.ru)}
+                    </p>
+                    <p style={{ fontSize: 12, color: '#D32F2F', marginTop: 4, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 3 }}>
+                      {lang === 'ru' ? 'Подробнее' : 'Batafsil'}
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
                     </p>
                   </div>
                 </div>
@@ -418,8 +429,11 @@ export default function HomePage() {
           0%,100% { box-shadow: 0 0 0 0 rgba(211,47,47,0.4); }
           60% { box-shadow: 0 0 0 8px rgba(211,47,47,0); }
         }
-        @media (max-width: 768px) {
-          .hero-right { display: none !important; }
+        @media (max-width: 900px) {
+          .services-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 480px) {
+          .services-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
       `}</style>
     </div>
