@@ -45,6 +45,24 @@ function useCountUp(target: number, active: boolean, duration = 1600) {
   return val
 }
 
+function AnimatedWave({ from, to, flip = false }: { from: string; to: string; flip?: boolean }) {
+  const path = flip
+    ? 'M0,26 C240,0 480,52 720,26 C960,0 1200,52 1440,26 L1440,52 L0,52 Z'
+    : 'M0,26 C240,52 480,0 720,26 C960,52 1200,0 1440,26 L1440,52 L0,52 Z'
+  return (
+    <div style={{ background: from, lineHeight: 0, overflow: 'hidden', position: 'relative', height: 52 }}>
+      <div style={{ animation: 'waveSlide 8s linear infinite', display: 'flex', width: '200%', position: 'absolute', bottom: 0 }}>
+        <svg viewBox="0 0 1440 52" preserveAspectRatio="none" style={{ width: '50%', height: 52, display: 'block', flexShrink: 0 }}>
+          <path d={path} fill={to} />
+        </svg>
+        <svg viewBox="0 0 1440 52" preserveAspectRatio="none" style={{ width: '50%', height: 52, display: 'block', flexShrink: 0 }}>
+          <path d={path} fill={to} />
+        </svg>
+      </div>
+    </div>
+  )
+}
+
 function StatCard({ value, suffix, label, active }: { value: number; suffix: string; label: string; active: boolean }) {
   const count = useCountUp(value, active)
   return (
@@ -119,7 +137,7 @@ export default function HomePage() {
       {/* ══════════ HERO ══════════ */}
       <section style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
         {banners.length === 0 ? (
-          <div style={{ background: 'linear-gradient(135deg, #C62828 0%, #B71C1C 40%, #7B0000 100%)', minHeight: 520, display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ background: 'linear-gradient(-45deg, #C62828, #8B0000, #D32F2F, #7B0000)', backgroundSize: '400% 400%', animation: 'gradientShift 8s ease infinite', minHeight: 520, display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
             {/* Animated background shapes */}
             <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
               <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: '55%', height: '120%', background: 'rgba(255,255,255,0.04)', borderRadius: '60% 0 0 60%', animation: 'float 7s ease-in-out infinite' }} />
@@ -200,6 +218,8 @@ export default function HomePage() {
           </>
         )}
       </section>
+
+      {banners.length === 0 && <AnimatedWave from="#7B0000" to="#fff" />}
 
       {/* ══════════ STATS ══════════ */}
       <section ref={statsRef} style={{ background: '#fff', borderBottom: '1px solid #F0F0F0' }}>
@@ -330,6 +350,8 @@ export default function HomePage() {
         </section>
       )}
 
+      <AnimatedWave from="#fff" to="#D32F2F" flip />
+
       {/* ══════════ WHY US ══════════ */}
       <section style={{ background: 'linear-gradient(135deg, #D32F2F 0%, #B71C1C 100%)', padding: '72px 24px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
@@ -366,6 +388,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      <AnimatedWave from="#B71C1C" to="#fff" />
+
       {/* ══════════ PARTNERS ══════════ */}
       <section style={{ padding: '56px 0', background: '#fff', borderTop: '1px solid #F0F0F0' }}>
         <div className="reveal" style={{ textAlign: 'center', marginBottom: 36 }}>
@@ -392,6 +416,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      <AnimatedWave from="#fff" to="#111" flip />
+
       {/* ══════════ CTA ══════════ */}
       <section style={{ background: '#111', padding: '64px 24px' }}>
         <div className="reveal" style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center' }}>
@@ -416,6 +442,15 @@ export default function HomePage() {
       </section>
 
       <style>{`
+        @keyframes gradientShift {
+          0%   { background-position: 0% 50%; }
+          50%  { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        @keyframes waveSlide {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
         .product-card-3d:hover .product-card-inner {
           transform: translateY(-8px) scale(1.02);
           box-shadow: 0 20px 48px rgba(0,0,0,0.13), 0 4px 12px rgba(211,47,47,0.07) !important;
