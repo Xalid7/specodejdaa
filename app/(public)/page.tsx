@@ -129,7 +129,7 @@ export default function HomePage() {
               <div style={{ position: 'absolute', top: '40%', right: '8%', width: 6, height: 6, background: 'rgba(255,255,255,0.3)', borderRadius: '50%', animation: 'float 6s ease-in-out infinite 0.5s' }} />
             </div>
 
-            <div style={{ maxWidth: 1280, margin: '0 auto', padding: '72px 24px', width: '100%', display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', gap: 40, position: 'relative', zIndex: 1 }}>
+            <div style={{ maxWidth: 1280, margin: '0 auto', padding: '72px 24px', width: '100%', position: 'relative', zIndex: 1 }}>
               <div>
                 <div className="hero-text-1" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 99, padding: '6px 16px', marginBottom: 24 }}>
                   <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#FF8A80', animation: 'pulseRed 1.8s ease infinite' }} />
@@ -158,25 +158,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Right: feature chips */}
-              <div className="hero-text-3" style={{ display: 'flex', flexDirection: 'column', gap: 12, minWidth: 220 }}>
-                {(lang === 'ru' ? [
-                  { icon: '🚀', text: 'Быстрое изготовление' },
-                  { icon: '✅', text: 'Гарантия качества' },
-                  { icon: '📦', text: 'Доставка по Узбекистану' },
-                  { icon: '🎨', text: 'Любой дизайн под заказ' },
-                ] : [
-                  { icon: '🚀', text: 'Tez tayyorlash' },
-                  { icon: '✅', text: 'Sifat kafolati' },
-                  { icon: '📦', text: "O'zbekiston bo'ylab yetkazish" },
-                  { icon: '🎨', text: 'Istalgan dizayn buyurtma' },
-                ]).map((f, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.1)', borderRadius: 10, padding: '10px 14px', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.15)' }}>
-                    <span style={{ fontSize: 18 }}>{f.icon}</span>
-                    <span style={{ color: 'rgba(255,255,255,0.9)', fontSize: 13, fontWeight: 500 }}>{f.text}</span>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         ) : (
