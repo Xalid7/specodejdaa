@@ -138,7 +138,7 @@ export default function HomePage() {
                   </span>
                 </div>
                 <h1 className="hero-text-2" style={{ color: '#fff', fontSize: 'clamp(32px, 5.5vw, 60px)', fontWeight: 900, letterSpacing: -1.5, lineHeight: 1.05, marginBottom: 20 }}>
-                  {lang === 'ru' ? <><span style={{ display: 'block' }}>Спецодежда</span><span style={{ display: 'block', color: 'rgba(255,255,255,0.7)' }}>и Unifорма</span></> : <><span style={{ display: 'block' }}>Maxsus kiyim</span><span style={{ display: 'block', color: 'rgba(255,255,255,0.7)' }}>va Uniform</span></>}
+                  {lang === 'ru' ? <><span style={{ display: 'block' }}>Спецодежда</span><span style={{ display: 'block', color: 'rgba(255,255,255,0.7)' }}>и Униформа</span></> : <><span style={{ display: 'block' }}>Maxsus kiyim</span><span style={{ display: 'block', color: 'rgba(255,255,255,0.7)' }}>va Uniform</span></>}
                 </h1>
                 <p className="hero-text-3" style={{ color: 'rgba(255,255,255,0.72)', fontSize: 'clamp(14px, 1.8vw, 17px)', marginBottom: 36, maxWidth: 420, lineHeight: 1.6 }}>
                   {lang === 'ru' ? 'Производим спецодежду, медицинскую одежду, промотекстиль и брендированную продукцию под заказ' : "Buyurtma asosida maxsus kiyim, tibbiy kiyim, promo to'qimachilik va brendlangan mahsulotlar ishlab chiqaramiz"}
