@@ -1,10 +1,27 @@
 import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
 import Link from 'next/link'
 import ProductGallery from './ProductGallery'
 import OrderSection from './OrderSection'
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const product = await prisma.product.findUnique({ where: { slug }, include: { category: true } })
+  if (!product) return {}
+  const images = (() => { try { return JSON.parse(product.images) } catch { return [] } })()
+  return {
+    title: product.nameRu,
+    description: `${product.nameRu} — ${product.category?.nameRu || 'спецодежда'}. Заказать в Ташкенте у производителя ART PRINT. ${product.descriptionRu?.slice(0, 100) || ''}`,
+    openGraph: {
+      title: product.nameRu,
+      images: images[0] ? [{ url: images[0] }] : [],
+    },
+    alternates: { canonical: `https://specodejda.uz/catalog/${slug}` },
+  }
+}
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params

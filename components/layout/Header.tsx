@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 
 export default function Header() {
   const [lang, setLang] = useState<'ru' | 'uz'>('ru')
@@ -11,6 +11,7 @@ export default function Header() {
   const [navServices, setNavServices] = useState<any[]>([])
   const [settings, setSettings] = useState<any>({})
   const router = useRouter()
+  const pathname = usePathname()
   const headerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -66,7 +67,7 @@ export default function Header() {
               </a>
             )}
             <Link href="/login"
-              style={{ background: '#D32F2F', color: '#fff', fontSize: 13, fontWeight: 600, padding: '6px 16px', borderRadius: 6, textDecoration: 'none', transition: 'background .2s' }}
+              style={{ background: '#D32F2F', color: '#fff', fontSize: 13, fontWeight: 600, padding: '6px 16px', borderRadius: 99, textDecoration: 'none', transition: 'background .2s' }}
               onMouseEnter={e => (e.currentTarget.style.background = '#B71C1C')}
               onMouseLeave={e => (e.currentTarget.style.background = '#D32F2F')}
             >
@@ -84,7 +85,7 @@ export default function Header() {
 
           {/* Search */}
           <form onSubmit={handleSearch} className="header-search" style={{ flex: 1, maxWidth: 600, margin: '0 auto' }}>
-            <div style={{ display: 'flex', alignItems: 'center', border: '1.5px solid #E0E0E0', borderRadius: 10, overflow: 'hidden', transition: 'border-color .2s' }}>
+            <div style={{ display: 'flex', alignItems: 'center', border: '1.5px solid #E0E0E0', borderRadius: 99, overflow: 'hidden', transition: 'border-color .2s', background: '#FAFAFA' }}>
               <input
                 value={search}
                 onChange={e => setSearch(e.target.value)}
@@ -99,7 +100,7 @@ export default function Header() {
 
           {/* Lang toggle */}
           <button onClick={toggleLang} className="header-lang"
-            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 12px', borderRadius: 8, border: '1.5px solid #E0E0E0', background: 'transparent', cursor: 'pointer', fontSize: 13, fontWeight: 600, color: '#555', transition: 'all .2s', flexShrink: 0 }}
+            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 12px', borderRadius: 99, border: '1.5px solid #E0E0E0', background: 'transparent', cursor: 'pointer', fontSize: 13, fontWeight: 600, color: '#555', transition: 'all .2s', flexShrink: 0 }}
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
             {lang.toUpperCase()}
@@ -117,7 +118,7 @@ export default function Header() {
 
             {/* Catalog */}
             <Link href="/catalog"
-              style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#D32F2F', color: '#fff', padding: '10px 18px', borderRadius: 8, fontWeight: 700, fontSize: 14, cursor: 'pointer', transition: 'background .2s', textDecoration: 'none', marginRight: 8 }}
+              style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#D32F2F', color: '#fff', padding: '10px 18px', borderRadius: 99, fontWeight: 700, fontSize: 14, cursor: 'pointer', transition: 'background .2s', textDecoration: 'none', marginRight: 8 }}
               onMouseEnter={e => (e.currentTarget.style.background = '#B71C1C')}
               onMouseLeave={e => (e.currentTarget.style.background = '#D32F2F')}
             >
@@ -132,7 +133,7 @@ export default function Header() {
                 { href: '/contacts', ru: 'Контакты', uz: 'Kontaktlar' },
               ].map(item => (
                 <Link key={item.href} href={item.href}
-                  style={{ padding: '6px 14px', fontSize: 14, color: '#555', borderRadius: 8, transition: 'all .15s', textDecoration: 'none', fontWeight: 500 }}
+                  style={{ padding: '6px 14px', fontSize: 14, color: '#555', borderRadius: 99, transition: 'all .15s', textDecoration: 'none', fontWeight: 500 }}
                   onMouseEnter={e => { e.currentTarget.style.color = '#D32F2F'; e.currentTarget.style.background = '#FFF5F5' }}
                   onMouseLeave={e => { e.currentTarget.style.color = '#555'; e.currentTarget.style.background = '' }}
                 >
@@ -199,12 +200,35 @@ export default function Header() {
         </div>
       )}
 
+      {/* Mobile Bottom Nav */}
+      <nav className="mobile-bottom-nav" style={{ display: 'none', position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200, background: '#fff', borderTop: '1.5px solid #F0F0F0', boxShadow: '0 -4px 24px rgba(0,0,0,0.07)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
+        {[
+          { href: '/', label: lang === 'ru' ? 'Главная' : 'Bosh sahifa', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> },
+          { href: '/catalog', label: lang === 'ru' ? 'Каталог' : 'Katalog', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> },
+          { href: '/services', label: lang === 'ru' ? 'Услуги' : 'Xizmatlar', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> },
+          { href: '/contacts', label: lang === 'ru' ? 'Контакты' : 'Kontaktlar', icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .36 1.97.71 2.9a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.17-1.18a2 2 0 012.11-.45c.93.35 1.9.58 2.9.71A2 2 0 0122 16.92z"/></svg> },
+        ].map(item => {
+          const active = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
+          return (
+            <Link key={item.href} href={item.href}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, padding: '8px 4px 10px', gap: 3, color: active ? '#D32F2F' : '#999', textDecoration: 'none', fontSize: 10, fontWeight: 600, transition: 'color .2s', position: 'relative' }}
+            >
+              {active && <span style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: 32, height: 3, borderRadius: '0 0 3px 3px', background: '#D32F2F' }} />}
+              {item.icon}
+              <span>{item.label}</span>
+            </Link>
+          )
+        })}
+      </nav>
+
       <style>{`
         @media (max-width: 768px) {
           .mobile-menu-btn { display: flex !important; }
           .header-search { display: none !important; }
           .header-lang { display: none !important; }
           nav { display: none !important; }
+          .mobile-bottom-nav { display: flex !important; }
+          body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
         }
         @media (max-width: 480px) {
           .header-topbar { display: none !important; }
