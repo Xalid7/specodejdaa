@@ -223,15 +223,17 @@ export default function HomePage() {
 
       {/* ══════════ STATS ══════════ */}
       <section ref={statsRef} style={{ background: '#fff', borderBottom: '1px solid #F0F0F0' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '32px 24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 8, alignItems: 'center' }}>
+        <div className="stats-grid" style={{ maxWidth: 1280, margin: '0 auto', padding: '32px 24px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, alignItems: 'center' }}>
           <StatCard value={10} suffix="+" label={lang === 'ru' ? 'Лет на рынке' : 'Yil bozorda'} active={statsActive} />
-          <div style={{ width: 1, height: 40, background: '#F0F0F0', margin: '0 auto' }} />
           <StatCard value={500} suffix="+" label={lang === 'ru' ? 'Клиентов' : 'Mijozlar'} active={statsActive} />
-          <div style={{ width: 1, height: 40, background: '#F0F0F0', margin: '0 auto' }} />
           <StatCard value={50} suffix="+" label={lang === 'ru' ? 'Видов продукции' : 'Mahsulot turi'} active={statsActive} />
-          <div style={{ width: 1, height: 40, background: '#F0F0F0', margin: '0 auto' }} />
           <StatCard value={8} suffix="" label={lang === 'ru' ? 'Видов печати' : 'Bosma turlari'} active={statsActive} />
         </div>
+        <style>{`
+          @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 0 !important; }
+          }
+        `}</style>
       </section>
 
       {/* ══════════ SERVICES ══════════ */}
