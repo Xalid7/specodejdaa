@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import TelegramFloat from '@/components/ui/TelegramFloat'
 
 export const metadata: Metadata = {
   alternates: { canonical: "https://specodejda.uz" },
@@ -33,6 +34,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
+      <TelegramFloat />
     </>
   )
 }
