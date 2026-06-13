@@ -8,7 +8,11 @@ export const metadata: Metadata = {
     template: "%s | ART PRINT",
   },
   description: "Производство спецодежды, медицинской одежды, промотекстиля и брендированной продукции на заказ в Ташкенте. Быстро, качественно, любой тираж.",
-  keywords: ["спецодежда Ташкент", "униформа на заказ", "спецодежда Узбекистан", "maxsus kiyim Toshkent", "рабочая одежда", "медицинская одежда", "брендированная одежда"],
+  keywords: [
+    "спецодежда Ташкент", "спецодежда Узбекистан", "униформа на заказ", "рабочая одежда", "медицинская одежда", "защитная одежда", "корпоративная одежда", "форменная одежда", "производственная одежда", "комбинезон", "спецовка", "халат медицинский", "роба",
+    "uniforma Toshkent", "uniforma buyurtma", "maxsus kiyim Toshkent", "maxsus kiyim Uzbekiston", "ish kiyimi", "tibbiy kiyim", "himoya kiyimi", "forma kiyim", "korporativ kiyim", "ishchi kiyim", "sport forma", "maktab formasi", "oshpaz kiyimi", "xavfsizlik kiyimi", "kombinezon", "yaktaklar",
+    "Toshkent buyurtma", "Uzbekiston arzon", "sifatli kiyim", "narx"
+  ],
   authors: [{ name: "ART PRINT" }],
   creator: "ART PRINT",
   metadataBase: new URL("https://specodejda.uz"),
