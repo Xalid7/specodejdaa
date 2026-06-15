@@ -160,8 +160,7 @@ export default function Header() {
         <div style={{ position: 'fixed', inset: 0, zIndex: 999, display: 'flex' }}>
           <div style={{ flex: 1, background: 'rgba(0,0,0,0.4)' }} onClick={() => setMobileOpen(false)} />
           <div style={{ width: 300, background: '#fff', height: '100%', overflowY: 'auto', boxShadow: '-4px 0 20px rgba(0,0,0,0.15)', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ padding: '16px', borderBottom: '1px solid #F0F0F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontWeight: 700, fontSize: 16 }}>Menyu</span>
+            <div style={{ padding: '16px', borderBottom: '1px solid #F0F0F0', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
               <button onClick={() => setMobileOpen(false)} style={{ border: 'none', background: 'none', cursor: 'pointer', padding: 4 }}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
               </button>
