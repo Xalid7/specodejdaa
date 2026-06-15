@@ -392,6 +392,74 @@ export default function HomePage() {
 
       <AnimatedWave from="#B71C1C" to="#fff" />
 
+      {/* ══════════ ПРОИЗВОДСТВО ══════════ */}
+      <section style={{ background: '#fff', padding: '72px 24px 80px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div className="reveal" style={{ textAlign: 'center', marginBottom: 48 }}>
+            <p style={{ color: '#D32F2F', fontWeight: 700, fontSize: 12, letterSpacing: 3, textTransform: 'uppercase', marginBottom: 8 }}>
+              {lang === 'ru' ? 'Наши возможности' : 'Bizning imkoniyatlar'}
+            </p>
+            <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 38px)', fontWeight: 900, color: '#111', letterSpacing: -0.5 }}>
+              {lang === 'ru' ? 'Производство' : 'Ishlab chiqarish'}
+            </h2>
+          </div>
+
+          {(() => {
+            const items = [
+              {
+                titleRu: 'Швейное производство',
+                titleUz: 'Tikuvchilik ishlab chiqarishi',
+                bg: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+                icon: '🪡',
+                descRu: 'Современные швейные машины JUKI. Производительность — до 500 единиц в день.',
+                descUz: 'Zamonaviy JUKI tikuv mashinalari. Kuniga 500 ta birlikgacha ishlab chiqarish.',
+              },
+              {
+                titleRu: 'Нанесение рисунка',
+                titleUz: 'Naqsh bosish',
+                bg: 'linear-gradient(135deg, #2d1b69 0%, #11998e 100%)',
+                icon: '🖨️',
+                descRu: 'Шелкография, ДТФ-печать, вышивка, сублимация и виниловые нашивки.',
+                descUz: 'Shelkografiya, DTF bosma, kashta, sublimatsiya va vinil.',
+              },
+              {
+                titleRu: 'Раскрой и подготовка',
+                titleUz: 'Kesish va tayyorlash',
+                bg: 'linear-gradient(135deg, #134e5e 0%, #71b280 100%)',
+                icon: '✂️',
+                descRu: 'Точный раскрой ткани по лекалам. Контроль качества на каждом этапе.',
+                descUz: "Andozalar bo'yicha aniq mato kesish. Har bosqichda sifat nazorati.",
+              },
+              {
+                titleRu: 'Контроль качества',
+                titleUz: 'Sifat nazorati',
+                bg: 'linear-gradient(135deg, #8B0000 0%, #D32F2F 100%)',
+                icon: '✅',
+                descRu: 'ОТК проверяет каждое изделие перед отправкой. Гарантия качества.',
+                descUz: "Har bir mahsulot jo'natishdan oldin OTK tomonidan tekshiriladi.",
+              },
+            ]
+            return (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
+                {items.map((item, i) => (
+                  <div key={i} className="reveal" style={{ borderRadius: 20, overflow: 'hidden', background: item.bg, minHeight: 320, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', position: 'relative', cursor: 'default', transitionDelay: `${i * 0.08}s` }}>
+                    <div style={{ position: 'absolute', top: 28, left: 28, fontSize: 48, filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))' }}>{item.icon}</div>
+                    <div style={{ padding: '24px 28px 28px', background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%)' }}>
+                      <h3 style={{ fontSize: 22, fontWeight: 800, color: '#fff', marginBottom: 8, lineHeight: 1.2 }}>
+                        {lang === 'ru' ? item.titleRu : item.titleUz}
+                      </h3>
+                      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', lineHeight: 1.6, margin: 0 }}>
+                        {lang === 'ru' ? item.descRu : item.descUz}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )
+          })()}
+        </div>
+      </section>
+
       {/* ══════════ PARTNERS ══════════ */}
       <section style={{ padding: '56px 0', background: '#fff', borderTop: '1px solid #F0F0F0' }}>
         <div className="reveal" style={{ textAlign: 'center', marginBottom: 36 }}>
