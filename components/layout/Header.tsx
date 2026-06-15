@@ -80,7 +80,9 @@ export default function Header() {
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 16 }}>
           {/* Logo */}
           <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
-            <img src="/logo.svg" alt="Art Print Textile" style={{ height: 52, width: 'auto', display: 'block' }} />
+            <div style={{ border: '2.5px solid #D32F2F', borderRadius: 14, padding: '4px 8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img src="/logo.svg" alt="Art Print Textile" style={{ height: 62, width: 'auto', display: 'block' }} />
+            </div>
           </Link>
 
           {/* Search */}
