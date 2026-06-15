@@ -37,14 +37,10 @@ function CatalogContent() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [activeCat, setActiveCat] = useState<string | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [expandedCats, setExpandedCats] = useState<Set<string>>(new Set())
+  const [expandedCat, setExpandedCat] = useState<string | null>(null)
 
   function toggleExpand(id: string) {
-    setExpandedCats(prev => {
-      const next = new Set(prev)
-      next.has(id) ? next.delete(id) : next.add(id)
-      return next
-    })
+    setExpandedCat(prev => prev === id ? null : id)
   }
 
   useReveal()
@@ -106,7 +102,7 @@ function CatalogContent() {
           <div style={{ background: '#fff', border: '1.5px solid #F0F0F0', borderRadius: 14, overflow: 'hidden' }}>
             {categories.map((cat: any) => {
               const isActive = activeCat === cat.id
-              const isExpanded = expandedCats.has(cat.id)
+              const isExpanded = expandedCat === cat.id
               const hasSubs = cat.children?.length > 0
               return (
                 <div key={cat.id} style={{ borderBottom: '1px solid #F5F5F5' }}>
