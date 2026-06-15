@@ -409,32 +409,28 @@ export default function HomePage() {
               {
                 titleRu: 'Швейное производство',
                 titleUz: 'Tikuvchilik ishlab chiqarishi',
-                bg: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-                icon: '🪡',
-                descRu: 'Современные швейные машины JUKI. Производительность — до 500 единиц в день.',
-                descUz: 'Zamonaviy JUKI tikuv mashinalari. Kuniga 500 ta birlikgacha ishlab chiqarish.',
+                img: 'https://images.unsplash.com/photo-1589793463357-5fb813435467?w=800&q=80',
+                descRu: 'Современные швейные машины. Производительность — до 500 единиц в день.',
+                descUz: 'Zamonaviy tikuv mashinalari. Kuniga 500 ta birlikgacha ishlab chiqarish.',
               },
               {
                 titleRu: 'Нанесение рисунка',
                 titleUz: 'Naqsh bosish',
-                bg: 'linear-gradient(135deg, #2d1b69 0%, #11998e 100%)',
-                icon: '🖨️',
+                img: 'https://images.unsplash.com/photo-1663433567177-9f94be0bff4c?w=800&q=80',
                 descRu: 'Шелкография, ДТФ-печать, вышивка, сублимация и виниловые нашивки.',
                 descUz: 'Shelkografiya, DTF bosma, kashta, sublimatsiya va vinil.',
               },
               {
                 titleRu: 'Раскрой и подготовка',
                 titleUz: 'Kesish va tayyorlash',
-                bg: 'linear-gradient(135deg, #134e5e 0%, #71b280 100%)',
-                icon: '✂️',
+                img: 'https://images.unsplash.com/photo-1718184021018-d2158af6b321?w=800&q=80',
                 descRu: 'Точный раскрой ткани по лекалам. Контроль качества на каждом этапе.',
                 descUz: "Andozalar bo'yicha aniq mato kesish. Har bosqichda sifat nazorati.",
               },
               {
                 titleRu: 'Контроль качества',
                 titleUz: 'Sifat nazorati',
-                bg: 'linear-gradient(135deg, #8B0000 0%, #D32F2F 100%)',
-                icon: '✅',
+                img: 'https://images.unsplash.com/photo-1542044801-30d3e45ae49a?w=800&q=80',
                 descRu: 'ОТК проверяет каждое изделие перед отправкой. Гарантия качества.',
                 descUz: "Har bir mahsulot jo'natishdan oldin OTK tomonidan tekshiriladi.",
               },
@@ -442,13 +438,14 @@ export default function HomePage() {
             return (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
                 {items.map((item, i) => (
-                  <div key={i} className="reveal" style={{ borderRadius: 20, overflow: 'hidden', background: item.bg, minHeight: 320, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', position: 'relative', cursor: 'default', transitionDelay: `${i * 0.08}s` }}>
-                    <div style={{ position: 'absolute', top: 28, left: 28, fontSize: 48, filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))' }}>{item.icon}</div>
-                    <div style={{ padding: '24px 28px 28px', background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%)' }}>
+                  <div key={i} className="reveal" style={{ borderRadius: 20, overflow: 'hidden', minHeight: 340, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', position: 'relative', cursor: 'default', transitionDelay: `${i * 0.08}s` }}>
+                    <img src={item.img} alt={item.titleRu} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
+                    <div style={{ position: 'relative', padding: '24px 28px 28px' }}>
                       <h3 style={{ fontSize: 22, fontWeight: 800, color: '#fff', marginBottom: 8, lineHeight: 1.2 }}>
                         {lang === 'ru' ? item.titleRu : item.titleUz}
                       </h3>
-                      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', lineHeight: 1.6, margin: 0 }}>
+                      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', lineHeight: 1.6, margin: 0 }}>
                         {lang === 'ru' ? item.descRu : item.descUz}
                       </p>
                     </div>
