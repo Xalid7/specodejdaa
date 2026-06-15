@@ -8,7 +8,17 @@ function slugify(s: string) {
 }
 
 export async function GET() {
-  const cats = await prisma.category.findMany({ orderBy: { order: 'asc' }, include: { _count: { select: { products: true } } } })
+  const cats = await prisma.category.findMany({
+    where: { parentId: null },
+    orderBy: { order: 'asc' },
+    include: {
+      _count: { select: { products: true } },
+      children: {
+        orderBy: { order: 'asc' },
+        include: { _count: { select: { products: true } } },
+      },
+    },
+  })
   return NextResponse.json(cats)
 }
 

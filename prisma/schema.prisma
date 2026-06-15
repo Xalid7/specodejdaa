@@ -16,12 +16,15 @@ model Admin {
 }
 
 model Category {
-  id       String    @id @default(cuid())
+  id       String     @id @default(cuid())
   nameRu   String
   nameUz   String
   icon     String?
-  slug     String    @unique
-  order    Int       @default(0)
+  slug     String     @unique
+  order    Int        @default(0)
+  parentId String?
+  parent   Category?  @relation("SubCategories", fields: [parentId], references: [id])
+  children Category[] @relation("SubCategories")
   products Product[]
 }
 
