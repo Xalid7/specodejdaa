@@ -240,9 +240,6 @@ export default function HomePage() {
       <section style={{ background: '#FAFAFA', padding: '64px 0' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
           <div className="reveal" style={{ textAlign: 'center', marginBottom: 44 }}>
-            <p style={{ color: '#D32F2F', fontWeight: 700, fontSize: 12, letterSpacing: 3, textTransform: 'uppercase', marginBottom: 10 }}>
-              {lang === 'ru' ? 'Что мы делаем' : 'Biz nima qilamiz'}
-            </p>
             <h2 style={{ fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 900, color: '#111', letterSpacing: -0.5 }}>
               {lang === 'ru' ? 'Наши услуги' : 'Xizmatlarimiz'}
             </h2>
@@ -269,10 +266,6 @@ export default function HomePage() {
                         <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
                       </div>
                     )}
-                    {/* Number badge */}
-                    <div style={{ position: 'absolute', top: 10, left: 10, width: 28, height: 28, borderRadius: '50%', background: '#D32F2F', color: '#fff', fontSize: 12, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(211,47,47,0.4)' }}>
-                      {i + 1}
-                    </div>
                   </div>
                   {/* Name */}
                   <div style={{ padding: '14px 16px 16px' }}>
@@ -457,9 +450,6 @@ export default function HomePage() {
       {/* ══════════ PARTNERS ══════════ */}
       <section style={{ padding: '56px 0', background: '#fff', borderTop: '1px solid #F0F0F0' }}>
         <div className="reveal" style={{ textAlign: 'center', marginBottom: 36 }}>
-          <p style={{ color: '#D32F2F', fontWeight: 700, fontSize: 12, letterSpacing: 3, textTransform: 'uppercase', marginBottom: 8 }}>
-            {lang === 'ru' ? 'Доверяют нам' : 'Bizga ishonadi'}
-          </p>
           <h2 style={{ fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 900, color: '#111', letterSpacing: -0.3 }}>
             {lang === 'ru' ? 'Наши партнёры' : 'Hamkorlarimiz'}
           </h2>
