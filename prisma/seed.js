@@ -16,13 +16,13 @@ async function main() {
   // Settings — upsert with default address, preserve existing changes
   const existingSettings = await prisma.settings.findFirst();
   if (existingSettings) {
-    await prisma.settings.update({ where: { id: existingSettings.id }, data: { telegram: "https://t.me/PromoMarket_Tashkent", email: "info@specodejda.uz" } });
+    await prisma.settings.update({ where: { id: existingSettings.id }, data: { telegram: "https://t.me/+998981210909", phone: "+998 98 121 09 09", email: "info@specodejda.uz", address: "Бунёдкор шох куча, 29 дом, Чиланзарский район, г. Ташкент, Узбекистан" } });
   } else {
     await prisma.settings.create({ data: {
-      telegram: "https://t.me/PromoMarket_Tashkent",
+      telegram: "https://t.me/+998981210909",
       email: "info@specodejda.uz",
-      phone: "+998 77 741 66 88",
-      address: "Республика Узбекистан, г. Ташкент, Яккасарайский район, ул. Нукус, дом 12",
+      phone: "+998 98 121 09 09",
+      address: "Бунёдкор шох куча, 29 дом, Чиланзарский район, г. Ташкент, Узбекистан",
       mapLat: "41.2995",
       mapLng: "69.2401",
       aboutRu: "Art Print and Textile является одним из ведущих производителей швейной продукции в Узбекистане.",

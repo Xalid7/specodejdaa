@@ -2,10 +2,10 @@
 import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { Construction, Footprints, Hand, Stethoscope, GraduationCap, Shirt, BedDouble, TowelRack, Gift, Printer, Package } from 'lucide-react'
+import { ShieldCheck, Footprints, Hand, Stethoscope, GraduationCap, Shirt, BedDouble, TowelRack, Gift, Printer, Package } from 'lucide-react'
 
 const ICON_MAP: Record<string, React.ComponentType<{ size?: number; color?: string }>> = {
-  Construction, Footprints, Hand, Stethoscope, GraduationCap, Shirt, BedDouble, TowelRack, Gift, Printer,
+  ShieldCheck, Footprints, Hand, Stethoscope, GraduationCap, Shirt, BedDouble, TowelRack, Gift, Printer,
 }
 
 function CatIcon({ name, size = 20, color }: { name?: string; size?: number; color?: string }) {
