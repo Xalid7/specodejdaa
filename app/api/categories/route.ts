@@ -19,7 +19,11 @@ export async function GET() {
       },
     },
   })
-  return NextResponse.json(cats)
+  const result = cats.map((cat: any) => {
+    const childTotal = cat.children.reduce((sum: number, c: any) => sum + (c._count?.products || 0), 0)
+    return { ...cat, _count: { products: (cat._count?.products || 0) + childTotal } }
+  })
+  return NextResponse.json(result)
 }
 
 export async function POST(req: NextRequest) {
