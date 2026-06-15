@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 const tree = [
   {
-    icon: 'HardHat', nameRu: 'Спецодежда', nameUz: 'Maxsus kiyim', slug: 'specodejda',
+    icon: 'Construction', nameRu: 'Спецодежда', nameUz: 'Maxsus kiyim', slug: 'specodejda',
     children: [
       { nameRu: 'Летняя спецодежда',                          nameUz: 'Yozgi maxsus kiyim',         slug: 'letnyaya-specodejda' },
       { nameRu: 'Зимняя спецодежда',                          nameUz: 'Qishki maxsus kiyim',         slug: 'zimnyaya-specodejda' },
@@ -39,7 +39,7 @@ const tree = [
     ],
   },
   {
-    icon: 'Crown', nameRu: 'Головные уборы', nameUz: 'Bosh kiyimlar', slug: 'golovnye-ubory',
+    icon: 'GraduationCap', nameRu: 'Головные уборы', nameUz: 'Bosh kiyimlar', slug: 'golovnye-ubory',
     children: [
       { nameRu: 'Кепка',    nameUz: 'Kepka',   slug: 'kepka' },
       { nameRu: 'Шапка',    nameUz: 'Shapka',  slug: 'shapka' },
@@ -70,11 +70,11 @@ const tree = [
     ],
   },
   {
-    icon: 'Bed', nameRu: 'Постельное белье', nameUz: "Yotoq to'shamalari", slug: 'postelnoe-belye',
+    icon: 'BedDouble', nameRu: 'Постельное белье', nameUz: "Yotoq to'shamalari", slug: 'postelnoe-belye',
     children: [],
   },
   {
-    icon: 'Bath', nameRu: 'Полотенце', nameUz: 'Sochiq', slug: 'polotence',
+    icon: 'TowelRack', nameRu: 'Полотенце', nameUz: 'Sochiq', slug: 'polotence',
     children: [
       { nameRu: 'Полотенце махровое', nameUz: 'Mahram sochiq',  slug: 'polotence-mahrovoe' },
       { nameRu: 'Полотенце вафельное',nameUz: 'Vafelli sochiq', slug: 'polotence-vafelnoe' },
