@@ -2,6 +2,17 @@
 import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { HardHat, Footprints, Hand, Stethoscope, Crown, Shirt, Bed, Bath, Gift, Printer, Package } from 'lucide-react'
+
+const ICON_MAP: Record<string, React.ComponentType<{ size?: number; color?: string }>> = {
+  HardHat, Footprints, Hand, Stethoscope, Crown, Shirt, Bed, Bath, Gift, Printer,
+}
+
+function CatIcon({ name, size = 20, color }: { name?: string; size?: number; color?: string }) {
+  const Comp = name ? ICON_MAP[name] : null
+  if (!Comp) return <Package size={size} color={color} />
+  return <Comp size={size} color={color} />
+}
 
 function useReveal() {
   useEffect(() => {
@@ -51,7 +62,6 @@ function CatalogContent() {
   }, [searchParams, activeFilter, activeCat])
 
   const filters = [
-    { key: 'all', ru: 'ВЕСЬ КАТАЛОГ', uz: 'BARCHA' },
     { key: 'new', ru: 'НОВИНКИ', uz: 'YANGILAR' },
     { key: 'collection', ru: 'ПОДБОРКИ', uz: 'TANLOVLAR' },
     { key: 'holiday', ru: 'К ПРАЗДНИКАМ', uz: 'BAYRAMGA' },
@@ -89,7 +99,8 @@ function CatalogContent() {
               <button onClick={() => { setActiveCat(null); setSidebarOpen(false) }}
                 style={{ fontSize: 13, fontWeight: 700, color: activeCat === null ? '#D32F2F' : '#555', background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: 8 }}
               >
-                <span>📦</span> {lang === 'ru' ? 'Все категории' : 'Barcha kategoriyalar'}
+                <Package size={18} color={activeCat === null ? '#D32F2F' : '#777'} />
+                {lang === 'ru' ? 'Все категории' : 'Barcha kategoriyalar'}
               </button>
             </div>
             {categories.map((cat: any) => (
@@ -98,7 +109,7 @@ function CatalogContent() {
                 onMouseEnter={e => { if (activeCat !== cat.id) e.currentTarget.style.background = '#FAFAFA' }}
                 onMouseLeave={e => { if (activeCat !== cat.id) e.currentTarget.style.background = 'transparent' }}
               >
-                <span style={{ fontSize: 20 }}>{cat.icon || '📦'}</span>
+                <CatIcon name={cat.icon} size={18} color={activeCat === cat.id ? '#D32F2F' : '#666'} />
                 <span style={{ flex: 1, fontSize: 14, fontWeight: activeCat === cat.id ? 700 : 500, color: activeCat === cat.id ? '#D32F2F' : '#333' }}>
                   {lang === 'ru' ? cat.nameRu : cat.nameUz}
                 </span>
