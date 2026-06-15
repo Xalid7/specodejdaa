@@ -396,9 +396,6 @@ export default function HomePage() {
       <section style={{ background: '#fff', padding: '72px 24px 80px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div className="reveal" style={{ textAlign: 'center', marginBottom: 48 }}>
-            <p style={{ color: '#D32F2F', fontWeight: 700, fontSize: 12, letterSpacing: 3, textTransform: 'uppercase', marginBottom: 8 }}>
-              {lang === 'ru' ? 'Наши возможности' : 'Bizning imkoniyatlar'}
-            </p>
             <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 38px)', fontWeight: 900, color: '#111', letterSpacing: -0.5 }}>
               {lang === 'ru' ? 'Производство' : 'Ishlab chiqarish'}
             </h2>
