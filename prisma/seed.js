@@ -23,8 +23,8 @@ async function main() {
       email: "info@specodejda.uz",
       phone: "+998 98 121 09 09",
       address: "Бунёдкор шох куча, 29 дом, Чиланзарский район, г. Ташкент, Узбекистан",
-      mapLat: "41.2995",
-      mapLng: "69.2401",
+      mapLat: "41.258827",
+      mapLng: "69.194217",
       aboutRu: "Art Print and Textile является одним из ведущих производителей швейной продукции в Узбекистане.",
       aboutUz: "Art Print and Textile — O'zbekistondagi etakchi tikuvchilik mahsulotlari ishlab chiqaruvchilaridan biri."
     }});
