@@ -144,6 +144,55 @@ async function main() {
     }
   }
 
+  // Mahsulotlarni to'g'ri subkategoriyalarga tayinlash
+  const productAssignments = [
+    // Tibbiy kiyim → Форма 103
+    { productSlug: 'forma-tez-tibbiy-yordam-yozgi',      catSlug: 'forma-103' },
+    { productSlug: 'forma-tez-tibbiy-yordam-qishki',     catSlug: 'forma-103' },
+    { productSlug: 'forma-tez-yordam-kok-qizil-kepkali', catSlug: 'forma-103' },
+    { productSlug: 'forma-tez-yordam-uzun-yengli',       catSlug: 'forma-103' },
+    { productSlug: 'forma-tez-tibbiy-yordam-kok',        catSlug: 'forma-103' },
+    { productSlug: 'tibbiy-koylak-tez-yordam',           catSlug: 'forma-103' },
+    // Tibbiy xalatlar
+    { productSlug: 'tibbiy-xalat-oq-yoqasiz',            catSlug: 'halat-med-zhenskiy' },
+    { productSlug: 'tibbiy-xalat-shimli-toplam',         catSlug: 'halat-med-muzhskoy' },
+    // Spetsodejda - xizmat ko'rsatuvchi
+    { productSlug: 'forma-santal-kok-polo',              catSlug: 'specodejda-obsluzhivayushchiy' },
+    { productSlug: 'forma-bellissimo-pizza',             catSlug: 'specodejda-obsluzhivayushchiy' },
+    { productSlug: 'forma-yandex-lavka',                 catSlug: 'specodejda-obsluzhivayushchiy' },
+    { productSlug: 'forma-tezkor-binafsha',              catSlug: 'specodejda-obsluzhivayushchiy' },
+    { productSlug: 'forma-blanc-bleu-tunika',            catSlug: 'specodejda-obsluzhivayushchiy' },
+    { productSlug: 'forma-pepsi-bej-polo',               catSlug: 'specodejda-obsluzhivayushchiy' },
+    { productSlug: 'polo-axmad-oltin-joya',              catSlug: 'specodejda-obsluzhivayushchiy' },
+    { productSlug: 'polo-cci-luxembourg-qora',           catSlug: 'specodejda-obsluzhivayushchiy' },
+    { productSlug: 'jilet-level-up-2',                   catSlug: 'specodejda-obsluzhivayushchiy' },
+    { productSlug: 'jilet-akfa-lighting',                catSlug: 'specodejda-obsluzhivayushchiy' },
+    { productSlug: 'kurtka-venttum-sport',               catSlug: 'specodejda-obsluzhivayushchiy' },
+    // Ishchi kiyimlar → Letnyaya
+    { productSlug: 'ishchi-kiyim-bej',                   catSlug: 'letnyaya-specodejda' },
+    { productSlug: 'ishchi-kiyim-kulrang-qora',          catSlug: 'letnyaya-specodejda' },
+    // Kepkalar → Kepka subkat
+    { productSlug: 'kepka-uzkabel',                      catSlug: 'kepka' },
+    { productSlug: 'kepka-seg-motol',                    catSlug: 'kepka' },
+    { productSlug: 'kolleksiya-brendlangan-kepkalar',    catSlug: 'kepka' },
+    { productSlug: 'kepka-lucem',                        catSlug: 'kepka' },
+    { productSlug: 'kepka-knauf-sariq',                  catSlug: 'kepka' },
+    { productSlug: 'kepka-hayat',                        catSlug: 'kepka' },
+    // Futbolka
+    { productSlug: 'futbolka-oscar-brendlangan',         catSlug: 'futbolka' },
+  ]
+
+  const catBySlug = {}
+  const allCats = await prisma.category.findMany({ select: { id: true, slug: true } })
+  allCats.forEach(c => { catBySlug[c.slug] = c.id })
+
+  for (const { productSlug, catSlug } of productAssignments) {
+    const catId = catBySlug[catSlug]
+    if (!catId) continue
+    await prisma.product.updateMany({ where: { slug: productSlug }, data: { categoryId: catId } })
+  }
+  console.log('  ✓ Mahsulotlar subkategoriyalarga tayinlandi')
+
   console.log('\n✅ Kategoriyalar muvaffaqiyatli yangilandi!')
 }
 
