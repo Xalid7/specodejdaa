@@ -50,7 +50,6 @@ function AnimatedWave({ from, to, flip = false }: { from: string; to: string; fl
 export default function HomePage() {
   const [banners, setBanners] = useState<any[]>([])
   const [products, setProducts] = useState<any[]>([])
-  const [navServices, setNavServices] = useState<any[]>([])
   const [current, setCurrent] = useState(0)
   const [lang, setLang] = useState<'ru' | 'uz'>('ru')
   const intervalRef = useRef<any>(null)
@@ -72,7 +71,6 @@ export default function HomePage() {
       }
       setProducts(sample)
     }).catch(() => {})
-    fetch('/api/nav-services').then(r => r.json()).then(setNavServices).catch(() => {})
     return () => window.removeEventListener('langchange', onLangChange)
   }, [])
 
@@ -84,15 +82,6 @@ export default function HomePage() {
     intervalRef.current = setInterval(goNext, 5000)
     return () => clearInterval(intervalRef.current)
   }, [banners.length, goNext])
-
-  const services = [
-    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>, ru: 'Шелкография', uz: 'Shikografiya' },
-    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>, ru: 'Вышивка', uz: 'Kashta' },
-    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>, ru: 'УФ-печать', uz: 'UV-bosma' },
-    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>, ru: 'Сублимация', uz: 'Sublimatsiya' },
-    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>, ru: 'Лазер', uz: 'Lazer' },
-    { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, ru: 'Тиснение', uz: 'Bosma' },
-  ]
 
   return (
     <div>
@@ -183,63 +172,6 @@ export default function HomePage() {
       </section>
 
       {banners.length === 0 && <AnimatedWave from="#7B0000" to="#fff" />}
-
-      {/* ══════════ SERVICES ══════════ */}
-      <section style={{ background: '#FAFAFA', padding: '64px 0' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
-          <div className="reveal" style={{ textAlign: 'center', marginBottom: 44 }}>
-            <h2 style={{ fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 900, color: '#111', letterSpacing: -0.5 }}>
-              {lang === 'ru' ? 'Наши услуги' : 'Xizmatlarimiz'}
-            </h2>
-          </div>
-          <div className="services-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
-            {(navServices.length > 0 ? navServices : services).map((s: any, i: number) => (
-              <Link key={s.id || i} href={s.slug ? `/xizmatlar/${s.slug}` : '/services'} className="reveal"
-                style={{ textDecoration: 'none', transitionDelay: `${i * 0.05}s` }}
-              >
-                <div style={{ background: '#fff', border: '1.5px solid #EEEEEE', borderRadius: 18, overflow: 'hidden', transition: 'all .28s cubic-bezier(0.34,1.56,0.64,1)', cursor: 'pointer', height: '100%' }}
-                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = '0 20px 48px rgba(211,47,47,0.13)'; e.currentTarget.style.borderColor = '#D32F2F' }}
-                  onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = ''; e.currentTarget.style.borderColor = '#EEEEEE' }}
-                >
-                  {/* Image */}
-                  <div style={{ aspectRatio: '16/10', overflow: 'hidden', position: 'relative' }}>
-                    {s.imageUrl ? (
-                      <img src={s.imageUrl} alt={lang === 'ru' ? s.nameRu : s.nameUz}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform .5s cubic-bezier(0.34,1.2,0.64,1)', display: 'block' }}
-                        onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.08)')}
-                        onMouseLeave={e => (e.currentTarget.style.transform = '')}
-                      />
-                    ) : (
-                      <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg,#FFF0F0,#FFE0E0)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D32F2F' }}>
-                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-                      </div>
-                    )}
-                  </div>
-                  {/* Name */}
-                  <div style={{ padding: '14px 16px 16px' }}>
-                    <p style={{ fontSize: 14, fontWeight: 700, color: '#111', lineHeight: 1.35 }}>
-                      {lang === 'ru' ? (s.nameRu || s.ru) : (s.nameUz || s.uz || s.nameRu || s.ru)}
-                    </p>
-                    <p style={{ fontSize: 12, color: '#D32F2F', marginTop: 4, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 3 }}>
-                      {lang === 'ru' ? 'Подробнее' : 'Batafsil'}
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-          <div className="reveal" style={{ textAlign: 'center', marginTop: 32 }}>
-            <Link href="/services" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#D32F2F', fontWeight: 700, fontSize: 14, textDecoration: 'none', border: '1.5px solid #D32F2F', padding: '10px 24px', borderRadius: 99, transition: 'all .2s' }}
-              onMouseEnter={e => { e.currentTarget.style.background = '#D32F2F'; e.currentTarget.style.color = '#fff' }}
-              onMouseLeave={e => { e.currentTarget.style.background = ''; e.currentTarget.style.color = '#D32F2F' }}
-            >
-              {lang === 'ru' ? 'Все услуги' : "Barcha xizmatlar"}
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* ══════════ PRODUCTS ══════════ */}
       {products.length > 0 && (
@@ -465,12 +397,6 @@ export default function HomePage() {
         @keyframes pulseRed {
           0%,100% { box-shadow: 0 0 0 0 rgba(211,47,47,0.4); }
           60% { box-shadow: 0 0 0 8px rgba(211,47,47,0); }
-        }
-        @media (max-width: 900px) {
-          .services-grid { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-        @media (max-width: 480px) {
-          .services-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
       `}</style>
     </div>
