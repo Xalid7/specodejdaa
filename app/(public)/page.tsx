@@ -29,22 +29,6 @@ function useReveal() {
   })
 }
 
-function useCountUp(target: number, active: boolean, duration = 1600) {
-  const [val, setVal] = useState(0)
-  useEffect(() => {
-    if (!active) return
-    let start = 0
-    const step = target / (duration / 16)
-    const timer = setInterval(() => {
-      start += step
-      if (start >= target) { setVal(target); clearInterval(timer) }
-      else setVal(Math.floor(start))
-    }, 16)
-    return () => clearInterval(timer)
-  }, [active, target, duration])
-  return val
-}
-
 function AnimatedWave({ from, to, flip = false }: { from: string; to: string; flip?: boolean }) {
   const path = flip
     ? 'M0,26 C240,0 480,52 720,26 C960,0 1200,52 1440,26 L1440,52 L0,52 Z'
@@ -63,26 +47,12 @@ function AnimatedWave({ from, to, flip = false }: { from: string; to: string; fl
   )
 }
 
-function StatCard({ value, suffix, label, active }: { value: number; suffix: string; label: string; active: boolean }) {
-  const count = useCountUp(value, active)
-  return (
-    <div style={{ textAlign: 'center', padding: '0 16px' }}>
-      <div style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 900, color: '#D32F2F', lineHeight: 1, marginBottom: 6 }}>
-        {count}{suffix}
-      </div>
-      <div style={{ fontSize: 13, color: '#666', fontWeight: 500 }}>{label}</div>
-    </div>
-  )
-}
-
 export default function HomePage() {
   const [banners, setBanners] = useState<any[]>([])
   const [products, setProducts] = useState<any[]>([])
   const [navServices, setNavServices] = useState<any[]>([])
   const [current, setCurrent] = useState(0)
   const [lang, setLang] = useState<'ru' | 'uz'>('ru')
-  const [statsActive, setStatsActive] = useState(false)
-  const statsRef = useRef<HTMLDivElement>(null)
   const intervalRef = useRef<any>(null)
 
   useReveal()
@@ -104,13 +74,6 @@ export default function HomePage() {
     }).catch(() => {})
     fetch('/api/nav-services').then(r => r.json()).then(setNavServices).catch(() => {})
     return () => window.removeEventListener('langchange', onLangChange)
-  }, [])
-
-  useEffect(() => {
-    if (!statsRef.current) return
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setStatsActive(true); io.disconnect() } }, { threshold: 0.3 })
-    io.observe(statsRef.current)
-    return () => io.disconnect()
   }, [])
 
   const goNext = useCallback(() => setCurrent(c => (c + 1) % Math.max(banners.length, 1)), [banners.length])
@@ -220,21 +183,6 @@ export default function HomePage() {
       </section>
 
       {banners.length === 0 && <AnimatedWave from="#7B0000" to="#fff" />}
-
-      {/* ══════════ STATS ══════════ */}
-      <section ref={statsRef} style={{ background: '#fff', borderBottom: '1px solid #F0F0F0' }}>
-        <div className="stats-grid" style={{ maxWidth: 1280, margin: '0 auto', padding: '32px 24px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, alignItems: 'center' }}>
-          <StatCard value={10} suffix="+" label={lang === 'ru' ? 'Лет на рынке' : 'Yil bozorda'} active={statsActive} />
-          <StatCard value={500} suffix="+" label={lang === 'ru' ? 'Клиентов' : 'Mijozlar'} active={statsActive} />
-          <StatCard value={50} suffix="+" label={lang === 'ru' ? 'Видов продукции' : 'Mahsulot turi'} active={statsActive} />
-          <StatCard value={8} suffix="" label={lang === 'ru' ? 'Видов печати' : 'Bosma turlari'} active={statsActive} />
-        </div>
-        <style>{`
-          @media (max-width: 600px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 0 !important; }
-          }
-        `}</style>
-      </section>
 
       {/* ══════════ SERVICES ══════════ */}
       <section style={{ background: '#FAFAFA', padding: '64px 0' }}>
