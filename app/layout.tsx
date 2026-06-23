@@ -42,41 +42,10 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ClothingStore",
-  name: "ART PRINT — Спецодежда и Униформа",
-  image: "https://www.specodejda.uz/logo.png",
-  "@id": "https://www.specodejda.uz",
-  url: "https://www.specodejda.uz",
-  telephone: "+998981210909",
-  email: "info@specodejda.uz",
-  priceRange: "$$",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Бунёдкор шох куча, 29",
-    addressLocality: "Ташкент",
-    addressRegion: "Чиланзарский район",
-    addressCountry: "UZ",
-  },
-  areaServed: "Узбекистан",
-  description:
-    "Производство спецодежды, рабочей и медицинской одежды, униформы, промотекстиля и брендированной продукции на заказ в Ташкенте.",
-  sameAs: ["https://t.me/+998981210909"],
-  makesOffer: [
-    "Рабочая одежда", "Униформа", "Спецодежда", "Медицинская одежда", "Поварская одежда",
-    "Одежда для охранника", "Промо текстиль", "Постельное белье", "Эко сумки", "Костюм сварщика",
-  ].map((name) => ({ "@type": "Offer", itemOffered: { "@type": "Product", name } })),
-};
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru">
       <body className="min-h-screen flex flex-col">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
         {children}
         <Toaster position="top-right" />
       </body>

@@ -9,19 +9,29 @@ export const metadata: Metadata = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "ART PRINT",
-  "description": "Производство спецодежды, медицинской одежды, промотекстиля и брендированной продукции в Ташкенте",
+  "@type": "ClothingStore",
+  "@id": "https://www.specodejda.uz",
+  "name": "ART PRINT — Спецодежда и Униформа",
+  "description": "Производство спецодежды, рабочей и медицинской одежды, униформы, промотекстиля и брендированной продукции на заказ в Ташкенте.",
   "url": "https://www.specodejda.uz",
-  "telephone": "+998777416688",
+  "image": "https://www.specodejda.uz/logo.png",
+  "telephone": "+998981210909",
+  "email": "info@specodejda.uz",
   "address": {
     "@type": "PostalAddress",
+    "streetAddress": "Бунёдкор шох куча, 29",
     "addressLocality": "Ташкент",
+    "addressRegion": "Чиланзарский район",
     "addressCountry": "UZ"
   },
+  "areaServed": "Узбекистан",
   "openingHours": "Mo-Sa 09:00-18:00",
   "priceRange": "$$",
-  "sameAs": ["https://t.me/artprint_tashkent"]
+  "sameAs": ["https://t.me/+998981210909"],
+  "makesOffer": [
+    "Рабочая одежда", "Униформа", "Спецодежда", "Медицинская одежда", "Поварская одежда",
+    "Одежда для охранника", "Промо текстиль", "Постельное белье", "Эко сумки", "Костюм сварщика"
+  ].map((name) => ({ "@type": "Offer", itemOffered: { "@type": "Product", name } }))
 }
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
