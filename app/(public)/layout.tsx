@@ -28,10 +28,10 @@ const jsonLd = {
   "openingHours": "Mo-Sa 09:00-18:00",
   "priceRange": "$$",
   "sameAs": ["https://t.me/+998981210909"],
-  "makesOffer": [
+  "knowsAbout": [
     "Рабочая одежда", "Униформа", "Спецодежда", "Медицинская одежда", "Поварская одежда",
-    "Одежда для охранника", "Промо текстиль", "Постельное белье", "Эко сумки", "Костюм сварщика"
-  ].map((name) => ({ "@type": "Offer", itemOffered: { "@type": "Product", name } }))
+    "Одежда для охранника", "Промотекстиль", "Постельное белье", "Эко сумки", "Костюм сварщика"
+  ]
 }
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
