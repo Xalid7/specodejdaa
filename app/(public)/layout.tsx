@@ -4,7 +4,7 @@ import Footer from '@/components/layout/Footer'
 import TelegramFloat from '@/components/ui/TelegramFloat'
 
 export const metadata: Metadata = {
-  alternates: { canonical: "https://specodejda.uz" },
+  alternates: { canonical: "https://www.specodejda.uz" },
 }
 
 const jsonLd = {
@@ -12,7 +12,7 @@ const jsonLd = {
   "@type": "LocalBusiness",
   "name": "ART PRINT",
   "description": "Производство спецодежды, медицинской одежды, промотекстиля и брендированной продукции в Ташкенте",
-  "url": "https://specodejda.uz",
+  "url": "https://www.specodejda.uz",
   "telephone": "+998777416688",
   "address": {
     "@type": "PostalAddress",

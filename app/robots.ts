@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/dashboard/', '/api/', '/login'],
     },
-    sitemap: 'https://specodejda.uz/sitemap.xml',
+    sitemap: 'https://www.specodejda.uz/sitemap.xml',
   }
 }

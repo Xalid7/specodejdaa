@@ -4,10 +4,14 @@ import { prisma } from '@/lib/prisma'
 export const dynamic = 'force-dynamic'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = 'https://specodejda.uz'
+  const base = 'https://www.specodejda.uz'
 
-  const products = await prisma.product.findMany({ select: { slug: true, updatedAt: true } }).catch(() => [])
-  const services = await prisma.service.findMany({ select: { slug: true, updatedAt: true } }).catch(() => [])
+  const products = await prisma.product
+    .findMany({ select: { slug: true, createdAt: true } })
+    .catch(() => [] as { slug: string; createdAt: Date }[])
+  const services = await prisma.navService
+    .findMany({ select: { slug: true } })
+    .catch(() => [] as { slug: string }[])
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: base, lastModified: new Date(), changeFrequency: 'weekly', priority: 1 },
@@ -19,14 +23,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const productPages: MetadataRoute.Sitemap = products.map(p => ({
     url: `${base}/catalog/${p.slug}`,
-    lastModified: p.updatedAt,
+    lastModified: p.createdAt,
     changeFrequency: 'weekly',
     priority: 0.7,
   }))
 
   const servicePages: MetadataRoute.Sitemap = services.map(s => ({
     url: `${base}/xizmatlar/${s.slug}`,
-    lastModified: s.updatedAt,
+    lastModified: new Date(),
     changeFrequency: 'monthly',
     priority: 0.6,
   }))

@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: product.descRu || undefined,
       images: images[0] ? [{ url: images[0] }] : [],
     },
-    alternates: { canonical: `https://specodejda.uz/catalog/${slug}` },
+    alternates: { canonical: `https://www.specodejda.uz/catalog/${slug}` },
   }
 }
 
