@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { generateDescription } from '@/lib/autodesc'
 
 function slugify(str: string) {
   return str.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '').slice(0, 60) + '-' + Date.now()
@@ -41,12 +42,25 @@ export async function POST(req: NextRequest) {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await req.json()
+
+  // Tavsif bo'sh bo'lsa — avtomatik unikal tavsif yaratamiz (RU + UZ)
+  let descRu = body.descRu?.trim() || null
+  let descUz = body.descUz?.trim() || null
+  if (!descRu || !descUz) {
+    const cat = body.categoryId
+      ? await prisma.category.findUnique({ where: { id: body.categoryId }, select: { nameRu: true } })
+      : null
+    const auto = generateDescription(body.nameRu || body.nameUz || '', body.nameUz, cat?.nameRu)
+    descRu = descRu || auto.descRu
+    descUz = descUz || auto.descUz
+  }
+
   const product = await prisma.product.create({
     data: {
       nameRu: body.nameRu,
       nameUz: body.nameUz,
-      descRu: body.descRu || null,
-      descUz: body.descUz || null,
+      descRu,
+      descUz,
       images: JSON.stringify(body.images || []),
       isNew: body.isNew || false,
       isCollection: body.isCollection || false,

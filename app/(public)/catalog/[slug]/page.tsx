@@ -14,9 +14,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const images = (() => { try { return JSON.parse(product.images) } catch { return [] } })()
   return {
     title: product.nameRu,
-    description: `${product.nameRu} — ${product.category?.nameRu || 'спецодежда'}. Заказать в Ташкенте у производителя ART PRINT. ${product.descriptionRu?.slice(0, 100) || ''}`,
+    description: product.descRu
+      ? `${product.descRu.slice(0, 155)}`
+      : `${product.nameRu} — ${product.category?.nameRu || 'спецодежда'}. Заказать в Ташкенте у производителя ART PRINT.`,
+    keywords: [product.nameRu, product.category?.nameRu, 'Ташкент', 'на заказ', 'ART PRINT'].filter(Boolean) as string[],
     openGraph: {
       title: product.nameRu,
+      description: product.descRu || undefined,
       images: images[0] ? [{ url: images[0] }] : [],
     },
     alternates: { canonical: `https://specodejda.uz/catalog/${slug}` },

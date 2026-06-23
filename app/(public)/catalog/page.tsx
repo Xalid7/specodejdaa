@@ -75,6 +75,16 @@ function CatalogContent() {
   return (
     <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 16px' }}>
 
+      {/* SEO heading */}
+      <h1 style={{ fontSize: 24, fontWeight: 800, color: '#111', marginBottom: 6 }}>
+        {lang === 'ru' ? 'Каталог спецодежды и униформы в Ташкенте' : "Toshkentda maxsus kiyim va uniforma katalogi"}
+      </h1>
+      <p style={{ fontSize: 14, color: '#666', marginBottom: 20, maxWidth: 760, lineHeight: 1.6 }}>
+        {lang === 'ru'
+          ? 'Рабочая одежда, медицинская и поварская форма, одежда для охранников, промотекстиль, постельное бельё, эко-сумки и аксессуары — пошив на заказ с нанесением логотипа.'
+          : "Ishchi kiyimlar, tibbiy va oshpaz formasi, soqchilar kiyimi, promo tekstil, ko'rpa-to'shak, eko-sumkalar va aksessuarlar — logotip bilan buyurtmaga tikamiz."}
+      </p>
+
       {/* Filter tabs */}
       <div style={{ background: '#D32F2F', borderRadius: 99, marginBottom: 24, overflowX: 'auto', scrollbarWidth: 'none', display: 'inline-flex', maxWidth: '100%' }}>
         <div style={{ display: 'flex', alignItems: 'center', padding: 5, gap: 4, minWidth: 'max-content' }}>
@@ -210,6 +220,44 @@ function CatalogContent() {
           )}
         </div>
       </div>
+
+      {/* SEO text block */}
+      <section style={{ marginTop: 48, paddingTop: 28, borderTop: '1px solid #EEE', color: '#666', fontSize: 13.5, lineHeight: 1.8 }}>
+        {lang === 'ru' ? (
+          <>
+            <h2 style={{ fontSize: 17, fontWeight: 700, color: '#333', marginBottom: 10 }}>Пошив спецодежды и униформы на заказ в Ташкенте</h2>
+            <p style={{ marginBottom: 10 }}>
+              ART PRINT — производство спецодежды и униформы в Узбекистане. Шьём на заказ <b>рабочую одежду</b>, летнюю и зимнюю,
+              <b> комбинезоны</b> и полукомбинезоны, <b>костюмы сварщика</b>, одежду и костюмы для охранников, сигнальные жилетки.
+            </p>
+            <p style={{ marginBottom: 10 }}>
+              <b>Медицинская одежда</b> и хирургическая форма, <b>поварская одежда</b>, фартуки, колпаки и одежда для горничных.
+              Корпоративный текстиль: <b>футболки</b>, поло, рубашки, толстовки, свитшоты, кепки, бейсболки, панамы и шапки с логотипом.
+            </p>
+            <p>
+              А также <b>промотекстиль</b> и текстиль для дома: постельное бельё, подушки и наволочки, пледы, скатерти, салфетки,
+              махровые и вафельные полотенца, эко-сумки и бязевые сумки, перчатки, рукавицы, дождевики, зонты, платки и маски.
+              Любой тираж, нанесение логотипа, доставка по Ташкенту и Узбекистану.
+            </p>
+          </>
+        ) : (
+          <>
+            <h2 style={{ fontSize: 17, fontWeight: 700, color: '#333', marginBottom: 10 }}>Toshkentda maxsus kiyim va uniforma buyurtmaga tikish</h2>
+            <p style={{ marginBottom: 10 }}>
+              ART PRINT — O'zbekistonda maxsus kiyim va uniforma ishlab chiqarish. Buyurtmaga <b>ishchi kiyimlar</b> (yozgi va qishki),
+              kombinezonlar, <b>payvandchi kostyumlari</b>, soqchilar uchun kiyim va signal jiletkalar tikamiz.
+            </p>
+            <p style={{ marginBottom: 10 }}>
+              <b>Tibbiy kiyim</b> va jarrohlik formasi, <b>oshpaz kiyimi</b>, fartuklar va kolpaklar. Korporativ tekstil:
+              futbolkalar, polo, ko'ylaklar, tolstovkalar, svitshotlar, keplar va panamalar — logotip bilan.
+            </p>
+            <p>
+              Shuningdek promo tekstil va uy tekstili: ko'rpa-to'shak, yostiq va yostiq jildlari, pledlar, dasturxonlar, sochiqlar,
+              eko-sumkalar, qo'lqoplar, yomg'irpo'shlar, soyabonlar va niqoblar. Har qanday tiraj, logotip bosish, Toshkent bo'ylab yetkazib berish.
+            </p>
+          </>
+        )}
+      </section>
 
       <style>{`
         @media (max-width: 768px) {
