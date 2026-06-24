@@ -10,9 +10,11 @@ const CAT_ICONS: Record<string, React.ComponentType<{ size?: number; color?: str
 function CatIcon({ name, color }: { name?: string; color?: string }) {
   if (name === 'Coat') {
     return (
-      <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke={color || 'currentColor'} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M8 3l4 3.2L16 3l3.2 2.4-2 3v11.1a1 1 0 01-1 1H7.8a1 1 0 01-1-1V8.4l-2-3L8 3z" />
-        <line x1="12" y1="6.2" x2="12" y2="20.5" />
+      <svg width={20} height={20} viewBox="0 0 64 64" fill="none" stroke={color || 'currentColor'} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M26 9L32 14L38 9L48 13L43 24L43 53a2 2 0 01-2 2H23a2 2 0 01-2-2L21 24L16 13Z" />
+        <path d="M32 14L32 55" />
+        <path d="M26 9L29 19L32 14" />
+        <path d="M38 9L35 19L32 14" />
       </svg>
     )
   }
