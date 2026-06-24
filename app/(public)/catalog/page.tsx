@@ -50,7 +50,13 @@ function CatalogContent() {
     if (saved) setLang(saved)
     const onLangChange = () => { const l = localStorage.getItem('lang') as 'ru'|'uz'|null; if (l) setLang(l) }
     window.addEventListener('langchange', onLangChange)
-    fetch('/api/categories').then(r => r.json()).then(setCategories).catch(() => {})
+    fetch('/api/categories').then(r => r.json()).then((cats) => {
+      setCategories(cats)
+      // Katalog ochilganda (kategoriya/qidiruv tanlanmagan bo'lsa) birinchi kategoriya chiqsin
+      if (Array.isArray(cats) && cats.length && !searchParams.get('categoryId') && !searchParams.get('search') && !activeCat) {
+        setActiveCat(cats[0].id)
+      }
+    }).catch(() => {})
     return () => window.removeEventListener('langchange', onLangChange)
   }, [])
 
