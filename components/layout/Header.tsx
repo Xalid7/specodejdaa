@@ -2,6 +2,15 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
+import { ShieldCheck, Footprints, Hand, Stethoscope, GraduationCap, Shirt, BedDouble, TowelRack, Gift, Printer, Package, Briefcase, Tag, Layers, Scissors, ShoppingBag } from 'lucide-react'
+
+const CAT_ICONS: Record<string, React.ComponentType<{ size?: number; color?: string }>> = {
+  ShieldCheck, Footprints, Hand, Stethoscope, GraduationCap, Shirt, BedDouble, TowelRack, Gift, Printer, Briefcase, Tag, Layers, Scissors, ShoppingBag,
+}
+function CatIcon({ name, color }: { name?: string; color?: string }) {
+  const C = name ? CAT_ICONS[name] : null
+  return C ? <C size={20} color={color} /> : <Package size={20} color={color} />
+}
 
 export default function Header() {
   const [lang, setLang] = useState<'ru' | 'uz'>('ru')
@@ -176,6 +185,21 @@ export default function Header() {
             </div>
             <div style={{ padding: '12px 16px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {/* Katalog kategoriyalari (URSUS uslubida) */}
+                <div style={{ padding: '4px 8px 8px', fontSize: 13, color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>
+                  {lang === 'ru' ? 'Каталог' : 'Katalog'}
+                </div>
+                {categories.filter((c: any) => !c.parentId).map((cat: any) => (
+                  <Link key={cat.id} href={`/catalog?categoryId=${cat.id}`} onClick={() => setMobileOpen(false)}
+                    style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 8px', fontSize: 15.5, color: '#333', fontWeight: 600, borderBottom: '1px solid #F5F5F5', textDecoration: 'none' }}
+                  >
+                    <CatIcon name={cat.icon} color="#D32F2F" />
+                    <span>{lang === 'ru' ? cat.nameRu : cat.nameUz}</span>
+                  </Link>
+                ))}
+                <div style={{ padding: '16px 8px 8px', fontSize: 13, color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>
+                  {lang === 'ru' ? 'Информация' : 'Maʼlumot'}
+                </div>
                 <Link href="/about" onClick={() => setMobileOpen(false)}
                   style={{ padding: '16px 8px', fontSize: 16, color: '#333', fontWeight: 600, borderBottom: '1px solid #F5F5F5', textDecoration: 'none' }}
                 >
