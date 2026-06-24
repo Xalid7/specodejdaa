@@ -50,13 +50,7 @@ function CatalogContent() {
     if (saved) setLang(saved)
     const onLangChange = () => { const l = localStorage.getItem('lang') as 'ru'|'uz'|null; if (l) setLang(l) }
     window.addEventListener('langchange', onLangChange)
-    fetch('/api/categories').then(r => r.json()).then((cats) => {
-      setCategories(cats)
-      // Katalog ochilganda (kategoriya/qidiruv tanlanmagan bo'lsa) birinchi kategoriya chiqsin
-      if (Array.isArray(cats) && cats.length && !searchParams.get('categoryId') && !searchParams.get('search') && !activeCat) {
-        setActiveCat(cats[0].id)
-      }
-    }).catch(() => {})
+    fetch('/api/categories').then(r => r.json()).then(setCategories).catch(() => {})
     return () => window.removeEventListener('langchange', onLangChange)
   }, [])
 
@@ -158,7 +152,24 @@ function CatalogContent() {
 
         {/* Products */}
         <div style={{ flex: 1, minWidth: 0 }}>
-          {loading ? (
+          {(!activeCat && !searchParams.get('categoryId') && !searchParams.get('search')) ? (
+            /* Katalog ochilganda — kategoriyalar ro'yxati (mahsulotsiz) */
+            <div className="products-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
+              {categories.filter((c: any) => !c.parentId).map((cat: any) => (
+                <button key={cat.id} onClick={() => { setActiveCat(cat.id); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+                  style={{ cursor: 'pointer', background: '#fff', border: '1.5px solid #F0F0F0', borderRadius: 14, padding: '24px 14px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, textAlign: 'center', transition: 'all .2s' }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = '#D32F2F'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = '#F0F0F0'; e.currentTarget.style.transform = 'translateY(0)' }}
+                >
+                  <div style={{ width: 56, height: 56, borderRadius: '50%', background: '#FFF5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <CatIcon name={cat.icon} size={26} color="#D32F2F" />
+                  </div>
+                  <span style={{ fontSize: 14, fontWeight: 600, color: '#111' }}>{lang === 'ru' ? cat.nameRu : cat.nameUz}</span>
+                  <span style={{ fontSize: 11, color: '#999' }}>{cat._count?.products ?? 0} {lang === 'ru' ? 'тов.' : 'ta'}</span>
+                </button>
+              ))}
+            </div>
+          ) : loading ? (
             <div className="products-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
               {[...Array(6)].map((_, i) => (
                 <div key={i} style={{ border: '1.5px solid #F0F0F0', borderRadius: 14, overflow: 'hidden' }}>
