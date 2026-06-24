@@ -135,7 +135,7 @@ export default function Footer() {
       </div>
 
       <div style={{ borderTop: '1px solid #2A2A2A', padding: '16px', textAlign: 'center' }}>
-        <p style={{ fontSize: 13, color: '#555' }}>© {new Date().getFullYear()} ART PRINT & TEXTILE. {t.rights[lang]}</p>
+        <p style={{ fontSize: 13, color: '#555' }}>© {new Date().getFullYear()} ООО «ART PRINT AND TEXTILE». {t.rights[lang]}</p>
       </div>
     </footer>
   )
