@@ -114,8 +114,6 @@ const products = [
     img: 'rubashka-belaya-dlin.png' },
   { nameRu: 'Халат медицинский белый', nameUz: 'Oq tibbiy xalat', slug: 'halat-med-belyy-pr', catSlug: 'halat-med-muzhskoy', isNew: true,
     img: 'halat-med-belyy-pr.png' },
-  { nameRu: 'Медицинская туника бирюзовая (2)', nameUz: 'Feruza tibbiy tunika (2)', slug: 'med-tunika-biryuz-2', catSlug: 'hirurgicheskaya-forma', isNew: true,
-    img: 'med-tunika-biryuz-2.png' },
   { nameRu: 'Поло белое', nameUz: 'Oq polo', slug: 'polo-beloe-pr3', catSlug: 'specodejda-obsluzhivayushchiy', isNew: true,
     img: 'polo-beloe-pr3.png' },
   { nameRu: 'Китель белый (2)', nameUz: 'Oq kitel (2)', slug: 'kitel-belyy-pr2', catSlug: 'odezhda-povary-oficianty', isNew: true,
