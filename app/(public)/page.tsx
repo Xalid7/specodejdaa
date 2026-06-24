@@ -193,7 +193,7 @@ export default function HomePage() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
             </Link>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))', gap: 20 }}>
+          <div className="home-products-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))', gap: 20 }}>
             {products.map((p: any, idx: number) => {
               const imgs = (() => { try { return JSON.parse(p.images) } catch { return [] } })()
               return (
@@ -376,6 +376,9 @@ export default function HomePage() {
       </section>
 
       <style>{`
+        @media (max-width: 768px) {
+          .home-products-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+        }
         @keyframes gradientShift {
           0%   { background-position: 0% 50%; }
           50%  { background-position: 100% 50%; }
