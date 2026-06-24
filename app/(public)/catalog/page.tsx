@@ -153,19 +153,19 @@ function CatalogContent() {
         {/* Products */}
         <div style={{ flex: 1, minWidth: 0 }}>
           {(!activeCat && !searchParams.get('categoryId') && !searchParams.get('search')) ? (
-            /* Katalog ochilganda — kategoriyalar ro'yxati (mahsulotsiz) */
-            <div className="products-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
+            /* Katalog ochilganda — kategoriyalar vertikal ro'yxati (URSUS uslubi) */
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
               {categories.filter((c: any) => !c.parentId).map((cat: any) => (
                 <button key={cat.id} onClick={() => { setActiveCat(cat.id); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-                  style={{ cursor: 'pointer', background: '#fff', border: '1.5px solid #F0F0F0', borderRadius: 14, padding: '24px 14px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, textAlign: 'center', transition: 'all .2s' }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = '#D32F2F'; e.currentTarget.style.transform = 'translateY(-2px)' }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = '#F0F0F0'; e.currentTarget.style.transform = 'translateY(0)' }}
+                  style={{ cursor: 'pointer', background: '#fff', border: 'none', borderBottom: '1px solid #F0F0F0', padding: '18px 8px', display: 'flex', alignItems: 'center', gap: 18, textAlign: 'left', width: '100%', transition: 'background .15s' }}
+                  onMouseEnter={e => (e.currentTarget.style.background = '#FFF7F7')}
+                  onMouseLeave={e => (e.currentTarget.style.background = '#fff')}
                 >
-                  <div style={{ width: 56, height: 56, borderRadius: '50%', background: '#FFF5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <CatIcon name={cat.icon} size={26} color="#D32F2F" />
-                  </div>
-                  <span style={{ fontSize: 14, fontWeight: 600, color: '#111' }}>{lang === 'ru' ? cat.nameRu : cat.nameUz}</span>
-                  <span style={{ fontSize: 11, color: '#999' }}>{cat._count?.products ?? 0} {lang === 'ru' ? 'тов.' : 'ta'}</span>
+                  <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', width: 32 }}>
+                    <CatIcon name={cat.icon} size={28} color="#D32F2F" />
+                  </span>
+                  <span style={{ flex: 1, fontSize: 17, fontWeight: 700, color: '#111' }}>{lang === 'ru' ? cat.nameRu : cat.nameUz}</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
                 </button>
               ))}
             </div>
