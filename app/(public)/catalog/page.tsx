@@ -86,13 +86,6 @@ function CatalogContent() {
       </p>
 
 
-      {/* Mobile category toggle */}
-      <button onClick={() => setSidebarOpen(!sidebarOpen)}
-        style={{ display: 'none', marginBottom: 12, padding: '10px 16px', background: '#fff', border: '1.5px solid #E0E0E0', borderRadius: 8, cursor: 'pointer', fontSize: 14, fontWeight: 600, width: '100%', textAlign: 'left' }}
-        className="sidebar-toggle"
-      >
-        📋 {lang === 'ru' ? 'Категории' : 'Kategoriyalar'} {sidebarOpen ? '▲' : '▼'}
-      </button>
 
       <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
         {/* Sidebar */}
