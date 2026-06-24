@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { ShieldCheck, Footprints, Hand, Stethoscope, GraduationCap, Shirt, BedDouble, TowelRack, Gift, Printer, Package } from 'lucide-react'
 
 const ICON_MAP: Record<string, React.ComponentType<{ size?: number; color?: string }>> = {
@@ -30,6 +30,7 @@ function useReveal() {
 
 function CatalogContent() {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const [products, setProducts] = useState<any[]>([])
   const [categories, setCategories] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -88,63 +89,17 @@ function CatalogContent() {
 
 
       <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
-        {/* Sidebar */}
-        <aside style={{ width: 220, flexShrink: 0 }} className={`catalog-sidebar ${sidebarOpen ? 'open' : ''}`}>
-          <div style={{ background: '#fff', border: '1.5px solid #F0F0F0', borderRadius: 14, overflow: 'hidden' }}>
-            {categories.map((cat: any) => {
-              const isActive = activeCat === cat.id
-              const isExpanded = expandedCat === cat.id
-              const hasSubs = cat.children?.length > 0
-              return (
-                <div key={cat.id} style={{ borderBottom: '1px solid #F5F5F5' }}>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <button
-                      onClick={() => { setActiveCat(isActive ? null : cat.id); setSidebarOpen(false); if (hasSubs && !isExpanded) toggleExpand(cat.id); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-                      style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', background: isActive ? '#FFF5F5' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'background .15s' }}
-                      onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = '#FAFAFA' }}
-                      onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = 'transparent' }}
-                    >
-                      <CatIcon name={cat.icon} size={18} color={isActive ? '#D32F2F' : '#666'} />
-                      <span style={{ flex: 1, fontSize: 14, fontWeight: isActive ? 700 : 500, color: isActive ? '#D32F2F' : '#333' }}>
-                        {lang === 'ru' ? cat.nameRu : cat.nameUz}
-                      </span>
-                      <span style={{ fontSize: 11, background: '#F0F0F0', color: '#999', padding: '2px 7px', borderRadius: 99 }}>{cat._count?.products || 0}</span>
-                    </button>
-                    {hasSubs && (
-                      <button onClick={() => toggleExpand(cat.id)}
-                        style={{ padding: '12px 12px', background: 'transparent', border: 'none', cursor: 'pointer', color: '#999', fontSize: 10, transition: 'transform .2s', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                      >▼</button>
-                    )}
-                  </div>
-                  {hasSubs && isExpanded && (
-                    <div style={{ background: '#FAFAFA' }}>
-                      {cat.children.map((sub: any) => {
-                        const isSubActive = activeCat === sub.id
-                        return (
-                          <button key={sub.id}
-                            onClick={() => { setActiveCat(isSubActive ? null : sub.id); setSidebarOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-                            style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px 9px 42px', background: isSubActive ? '#FFF5F5' : 'transparent', border: 'none', borderTop: '1px solid #F0F0F0', cursor: 'pointer', textAlign: 'left', transition: 'background .15s' }}
-                            onMouseEnter={e => { if (!isSubActive) e.currentTarget.style.background = '#F5F5F5' }}
-                            onMouseLeave={e => { if (!isSubActive) e.currentTarget.style.background = 'transparent' }}
-                          >
-                            <span style={{ width: 4, height: 4, borderRadius: '50%', background: isSubActive ? '#D32F2F' : '#CCC', flexShrink: 0 }} />
-                            <span style={{ flex: 1, fontSize: 13, fontWeight: isSubActive ? 600 : 400, color: isSubActive ? '#D32F2F' : '#555' }}>
-                              {lang === 'ru' ? sub.nameRu : sub.nameUz}
-                            </span>
-                            <span style={{ fontSize: 10, background: '#EFEFEF', color: '#AAA', padding: '1px 6px', borderRadius: 99 }}>{sub._count?.products || 0}</span>
-                          </button>
-                        )
-                      })}
-                    </div>
-                  )}
-                </div>
-              )
-            })}
-          </div>
-        </aside>
 
         {/* Products */}
         <div style={{ flex: 1, minWidth: 0 }}>
+          {(activeCat || searchParams.get('categoryId') || searchParams.get('search')) && (
+            <button onClick={() => { setActiveCat(null); router.push('/catalog'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: '8px 14px', background: '#fff', border: '1.5px solid #E0E0E0', borderRadius: 99, cursor: 'pointer', fontSize: 13, fontWeight: 600, color: '#555' }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+              {lang === 'ru' ? 'Все категории' : 'Barcha kategoriyalar'}
+            </button>
+          )}
           {(!activeCat && !searchParams.get('categoryId') && !searchParams.get('search')) ? (
             /* Katalog ochilganda — kategoriyalar vertikal ro'yxati (URSUS uslubi) */
             <div style={{ display: 'flex', flexDirection: 'column' }}>
