@@ -66,13 +66,6 @@ export default function Header() {
                 <span className="hidden sm:inline">{settings.phone}</span>
               </a>
             )}
-            <Link href="/login"
-              style={{ background: '#D32F2F', color: '#fff', fontSize: 13, fontWeight: 600, padding: '6px 16px', borderRadius: 99, textDecoration: 'none', transition: 'background .2s' }}
-              onMouseEnter={e => (e.currentTarget.style.background = '#B71C1C')}
-              onMouseLeave={e => (e.currentTarget.style.background = '#D32F2F')}
-            >
-              Личный кабинет
-            </Link>
           </div>
         </div>
 
@@ -190,10 +183,7 @@ export default function Header() {
               </div>
             </div>
             <div style={{ marginTop: 'auto', padding: 16, borderTop: '1px solid #F0F0F0' }}>
-              {settings.phone && <a href={`tel:${settings.phone}`} style={{ display: 'block', textAlign: 'center', fontSize: 16, fontWeight: 700, color: '#D32F2F', marginBottom: 12, textDecoration: 'none' }}>{settings.phone}</a>}
-              <Link href="/login" onClick={() => setMobileOpen(false)} style={{ display: 'block', textAlign: 'center', background: '#D32F2F', color: '#fff', padding: '12px', borderRadius: 8, fontWeight: 600, textDecoration: 'none' }}>
-                Личный кабинет
-              </Link>
+              {settings.phone && <a href={`tel:${settings.phone}`} style={{ display: 'block', textAlign: 'center', fontSize: 16, fontWeight: 700, color: '#D32F2F', textDecoration: 'none' }}>{settings.phone}</a>}
             </div>
           </div>
         </div>
