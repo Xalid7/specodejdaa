@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 const tree = [
   {
-    icon: 'ShieldCheck', nameRu: 'Спецодежда', nameUz: 'Maxsus kiyim', slug: 'specodejda',
+    icon: 'Coat', nameRu: 'Спецодежда', nameUz: 'Maxsus kiyim', slug: 'specodejda',
     children: [
       { nameRu: 'Летняя спецодежда',                          nameUz: 'Yozgi maxsus kiyim',         slug: 'letnyaya-specodejda' },
       { nameRu: 'Зимняя спецодежда',                          nameUz: 'Qishki maxsus kiyim',         slug: 'zimnyaya-specodejda' },

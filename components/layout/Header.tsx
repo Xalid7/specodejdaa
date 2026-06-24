@@ -8,6 +8,14 @@ const CAT_ICONS: Record<string, React.ComponentType<{ size?: number; color?: str
   ShieldCheck, Footprints, Hand, Stethoscope, GraduationCap, Shirt, BedDouble, TowelRack, Gift, Printer, Briefcase, Tag, Layers, Scissors, ShoppingBag,
 }
 function CatIcon({ name, color }: { name?: string; color?: string }) {
+  if (name === 'Coat') {
+    return (
+      <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke={color || 'currentColor'} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M8 3l4 3.2L16 3l3.2 2.4-2 3v11.1a1 1 0 01-1 1H7.8a1 1 0 01-1-1V8.4l-2-3L8 3z" />
+        <line x1="12" y1="6.2" x2="12" y2="20.5" />
+      </svg>
+    )
+  }
   const C = name ? CAT_ICONS[name] : null
   return C ? <C size={20} color={color} /> : <Package size={20} color={color} />
 }
