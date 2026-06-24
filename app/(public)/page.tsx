@@ -69,7 +69,7 @@ export default function HomePage() {
       for (const p of d) {
         if (!seen.has(p.categoryId)) { seen.add(p.categoryId); sample.push(p) }
       }
-      setProducts(sample)
+      setProducts(sample.slice(0, 10))
     }).catch(() => {})
     return () => window.removeEventListener('langchange', onLangChange)
   }, [])
