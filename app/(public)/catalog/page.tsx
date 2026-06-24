@@ -106,7 +106,7 @@ function CatalogContent() {
                 <div key={cat.id} style={{ borderBottom: '1px solid #F5F5F5' }}>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <button
-                      onClick={() => { setActiveCat(isActive ? null : cat.id); setSidebarOpen(false); if (hasSubs && !isExpanded) toggleExpand(cat.id) }}
+                      onClick={() => { setActiveCat(isActive ? null : cat.id); setSidebarOpen(false); if (hasSubs && !isExpanded) toggleExpand(cat.id); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
                       style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', background: isActive ? '#FFF5F5' : 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'background .15s' }}
                       onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = '#FAFAFA' }}
                       onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = 'transparent' }}
@@ -129,7 +129,7 @@ function CatalogContent() {
                         const isSubActive = activeCat === sub.id
                         return (
                           <button key={sub.id}
-                            onClick={() => { setActiveCat(isSubActive ? null : sub.id); setSidebarOpen(false) }}
+                            onClick={() => { setActiveCat(isSubActive ? null : sub.id); setSidebarOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
                             style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8, padding: '9px 16px 9px 42px', background: isSubActive ? '#FFF5F5' : 'transparent', border: 'none', borderTop: '1px solid #F0F0F0', cursor: 'pointer', textAlign: 'left', transition: 'background .15s' }}
                             onMouseEnter={e => { if (!isSubActive) e.currentTarget.style.background = '#F5F5F5' }}
                             onMouseLeave={e => { if (!isSubActive) e.currentTarget.style.background = 'transparent' }}
