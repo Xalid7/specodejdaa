@@ -85,18 +85,6 @@ function CatalogContent() {
           : "Ishchi kiyimlar, tibbiy va oshpaz formasi, soqchilar kiyimi, promo tekstil, ko'rpa-to'shak, eko-sumkalar va aksessuarlar — logotip bilan buyurtmaga tikamiz."}
       </p>
 
-      {/* Filter tabs */}
-      <div style={{ background: '#D32F2F', borderRadius: 99, marginBottom: 24, overflowX: 'auto', scrollbarWidth: 'none', display: 'inline-flex', maxWidth: '100%' }}>
-        <div style={{ display: 'flex', alignItems: 'center', padding: 5, gap: 4, minWidth: 'max-content' }}>
-          {filters.map(f => (
-            <button key={f.key} onClick={() => setActiveFilter(f.key)}
-              style={{ padding: '9px 20px', borderRadius: 99, border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 700, letterSpacing: 0.3, transition: 'all .2s', whiteSpace: 'nowrap', background: activeFilter === f.key ? '#fff' : 'transparent', color: activeFilter === f.key ? '#D32F2F' : 'rgba(255,255,255,0.85)' }}
-            >
-              {lang === 'ru' ? f.ru : f.uz}
-            </button>
-          ))}
-        </div>
-      </div>
 
       {/* Mobile category toggle */}
       <button onClick={() => setSidebarOpen(!sidebarOpen)}
