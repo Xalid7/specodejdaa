@@ -95,7 +95,7 @@ export default function Header() {
         </div>
 
         {/* Main nav */}
-        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 16 }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
           {/* Logo */}
           <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
             <img src="/logo.svg" alt="Art Print Textile" style={{ height: 62, width: 'auto', display: 'block' }} />
@@ -252,8 +252,8 @@ export default function Header() {
 
       <style>{`
         @media (max-width: 768px) {
-          .mobile-menu-btn { display: flex !important; }
-          .header-search { display: none !important; }
+          .mobile-menu-btn { display: none !important; }
+          .header-search { display: block !important; flex: 1 1 100% !important; order: 5; max-width: 100% !important; margin: 10px 0 2px !important; }
           .header-lang { display: none !important; }
           nav { display: none !important; }
           .mobile-bottom-nav { display: flex !important; }
