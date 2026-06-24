@@ -153,7 +153,7 @@ function CatalogContent() {
         {/* Products */}
         <div style={{ flex: 1, minWidth: 0 }}>
           {loading ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
+            <div className="products-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
               {[...Array(6)].map((_, i) => (
                 <div key={i} style={{ border: '1.5px solid #F0F0F0', borderRadius: 14, overflow: 'hidden' }}>
                   <div className="skeleton" style={{ aspectRatio: '1' }} />
@@ -174,7 +174,7 @@ function CatalogContent() {
           ) : (
             <>
               <p style={{ fontSize: 13, color: '#999', marginBottom: 16 }}>{lang === 'ru' ? `Найдено товаров: ${products.length}` : `${products.length} ta mahsulot topildi`}</p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
+              <div className="products-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
                 {products.map((p: any, idx: number) => {
                   const imgs = (() => { try { return JSON.parse(p.images) } catch { return [] } })()
                   const delay = `${(idx % 10) * 0.04}s`
@@ -249,6 +249,7 @@ function CatalogContent() {
 
       <style>{`
         @media (max-width: 768px) {
+          .products-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
           .sidebar-toggle { display: block !important; }
           .catalog-sidebar { display: none; width: 100% !important; margin-bottom: 16px; }
           .catalog-sidebar.open { display: block !important; }
