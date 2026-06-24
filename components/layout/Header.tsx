@@ -46,7 +46,7 @@ export default function Header() {
 
         {/* Top bar */}
         <div className="header-topbar" style={{ background: '#FAFAFA', borderBottom: '1px solid #F0F0F0' }}>
-          <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 16px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 16, height: 40 }}>
+          <div className="topbar-inner" style={{ maxWidth: 1280, margin: '0 auto', padding: '0 16px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 16, height: 40 }}>
             {settings.telegram && (
               <a href={settings.telegram} target="_blank" rel="noreferrer"
                 style={{ display: 'flex', alignItems: 'center', color: '#666', textDecoration: 'none', transition: 'color .2s' }}
@@ -236,7 +236,7 @@ export default function Header() {
           body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
         }
         @media (max-width: 480px) {
-          .header-topbar { display: none !important; }
+          .header-topbar .topbar-inner { padding: 0 12px !important; gap: 12px !important; height: 36px !important; }
         }
       `}</style>
     </>
