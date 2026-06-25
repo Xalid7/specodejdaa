@@ -133,8 +133,9 @@ export default function HomePage() {
         ) : (
           <>
             <div style={{ display: 'flex', transition: 'transform .5s cubic-bezier(.4,0,.2,1)', transform: `translateX(-${current * 100}%)` }}>
-              {banners.map((b: any) => (
-                <div key={b.id} style={{ minWidth: '100%', position: 'relative' }}>
+              {banners.map((b: any) => {
+                const bare = b.ctaLink && !b.titleRu && !b.ctaText
+                const inner = (
                   <div style={{ width: '100%', aspectRatio: '16/9', minHeight: 320, background: '#f5f5f5', position: 'relative', overflow: 'hidden' }}>
                     <img src={b.imageUrl} alt={b.titleRu || ''} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
                     {(b.titleRu || b.ctaText) && (
@@ -149,8 +150,13 @@ export default function HomePage() {
                       </div>
                     )}
                   </div>
-                </div>
-              ))}
+                )
+                return (
+                  <div key={b.id} style={{ minWidth: '100%', position: 'relative' }}>
+                    {bare ? <Link href={b.ctaLink} style={{ display: 'block' }}>{inner}</Link> : inner}
+                  </div>
+                )
+              })}
             </div>
             {banners.length > 1 && (
               <>

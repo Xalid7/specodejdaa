@@ -30,7 +30,12 @@ async function main() {
     }});
   }
 
-  // Banner — not seeded by default; managed via admin panel
+  // Banner — главный баннер «Коллекция новинок спецодежды 2026» (изображение с текстом, клик → /catalog)
+  await prisma.banner.upsert({
+    where: { id: 'banner-spec-2026' },
+    update: { imageUrl: '/banners/banner-spec-2026.jpg', ctaLink: '/catalog', order: 0 },
+    create: { id: 'banner-spec-2026', imageUrl: '/banners/banner-spec-2026.jpg', ctaLink: '/catalog', order: 0 },
+  });
 
   // Skip seeding if data already exists — preserve admin changes
   const catCount = await prisma.category.count();
