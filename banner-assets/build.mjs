@@ -9,7 +9,7 @@ const suf = (lang) => (lang === 'uz' ? '-uz' : '')
 const tr = async (p) => { const b = await sharp(p).trim().png().toBuffer(); const m = await sharp(b).metadata(); return { b, m } }
 
 const T = {
-  all: { accent: '#D32F2F', head: '#D32F2F', corner: { ru: 'УНИФОРМА', uz: 'UNIFORMA' }, dMenH: 502, mMenW: 1040,
+  all: { accent: '#D32F2F', head: '#D32F2F', corner: { ru: 'УНИФОРМА', uz: 'UNIFORMA' }, dMenH: 470, mMenW: 1040, dHeadSize: 48,
     h: { ru: ['ОДЕЖДА ДЛЯ', 'ВСЕХ ПРОФЕССИЙ'], uz: ['BARCHA KASB', 'EGALARI UCHUN'] },
     sub: { ru: 'Строители · медики · повара · охрана · сервис', uz: 'Quruvchilar · shifokorlar · oshpazlar · xizmat' } },
   spec: { accent: '#D32F2F', head: '#D32F2F', corner: { ru: '2026', uz: '2026' }, cornerBig: true, dMenH: 512, mMenW: 800,
@@ -39,9 +39,10 @@ async function cutout(key, src, fileBase) {
         <text x="58" y="360" fill="${C.head}" font-family="Arial" font-weight="900" font-size="58">${L[2]}</text>`
     } else {
       const L = C.h[lang]
-      txtD = `<text x="58" y="248" fill="${C.head}" font-family="Arial" font-weight="900" font-size="56">${L[0]}</text>
-        <text x="58" y="316" fill="${C.head}" font-family="Arial" font-weight="900" font-size="56">${L[1]}</text>
-        <text x="60" y="368" fill="#444" font-family="Arial" font-weight="600" font-size="19">${C.sub[lang]}</text>`
+      const hs = C.dHeadSize || 56
+      txtD = `<text x="58" y="248" fill="${C.head}" font-family="Arial" font-weight="900" font-size="${hs}">${L[0]}</text>
+        <text x="58" y="${248 + hs + 12}" fill="${C.head}" font-family="Arial" font-weight="900" font-size="${hs}">${L[1]}</text>
+        <text x="60" y="${248 + hs + 72}" fill="#444" font-family="Arial" font-weight="600" font-size="19">${C.sub[lang]}</text>`
     }
     const svgD = `<svg width="${DW}" height="${DH}" xmlns="http://www.w3.org/2000/svg">
       <polygon points="0,0 330,0 0,214" fill="${C.accent}"/>
