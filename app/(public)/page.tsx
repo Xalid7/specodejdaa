@@ -88,7 +88,7 @@ export default function HomePage() {
     <div>
 
       {/* ══════════ HERO ══════════ */}
-      <section style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
+      <section style={{ position: 'relative', width: '100%', maxWidth: 1280, margin: '0 auto', padding: '0 16px', overflow: 'hidden' }}>
         <style>{`
           .hero-banner-img { display: block; width: 100%; aspect-ratio: 1420 / 540; object-fit: cover; object-position: center; background: transparent; }
           .hero-skeleton { width: 100%; aspect-ratio: 1420 / 540; background: linear-gradient(110deg, #f4f4f4 30%, #ececec 50%, #f4f4f4 70%); background-size: 200% 100%; animation: heroShimmer 1.4s ease-in-out infinite; }
