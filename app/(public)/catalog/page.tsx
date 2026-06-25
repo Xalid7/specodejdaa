@@ -47,6 +47,7 @@ function CatalogContent() {
   const [lang, setLang] = useState<'ru' | 'uz'>('ru')
   const [activeFilter, setActiveFilter] = useState('all')
   const [activeCat, setActiveCat] = useState<string | null>(null)
+  const [drillCat, setDrillCat] = useState<any>(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [expandedCat, setExpandedCat] = useState<string | null>(null)
 
@@ -102,27 +103,55 @@ function CatalogContent() {
 
         {/* Products */}
         <div style={{ flex: 1, minWidth: 0 }}>
-          {(activeCat || searchParams.get('categoryId') || searchParams.get('search')) && (
-            <button onClick={() => { setActiveCat(null); router.push('/catalog'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+          {(activeCat || drillCat || searchParams.get('categoryId') || searchParams.get('search')) && (
+            <button onClick={() => {
+              const hasParams = searchParams.get('categoryId') || searchParams.get('search')
+              if (hasParams) { setActiveCat(null); setDrillCat(null); router.push('/catalog') }
+              else if (activeCat) setActiveCat(null)
+              else if (drillCat) setDrillCat(null)
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+            }}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: '8px 14px', background: '#fff', border: '1.5px solid #E0E0E0', borderRadius: 99, cursor: 'pointer', fontSize: 13, fontWeight: 600, color: '#555' }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-              {lang === 'ru' ? 'Все категории' : 'Barcha kategoriyalar'}
+              {lang === 'ru' ? 'Назад' : 'Orqaga'}
             </button>
           )}
-          {(!activeCat && !searchParams.get('categoryId') && !searchParams.get('search')) ? (
-            /* Katalog ochilganda — kategoriyalar vertikal ro'yxati (URSUS uslubi) */
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {(!activeCat && !drillCat && !searchParams.get('categoryId') && !searchParams.get('search')) ? (
+            /* Katalog ochilganda — asosiy kategoriyalar (ixcham ro'yxat) */
+            <div style={{ display: 'flex', flexDirection: 'column', maxWidth: 560 }}>
               {categories.filter((c: any) => !c.parentId).map((cat: any) => (
-                <button key={cat.id} onClick={() => { setActiveCat(cat.id); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-                  style={{ cursor: 'pointer', background: '#fff', border: 'none', borderBottom: '1px solid #F0F0F0', padding: '18px 8px', display: 'flex', alignItems: 'center', gap: 18, textAlign: 'left', width: '100%', transition: 'background .15s' }}
+                <button key={cat.id} onClick={() => {
+                  if (cat.children?.length) setDrillCat(cat)
+                  else setActiveCat(cat.id)
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
+                  style={{ cursor: 'pointer', background: '#fff', border: 'none', borderBottom: '1px solid #F0F0F0', padding: '15px 8px', display: 'flex', alignItems: 'center', gap: 16, textAlign: 'left', width: '100%', transition: 'background .15s' }}
                   onMouseEnter={e => (e.currentTarget.style.background = '#FFF7F7')}
                   onMouseLeave={e => (e.currentTarget.style.background = '#fff')}
                 >
-                  <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', width: 32 }}>
-                    <CatIcon name={cat.icon} size={28} color="#D32F2F" />
+                  <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', width: 30 }}>
+                    <CatIcon name={cat.icon} size={26} color="#D32F2F" />
                   </span>
-                  <span style={{ flex: 1, fontSize: 17, fontWeight: 700, color: '#111' }}>{lang === 'ru' ? cat.nameRu : cat.nameUz}</span>
+                  <span style={{ flex: 1, fontSize: 16, fontWeight: 700, color: '#111' }}>{lang === 'ru' ? cat.nameRu : cat.nameUz}</span>
+                  <span style={{ fontSize: 12, color: '#bbb', marginRight: 4 }}>{cat._count?.products || 0}</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+              ))}
+            </div>
+          ) : (drillCat && !activeCat) ? (
+            /* Subkategoriyalar ro'yxati */
+            <div style={{ display: 'flex', flexDirection: 'column', maxWidth: 560 }}>
+              <div style={{ fontSize: 18, fontWeight: 800, color: '#111', padding: '4px 8px 12px' }}>{lang === 'ru' ? drillCat.nameRu : drillCat.nameUz}</div>
+              {drillCat.children.map((sub: any) => (
+                <button key={sub.id} onClick={() => { setActiveCat(sub.id); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+                  style={{ cursor: 'pointer', background: '#fff', border: 'none', borderBottom: '1px solid #F0F0F0', padding: '14px 8px', display: 'flex', alignItems: 'center', gap: 14, textAlign: 'left', width: '100%', transition: 'background .15s' }}
+                  onMouseEnter={e => (e.currentTarget.style.background = '#FFF7F7')}
+                  onMouseLeave={e => (e.currentTarget.style.background = '#fff')}
+                >
+                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#D32F2F', flexShrink: 0, marginLeft: 4 }} />
+                  <span style={{ flex: 1, fontSize: 15, fontWeight: 600, color: '#222' }}>{lang === 'ru' ? sub.nameRu : sub.nameUz}</span>
+                  <span style={{ fontSize: 12, color: '#bbb', marginRight: 4 }}>{sub._count?.products || 0}</span>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
                 </button>
               ))}
