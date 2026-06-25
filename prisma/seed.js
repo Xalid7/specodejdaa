@@ -49,6 +49,12 @@ async function main() {
     update: { imageUrl: '/banners/banner-med.png', mobileUrl: '/banners/banner-med-mobile.png', ctaLink: '/catalog', order: 2 },
     create: { id: 'banner-med', imageUrl: '/banners/banner-med.png', mobileUrl: '/banners/banner-med-mobile.png', ctaLink: '/catalog', order: 2 },
   });
+  // 4) Баннер «Спецодежда для строителей» (стройка, экскаватор/кран, клик → /catalog)
+  await prisma.banner.upsert({
+    where: { id: 'banner-con' },
+    update: { imageUrl: '/banners/banner-con.jpg', mobileUrl: '/banners/banner-con-mobile.jpg', ctaLink: '/catalog', order: 3 },
+    create: { id: 'banner-con', imageUrl: '/banners/banner-con.jpg', mobileUrl: '/banners/banner-con-mobile.jpg', ctaLink: '/catalog', order: 3 },
+  });
 
   // Skip seeding if data already exists — preserve admin changes
   const catCount = await prisma.category.count();
