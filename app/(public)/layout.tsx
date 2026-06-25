@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import ScrollToTop from '@/components/ScrollToTop'
 
 export const metadata: Metadata = {
   alternates: { canonical: "https://www.specodejda.uz" },
@@ -40,6 +41,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <ScrollToTop />
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
