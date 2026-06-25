@@ -128,8 +128,8 @@ function CatalogContent() {
                   onMouseEnter={e => (e.currentTarget.style.background = '#FFF7F7')}
                   onMouseLeave={e => (e.currentTarget.style.background = '#fff')}
                 >
-                  <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', width: 30 }}>
-                    <CatIcon name={cat.icon} size={26} color="#D32F2F" />
+                  <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36 }}>
+                    <CatIcon name={cat.icon} size={32} color="#D32F2F" />
                   </span>
                   <span style={{ flex: 1, fontSize: 16, fontWeight: 700, color: '#111' }}>{lang === 'ru' ? cat.nameRu : cat.nameUz}</span>
                   <span style={{ flexShrink: 0, fontSize: 13, fontWeight: 700, color: '#D32F2F', background: '#FDECEC', borderRadius: 99, padding: '2px 10px', minWidth: 28, textAlign: 'center' }}>{cat._count?.products ?? 0}</span>
