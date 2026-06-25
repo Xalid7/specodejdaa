@@ -133,15 +133,17 @@ export default function HomePage() {
         ) : (
           <>
             <style>{`
-              .hero-banner-img { display: block; width: 100%; height: 400px; object-fit: contain; object-position: center; background: #fff; }
-              @media (max-width: 768px) { .hero-banner-img { height: auto; } }
+              .hero-banner-img { display: block; width: 100%; height: auto; background: #fff; }
             `}</style>
             <div style={{ display: 'flex', transition: 'transform .5s cubic-bezier(.4,0,.2,1)', transform: `translateX(-${current * 100}%)` }}>
               {banners.map((b: any) => {
                 const bare = b.ctaLink && !b.titleRu && !b.ctaText
                 const inner = (
                   <div style={{ width: '100%', background: '#fff', position: 'relative', overflow: 'hidden' }}>
-                    <img className="hero-banner-img" src={b.imageUrl} alt={b.titleRu || ''} />
+                    <picture>
+                      {b.mobileUrl && <source media="(max-width: 768px)" srcSet={b.mobileUrl} />}
+                      <img className="hero-banner-img" src={b.imageUrl} alt={b.titleRu || ''} />
+                    </picture>
                     {(b.titleRu || b.ctaText) && (
                       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 50%, transparent 75%)', display: 'flex', alignItems: 'center', padding: '0 5%' }}>
                         <div style={{ maxWidth: 520, color: '#fff' }}>
