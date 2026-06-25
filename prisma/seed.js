@@ -16,7 +16,7 @@ async function main() {
   // Settings — upsert with default address, preserve existing changes
   const existingSettings = await prisma.settings.findFirst();
   if (existingSettings) {
-    await prisma.settings.update({ where: { id: existingSettings.id }, data: { telegram: "https://t.me/+998981210909", phone: "+998 98 121 09 09", email: "info@specodejda.uz", address: "Бунёдкор шох куча, 29 дом, Чиланзарский район, г. Ташкент, Узбекистан" } });
+    await prisma.settings.update({ where: { id: existingSettings.id }, data: { telegram: "https://t.me/+998981210909", phone: "+998 98 121 09 09", email: "info@specodejda.uz", address: "Бунёдкор шох куча, 29 дом, Чиланзарский район, г. Ташкент, Узбекистан", aboutRu: "ООО «ART PRINT AND TEXTILE» является одним из ведущих производителей швейной продукции в Узбекистане.", aboutUz: "ООО «ART PRINT AND TEXTILE» — O'zbekistondagi etakchi tikuvchilik mahsulotlari ishlab chiqaruvchilaridan biri." } });
   } else {
     await prisma.settings.create({ data: {
       telegram: "https://t.me/+998981210909",
@@ -25,8 +25,8 @@ async function main() {
       address: "Бунёдкор шох куча, 29 дом, Чиланзарский район, г. Ташкент, Узбекистан",
       mapLat: "41.258827",
       mapLng: "69.194217",
-      aboutRu: "Art Print and Textile является одним из ведущих производителей швейной продукции в Узбекистане.",
-      aboutUz: "Art Print and Textile — O'zbekistondagi etakchi tikuvchilik mahsulotlari ishlab chiqaruvchilaridan biri."
+      aboutRu: "ООО «ART PRINT AND TEXTILE» является одним из ведущих производителей швейной продукции в Узбекистане.",
+      aboutUz: "ООО «ART PRINT AND TEXTILE» — O'zbekistondagi etakchi tikuvchilik mahsulotlari ishlab chiqaruvchilaridan biri."
     }});
   }
 
