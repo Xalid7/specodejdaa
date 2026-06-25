@@ -30,11 +30,18 @@ async function main() {
     }});
   }
 
-  // Banner — главный баннер «Коллекция новинок спецодежды 2026» (изображение с текстом, клик → /catalog)
+  // Banners — слайдер (автопрокрутка каждые 5 сек). order: меньше = раньше
+  // 1) Классический баннер «Спецодежда и Униформа» (красный)
+  await prisma.banner.upsert({
+    where: { id: 'banner-hero-classic' },
+    update: { imageUrl: '/banners/banner-hero-classic.jpg', mobileUrl: '/banners/banner-hero-classic-mobile.jpg', ctaLink: '/catalog', order: 0 },
+    create: { id: 'banner-hero-classic', imageUrl: '/banners/banner-hero-classic.jpg', mobileUrl: '/banners/banner-hero-classic-mobile.jpg', ctaLink: '/catalog', order: 0 },
+  });
+  // 2) Баннер «Коллекция новинок спецодежды 2026» (модели, клик → /catalog)
   await prisma.banner.upsert({
     where: { id: 'banner-spec-2026' },
-    update: { imageUrl: '/banners/banner-spec-2026.png', mobileUrl: '/banners/banner-spec-2026-mobile.png', ctaLink: '/catalog', order: 0 },
-    create: { id: 'banner-spec-2026', imageUrl: '/banners/banner-spec-2026.png', mobileUrl: '/banners/banner-spec-2026-mobile.png', ctaLink: '/catalog', order: 0 },
+    update: { imageUrl: '/banners/banner-spec-2026.png', mobileUrl: '/banners/banner-spec-2026-mobile.png', ctaLink: '/catalog', order: 1 },
+    create: { id: 'banner-spec-2026', imageUrl: '/banners/banner-spec-2026.png', mobileUrl: '/banners/banner-spec-2026-mobile.png', ctaLink: '/catalog', order: 1 },
   });
 
   // Skip seeding if data already exists — preserve admin changes
