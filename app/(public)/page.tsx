@@ -133,13 +133,13 @@ export default function HomePage() {
         ) : (
           <>
             <style>{`
-              .hero-banner-img { display: block; width: 100%; height: auto; background: #fff; }
+              .hero-banner-img { display: block; width: 100%; height: auto; background: transparent; }
             `}</style>
             <div style={{ display: 'flex', transition: 'transform .5s cubic-bezier(.4,0,.2,1)', transform: `translateX(-${current * 100}%)` }}>
               {banners.map((b: any) => {
                 const bare = b.ctaLink && !b.titleRu && !b.ctaText
                 const inner = (
-                  <div style={{ width: '100%', background: '#fff', position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ width: '100%', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
                     <picture>
                       {b.mobileUrl && <source media="(max-width: 768px)" srcSet={b.mobileUrl} />}
                       <img className="hero-banner-img" src={b.imageUrl} alt={b.titleRu || ''} />

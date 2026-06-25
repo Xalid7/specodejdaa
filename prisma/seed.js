@@ -33,8 +33,8 @@ async function main() {
   // Banner — главный баннер «Коллекция новинок спецодежды 2026» (изображение с текстом, клик → /catalog)
   await prisma.banner.upsert({
     where: { id: 'banner-spec-2026' },
-    update: { imageUrl: '/banners/banner-spec-2026.jpg', mobileUrl: '/banners/banner-spec-2026-mobile.jpg', ctaLink: '/catalog', order: 0 },
-    create: { id: 'banner-spec-2026', imageUrl: '/banners/banner-spec-2026.jpg', mobileUrl: '/banners/banner-spec-2026-mobile.jpg', ctaLink: '/catalog', order: 0 },
+    update: { imageUrl: '/banners/banner-spec-2026.png', mobileUrl: '/banners/banner-spec-2026-mobile.png', ctaLink: '/catalog', order: 0 },
+    create: { id: 'banner-spec-2026', imageUrl: '/banners/banner-spec-2026.png', mobileUrl: '/banners/banner-spec-2026-mobile.png', ctaLink: '/catalog', order: 0 },
   });
 
   // Skip seeding if data already exists — preserve admin changes
