@@ -36,19 +36,19 @@ const services = [
 
 const content = {
   ru: {
-    tag: 'Art Print & Textile',
+    tag: 'ООО «ART PRINT AND TEXTILE»',
     hero: 'Ведущий производитель спецодежды в Узбекистане',
-    heroSub: 'Art Print and Textile — производитель спецодежды, uniform и брендированной продукции в Узбекистане.',
-    p1: 'Компания Art Print and Textile является одним из ведущих производителей швейной продукции в Узбекистане. Собственное производство и современное оборудование обеспечивают конкурентоспособную ценовую политику.',
+    heroSub: 'ООО «ART PRINT AND TEXTILE» — производитель спецодежды, uniform и брендированной продукции в Узбекистане.',
+    p1: 'Компания ООО «ART PRINT AND TEXTILE» является одним из ведущих производителей швейной продукции в Узбекистане. Собственное производство и современное оборудование обеспечивают конкурентоспособную ценовую политику.',
     p2: 'Приоритетом нашей компании является высокий стандарт качества и быстрые сроки выполнения заказов. Каждому клиенту мы предлагаем решения «под ключ» — от подбора моделей и тканей до брендирования и упаковки.',
     p3: 'Каждому заказчику выделяется персональный менеджер, который отвечает за сроки и качество исполнения. Мы помогаем в разработке фирменного стиля и берём на себя все задачи по производству.',
     services: 'Наши услуги',
   },
   uz: {
-    tag: 'Art Print & Textile',
+    tag: 'ООО «ART PRINT AND TEXTILE»',
     hero: 'O\'zbekistondagi etakchi maxsus kiyim ishlab chiqaruvchi',
-    heroSub: 'Art Print and Textile — O\'zbekistonda maxsus kiyim, uniform va brendlangan mahsulotlar ishlab chiqaruvchi kompaniya.',
-    p1: 'Art Print and Textile kompaniyasi O\'zbekistondagi tikuvchilik mahsulotlarining yetakchi ishlab chiqaruvchilaridan biridir. O\'z ishlab chiqarish bazasi va zamonaviy uskunalar raqobatbardosh narx siyosatini ta\'minlaydi.',
+    heroSub: 'ООО «ART PRINT AND TEXTILE» — O\'zbekistonda maxsus kiyim, uniform va brendlangan mahsulotlar ishlab chiqaruvchi kompaniya.',
+    p1: 'ООО «ART PRINT AND TEXTILE» kompaniyasi O\'zbekistondagi tikuvchilik mahsulotlarining yetakchi ishlab chiqaruvchilaridan biridir. O\'z ishlab chiqarish bazasi va zamonaviy uskunalar raqobatbardosh narx siyosatini ta\'minlaydi.',
     p2: 'Kompaniyamizning ustuvor yo\'nalishi — yuqori sifat standarti va buyurtmalarni tez bajarish. Har bir mijozga "kalit topshirish" yechimlarini taklif qilamiz — model va matolar tanlovidan brendlash va qadoqlashgacha.',
     p3: 'Har bir buyurtmachiga shaxsiy menejer ajratiladi, u muddatlar va ijro sifati uchun javob beradi. Korporativ uslub ishlab chiqishda yordam beramiz va barcha ishlab chiqarish vazifalarini o\'z zimmamizga olamiz.',
     services: 'Bizning xizmatlar',

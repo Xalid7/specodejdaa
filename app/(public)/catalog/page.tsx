@@ -217,7 +217,7 @@ function CatalogContent() {
           <>
             <h2 style={{ fontSize: 17, fontWeight: 700, color: '#333', marginBottom: 10 }}>Пошив спецодежды и униформы на заказ в Ташкенте</h2>
             <p style={{ marginBottom: 10 }}>
-              ART PRINT — производство спецодежды и униформы в Узбекистане. Шьём на заказ <b>рабочую одежду</b>, летнюю и зимнюю,
+              ООО «ART PRINT AND TEXTILE» — производство спецодежды и униформы в Узбекистане. Шьём на заказ <b>рабочую одежду</b>, летнюю и зимнюю,
               <b> комбинезоны</b> и полукомбинезоны, <b>костюмы сварщика</b>, одежду и костюмы для охранников, сигнальные жилетки.
             </p>
             <p style={{ marginBottom: 10 }}>
@@ -234,7 +234,7 @@ function CatalogContent() {
           <>
             <h2 style={{ fontSize: 17, fontWeight: 700, color: '#333', marginBottom: 10 }}>Toshkentda maxsus kiyim va uniforma buyurtmaga tikish</h2>
             <p style={{ marginBottom: 10 }}>
-              ART PRINT — O'zbekistonda maxsus kiyim va uniforma ishlab chiqarish. Buyurtmaga <b>ishchi kiyimlar</b> (yozgi va qishki),
+              ООО «ART PRINT AND TEXTILE» — O'zbekistonda maxsus kiyim va uniforma ishlab chiqarish. Buyurtmaga <b>ishchi kiyimlar</b> (yozgi va qishki),
               kombinezonlar, <b>payvandchi kostyumlari</b>, soqchilar uchun kiyim va signal jiletkalar tikamiz.
             </p>
             <p style={{ marginBottom: 10 }}>

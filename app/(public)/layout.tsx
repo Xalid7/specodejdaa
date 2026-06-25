@@ -10,7 +10,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ClothingStore",
   "@id": "https://www.specodejda.uz",
-  "name": "ART PRINT — Спецодежда и Униформа",
+  "name": "ООО «ART PRINT AND TEXTILE» — Спецодежда и Униформа",
   "description": "Производство спецодежды, рабочей и медицинской одежды, униформы, промотекстиля и брендированной продукции на заказ в Ташкенте.",
   "url": "https://www.specodejda.uz",
   "image": "https://www.specodejda.uz/logo.png",

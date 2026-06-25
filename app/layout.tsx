@@ -4,8 +4,8 @@ import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: {
-    default: "ART PRINT — Спецодежда и Униформа в Ташкенте",
-    template: "%s | ART PRINT",
+    default: "ООО «ART PRINT AND TEXTILE» — Спецодежда и Униформа в Ташкенте",
+    template: "%s | ООО «ART PRINT AND TEXTILE»",
   },
   description: "Производство спецодежды, медицинской одежды, промотекстиля и брендированной продукции на заказ в Ташкенте. Быстро, качественно, любой тираж.",
   keywords: [
@@ -26,14 +26,14 @@ export const metadata: Metadata = {
     "эко сумка с логотипом", "пошив спецодежды Ташкент",
     "soqchi kiyimi", "fartuk", "ko'rpa-to'shak", "sochiq", "qo'lqop", "soyabon", "eko sumka"
   ],
-  authors: [{ name: "ART PRINT" }],
-  creator: "ART PRINT",
+  authors: [{ name: "ООО «ART PRINT AND TEXTILE»" }],
+  creator: "ООО «ART PRINT AND TEXTILE»",
   metadataBase: new URL("https://www.specodejda.uz"),
   openGraph: {
     type: "website",
     locale: "ru_RU",
-    siteName: "ART PRINT",
-    title: "ART PRINT — Спецодежда и Униформа в Ташкенте",
+    siteName: "ООО «ART PRINT AND TEXTILE»",
+    title: "ООО «ART PRINT AND TEXTILE» — Спецодежда и Униформа в Ташкенте",
     description: "Производство спецодежды, медицинской одежды, промотекстиля и брендированной продукции на заказ в Ташкенте.",
   },
   robots: {

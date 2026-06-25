@@ -16,8 +16,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: product.nameRu,
     description: product.descRu
       ? `${product.descRu.slice(0, 155)}`
-      : `${product.nameRu} — ${product.category?.nameRu || 'спецодежда'}. Заказать в Ташкенте у производителя ART PRINT.`,
-    keywords: [product.nameRu, product.category?.nameRu, 'Ташкент', 'на заказ', 'ART PRINT'].filter(Boolean) as string[],
+      : `${product.nameRu} — ${product.category?.nameRu || 'спецодежда'}. Заказать в Ташкенте у производителя ООО «ART PRINT AND TEXTILE».`,
+    keywords: [product.nameRu, product.category?.nameRu, 'Ташкент', 'на заказ', 'ООО «ART PRINT AND TEXTILE»'].filter(Boolean) as string[],
     openGraph: {
       title: product.nameRu,
       description: product.descRu || undefined,
