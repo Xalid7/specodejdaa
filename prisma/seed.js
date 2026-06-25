@@ -43,6 +43,12 @@ async function main() {
     update: { imageUrl: '/banners/banner-spec-2026.png', mobileUrl: '/banners/banner-spec-2026-mobile.png', ctaLink: '/catalog', order: 1 },
     create: { id: 'banner-spec-2026', imageUrl: '/banners/banner-spec-2026.png', mobileUrl: '/banners/banner-spec-2026-mobile.png', ctaLink: '/catalog', order: 1 },
   });
+  // 3) Баннер «Медицинская одежда» (для врачей, клик → /catalog)
+  await prisma.banner.upsert({
+    where: { id: 'banner-med' },
+    update: { imageUrl: '/banners/banner-med.png', mobileUrl: '/banners/banner-med-mobile.png', ctaLink: '/catalog', order: 2 },
+    create: { id: 'banner-med', imageUrl: '/banners/banner-med.png', mobileUrl: '/banners/banner-med-mobile.png', ctaLink: '/catalog', order: 2 },
+  });
 
   // Skip seeding if data already exists — preserve admin changes
   const catCount = await prisma.category.count();
