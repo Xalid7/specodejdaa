@@ -89,10 +89,6 @@ export default function ContactsPage() {
             )}
           </div>
 
-          <div style={{ marginTop: 32 }}>
-            <h2 style={{ fontSize: 18, fontWeight: 800, color: '#111', marginBottom: 12, letterSpacing: 0.5 }}>{tx.directions}</h2>
-            <p style={{ fontSize: 14, color: '#666', lineHeight: 1.8 }}>{tx.directionsText}</p>
-          </div>
         </div>
 
         {/* Map */}
