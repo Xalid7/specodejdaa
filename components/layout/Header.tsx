@@ -11,10 +11,11 @@ function CatIcon({ name, color }: { name?: string; color?: string }) {
   if (name === 'Coat') {
     return (
       <svg width={20} height={20} viewBox="0 0 64 64" fill="none" stroke={color || 'currentColor'} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M26 9L32 14L38 9L48 13L43 24L43 53a2 2 0 01-2 2H23a2 2 0 01-2-2L21 24L16 13Z" />
-        <path d="M32 14L32 55" />
-        <path d="M26 9L29 19L32 14" />
-        <path d="M38 9L35 19L32 14" />
+        <path d="M25 11L13 16L11 42L20 44L24 24" />
+        <path d="M39 11L51 16L53 42L44 44L40 24" />
+        <path d="M24 24L24 53a2 2 0 002 2h12a2 2 0 002-2L40 24" />
+        <path d="M25 11L32 17L39 11" />
+        <path d="M32 17L32 55" />
       </svg>
     )
   }
