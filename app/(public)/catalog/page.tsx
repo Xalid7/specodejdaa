@@ -134,7 +134,6 @@ function CatalogContent() {
                     <CatIcon name={cat.icon} size={26} color="#D32F2F" />
                   </span>
                   <span style={{ flex: 1, fontSize: 16, fontWeight: 700, color: '#111' }}>{lang === 'ru' ? cat.nameRu : cat.nameUz}</span>
-                  <span style={{ fontSize: 12, color: '#bbb', marginRight: 4 }}>{cat._count?.products || 0}</span>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
                 </button>
               ))}
@@ -151,7 +150,6 @@ function CatalogContent() {
                 >
                   <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#D32F2F', flexShrink: 0, marginLeft: 4 }} />
                   <span style={{ flex: 1, fontSize: 15, fontWeight: 600, color: '#222' }}>{lang === 'ru' ? sub.nameRu : sub.nameUz}</span>
-                  <span style={{ fontSize: 12, color: '#bbb', marginRight: 4 }}>{sub._count?.products || 0}</span>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
                 </button>
               ))}
