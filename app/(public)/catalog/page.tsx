@@ -11,12 +11,12 @@ const ICON_MAP: Record<string, React.ComponentType<{ size?: number; color?: stri
 function CatIcon({ name, size = 20, color }: { name?: string; size?: number; color?: string }) {
   if (name === 'Coat') {
     return (
-      <svg width={size} height={size} viewBox="0 0 64 64" fill="none" stroke={color || 'currentColor'} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M25 11L13 16L11 42L20 44L24 24" />
-        <path d="M39 11L51 16L53 42L44 44L40 24" />
-        <path d="M24 24L24 53a2 2 0 002 2h12a2 2 0 002-2L40 24" />
-        <path d="M25 11L32 17L39 11" />
-        <path d="M32 17L32 55" />
+      <svg width={size} height={size} viewBox="0 0 64 64" fill="none" stroke={color || 'currentColor'} strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M25 12 C20 13 15 15 12 19 C10 22 10 26 11 30 L13 41 C13 43 15 44 17 43 L21 42 C22 41 23 40 23 38 L23 26" />
+        <path d="M39 12 C44 13 49 15 52 19 C54 22 54 26 53 30 L51 41 C51 43 49 44 47 43 L43 42 C42 41 41 40 41 38 L41 26" />
+        <path d="M23 26 L23 51 C23 55 25 56 28 56 L36 56 C39 56 41 55 41 51 L41 26" />
+        <path d="M25 12 L32 18 L39 12" />
+        <path d="M32 18 L32 56" />
       </svg>
     )
   }
