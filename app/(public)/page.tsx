@@ -138,11 +138,13 @@ export default function HomePage() {
             <div style={{ display: 'flex', transition: 'transform .5s cubic-bezier(.4,0,.2,1)', transform: `translateX(-${current * 100}%)` }}>
               {banners.map((b: any) => {
                 const bare = b.ctaLink && !b.titleRu && !b.ctaText
+                const bImg = (lang === 'uz' && b.imageUrlUz) ? b.imageUrlUz : b.imageUrl
+                const bMob = (lang === 'uz' && b.mobileUrlUz) ? b.mobileUrlUz : b.mobileUrl
                 const inner = (
                   <div style={{ width: '100%', background: 'transparent', position: 'relative', overflow: 'hidden' }}>
-                    <picture>
-                      {b.mobileUrl && <source media="(max-width: 768px)" srcSet={b.mobileUrl} />}
-                      <img className="hero-banner-img" src={b.imageUrl} alt={b.titleRu || ''} />
+                    <picture key={lang}>
+                      {bMob && <source media="(max-width: 768px)" srcSet={bMob} />}
+                      <img className="hero-banner-img" src={bImg} alt={b.titleRu || ''} />
                     </picture>
                     {(b.titleRu || b.ctaText) && (
                       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 50%, transparent 75%)', display: 'flex', alignItems: 'center', padding: '0 5%' }}>

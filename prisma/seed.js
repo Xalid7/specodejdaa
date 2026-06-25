@@ -30,31 +30,25 @@ async function main() {
     }});
   }
 
-  // Banners — слайдер (автопрокрутка каждые 5 сек). order: меньше = раньше
-  // 1) Классический баннер «Спецодежда и Униформа» (красный)
-  await prisma.banner.upsert({
-    where: { id: 'banner-hero-classic' },
-    update: { imageUrl: '/banners/banner-hero-classic.jpg', mobileUrl: '/banners/banner-hero-classic-mobile.jpg', ctaLink: '/catalog', order: 0 },
-    create: { id: 'banner-hero-classic', imageUrl: '/banners/banner-hero-classic.jpg', mobileUrl: '/banners/banner-hero-classic-mobile.jpg', ctaLink: '/catalog', order: 0 },
-  });
-  // 2) Баннер «Коллекция новинок спецодежды 2026» (модели, клик → /catalog)
-  await prisma.banner.upsert({
-    where: { id: 'banner-spec-2026' },
-    update: { imageUrl: '/banners/banner-spec-2026.png', mobileUrl: '/banners/banner-spec-2026-mobile.png', ctaLink: '/catalog', order: 1 },
-    create: { id: 'banner-spec-2026', imageUrl: '/banners/banner-spec-2026.png', mobileUrl: '/banners/banner-spec-2026-mobile.png', ctaLink: '/catalog', order: 1 },
-  });
-  // 3) Баннер «Медицинская одежда» (для врачей, клик → /catalog)
-  await prisma.banner.upsert({
-    where: { id: 'banner-med' },
-    update: { imageUrl: '/banners/banner-med.png', mobileUrl: '/banners/banner-med-mobile.png', ctaLink: '/catalog', order: 2 },
-    create: { id: 'banner-med', imageUrl: '/banners/banner-med.png', mobileUrl: '/banners/banner-med-mobile.png', ctaLink: '/catalog', order: 2 },
-  });
-  // 4) Баннер «Спецодежда для строителей» (стройка, экскаватор/кран, клик → /catalog)
-  await prisma.banner.upsert({
-    where: { id: 'banner-con' },
-    update: { imageUrl: '/banners/banner-con.jpg', mobileUrl: '/banners/banner-con-mobile.jpg', ctaLink: '/catalog', order: 3 },
-    create: { id: 'banner-con', imageUrl: '/banners/banner-con.jpg', mobileUrl: '/banners/banner-con-mobile.jpg', ctaLink: '/catalog', order: 3 },
-  });
+  // Banners — слайдер (автопрокрутка каждые 5 сек). order: меньше = раньше. RU + UZ (по языку сайта)
+  const bannerSeed = [
+    { id: 'banner-hero-classic', base: '/banners/banner-hero-classic', ext: 'jpg', order: 0 },
+    { id: 'banner-spec-2026',    base: '/banners/banner-spec-2026',    ext: 'png', order: 1 },
+    { id: 'banner-med',          base: '/banners/banner-med',          ext: 'png', order: 2 },
+    { id: 'banner-con',          base: '/banners/banner-con',          ext: 'jpg', order: 3 },
+    { id: 'banner-srv',          base: '/banners/banner-srv',          ext: 'png', order: 4 },
+  ];
+  for (const b of bannerSeed) {
+    const data = {
+      imageUrl:    `${b.base}.${b.ext}`,
+      mobileUrl:   `${b.base}-mobile.${b.ext}`,
+      imageUrlUz:  `${b.base}-uz.${b.ext}`,
+      mobileUrlUz: `${b.base}-mobile-uz.${b.ext}`,
+      ctaLink: '/catalog',
+      order: b.order,
+    };
+    await prisma.banner.upsert({ where: { id: b.id }, update: data, create: { id: b.id, ...data } });
+  }
 
   // Skip seeding if data already exists — preserve admin changes
   const catCount = await prisma.category.count();
