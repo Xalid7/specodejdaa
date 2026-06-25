@@ -32,12 +32,14 @@ async function main() {
 
   // Banners — слайдер (автопрокрутка каждые 5 сек). order: меньше = раньше. RU + UZ (по языку сайта)
   const bannerSeed = [
-    { id: 'banner-hero-classic', base: '/banners/banner-hero-classic', ext: 'jpg', order: 0 },
-    { id: 'banner-spec-2026',    base: '/banners/banner-spec-2026',    ext: 'png', order: 1 },
-    { id: 'banner-med',          base: '/banners/banner-med',          ext: 'png', order: 2 },
-    { id: 'banner-con',          base: '/banners/banner-con',          ext: 'jpg', order: 3 },
-    { id: 'banner-srv',          base: '/banners/banner-srv',          ext: 'png', order: 4 },
+    { id: 'banner-all',       base: '/banners/banner-all',       ext: 'png', order: 0 },
+    { id: 'banner-spec-2026', base: '/banners/banner-spec-2026', ext: 'png', order: 1 },
+    { id: 'banner-med',       base: '/banners/banner-med',       ext: 'png', order: 2 },
+    { id: 'banner-con',       base: '/banners/banner-con',       ext: 'jpg', order: 3 },
+    { id: 'banner-srv',       base: '/banners/banner-srv',       ext: 'png', order: 4 },
   ];
+  // удаляем старый красный баннер, если он есть в БД
+  await prisma.banner.deleteMany({ where: { id: 'banner-hero-classic' } });
   for (const b of bannerSeed) {
     const data = {
       imageUrl:    `${b.base}.${b.ext}`,

@@ -90,10 +90,10 @@ export default function HomePage() {
       {/* ══════════ HERO ══════════ */}
       <section style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
         <style>{`
-          .hero-banner-img { display: block; width: 100%; aspect-ratio: 1420 / 600; object-fit: cover; object-position: center; background: transparent; }
-          .hero-skeleton { width: 100%; aspect-ratio: 1420 / 600; background: linear-gradient(110deg, #f4f4f4 30%, #ececec 50%, #f4f4f4 70%); background-size: 200% 100%; animation: heroShimmer 1.4s ease-in-out infinite; }
+          .hero-banner-img { display: block; width: 100%; aspect-ratio: 1420 / 540; object-fit: cover; object-position: center; background: transparent; }
+          .hero-skeleton { width: 100%; aspect-ratio: 1420 / 540; background: linear-gradient(110deg, #f4f4f4 30%, #ececec 50%, #f4f4f4 70%); background-size: 200% 100%; animation: heroShimmer 1.4s ease-in-out infinite; }
           @keyframes heroShimmer { 0% { background-position: 200% 0 } 100% { background-position: -200% 0 } }
-          @media (max-width: 768px) { .hero-banner-img { aspect-ratio: 1080 / 1440; } .hero-skeleton { aspect-ratio: 1080 / 1440; } }
+          @media (max-width: 768px) { .hero-banner-img { aspect-ratio: 1080 / 1296; } .hero-skeleton { aspect-ratio: 1080 / 1296; } }
         `}</style>
         {!bannersLoaded ? (
           /* Skeleton — yuklanguncha joyni band qiladi, sakramaydi, animatsiya yo'q */
