@@ -34,7 +34,11 @@ export default function ServicesPage() {
           {lang === 'ru' ? 'Услуги не найдены' : 'Xizmatlar topilmadi'}
         </p>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
+        <div className="services-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+          <style>{`
+            @media (max-width: 900px) { .services-grid { grid-template-columns: repeat(3, 1fr) !important; } }
+            @media (max-width: 640px) { .services-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; } }
+          `}</style>
           {services.map((s: any) => (
             <Link key={s.id} href={`/xizmatlar/${s.slug}`} style={{ textDecoration: 'none' }}>
               <div
