@@ -96,3 +96,117 @@ model Settings {
   aboutRu  String?
   aboutUz  String?
 }
+
+// ============ CRM MODELS ============
+
+model CrmContact {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String?
+  email     String?
+  company   String?
+  position  String?
+  source    String?  // website, call, referral, social
+  status    String   @default("active") // active, inactive, blocked
+  tags      String   @default("[]") // JSON array
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  deals     CrmDeal[]
+  tasks     CrmTask[]
+  invoices  CrmInvoice[]
+  activities CrmActivity[]
+}
+
+model CrmPipelineStage {
+  id    String @id @default(cuid())
+  name  String
+  color String @default("#6B7280")
+  order Int    @default(0)
+  type  String @default("active") // active, won, lost
+
+  deals CrmDeal[]
+}
+
+model CrmDeal {
+  id          String   @id @default(cuid())
+  title       String
+  amount      Float    @default(0)
+  currency    String   @default("UZS")
+  stageId     String
+  stage       CrmPipelineStage @relation(fields: [stageId], references: [id])
+  contactId   String?
+  contact     CrmContact? @relation(fields: [contactId], references: [id])
+  assignedTo  String?
+  dueDate     DateTime?
+  description String?
+  tags        String   @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tasks     CrmTask[]
+  invoices  CrmInvoice[]
+  activities CrmActivity[]
+}
+
+model CrmTask {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  priority    String   @default("medium") // low, medium, high, urgent
+  status      String   @default("todo") // todo, in_progress, done, cancelled
+  dueDate     DateTime?
+  contactId   String?
+  contact     CrmContact? @relation(fields: [contactId], references: [id])
+  dealId      String?
+  deal        CrmDeal?    @relation(fields: [dealId], references: [id])
+  assignedTo  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CrmInvoice {
+  id          String   @id @default(cuid())
+  number      String   @unique
+  contactId   String?
+  contact     CrmContact? @relation(fields: [contactId], references: [id])
+  dealId      String?
+  deal        CrmDeal?    @relation(fields: [dealId], references: [id])
+  items       String   @default("[]") // JSON array of {name, qty, price}
+  subtotal    Float    @default(0)
+  discount    Float    @default(0)
+  tax         Float    @default(0)
+  total       Float    @default(0)
+  currency    String   @default("UZS")
+  status      String   @default("draft") // draft, sent, paid, overdue, cancelled
+  dueDate     DateTime?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  payments CrmPayment[]
+}
+
+model CrmPayment {
+  id        String   @id @default(cuid())
+  invoiceId String
+  invoice   CrmInvoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  amount    Float
+  method    String   @default("cash") // cash, bank, card, click, payme
+  date      DateTime @default(now())
+  notes     String?
+  createdAt DateTime @default(now())
+}
+
+model CrmActivity {
+  id        String   @id @default(cuid())
+  type      String   // call, email, meeting, note, task
+  title     String
+  body      String?
+  contactId String?
+  contact   CrmContact? @relation(fields: [contactId], references: [id])
+  dealId    String?
+  deal      CrmDeal?    @relation(fields: [dealId], references: [id])
+  createdAt DateTime @default(now())
+}

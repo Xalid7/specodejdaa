@@ -92,16 +92,6 @@ export default function AboutPage() {
         ))}
       </div>
 
-      {/* Services */}
-      <h2 style={{ fontSize: 20, fontWeight: 800, color: '#111', marginBottom: 20, letterSpacing: -0.3 }}>{t.services}</h2>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12 }}>
-        {services.map((s, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14, background: '#fff', border: '1.5px solid #F0F0F0', borderRadius: 14, padding: '16px' }}>
-            <span style={{ fontSize: 26, flexShrink: 0 }}>{s.icon}</span>
-            <p style={{ fontSize: 14, color: '#555', lineHeight: 1.6 }}>{lang === 'ru' ? s.ru : s.uz}</p>
-          </div>
-        ))}
-      </div>
     </div>
   )
 }

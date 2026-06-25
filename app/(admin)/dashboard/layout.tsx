@@ -7,9 +7,16 @@ import { Toaster } from 'react-hot-toast'
 
 const nav = [
   { href: '/dashboard', label: 'Bosh sahifa', icon: '🏠', exact: true },
+  { href: '/dashboard/crm', label: 'CRM', icon: '📊' },
+  { href: '/dashboard/crm/contacts', label: 'Mijozlar', icon: '👥' },
+  { href: '/dashboard/crm/deals', label: 'Bitimlar', icon: '🤝' },
+  { href: '/dashboard/crm/tasks', label: 'Vazifalar', icon: '✅' },
+  { href: '/dashboard/crm/invoices', label: 'Fakturalar', icon: '📄' },
+  { href: '/dashboard/crm/payments', label: "To'lovlar", icon: '💳' },
+  { href: '/dashboard/crm/reports', label: 'Hisobotlar', icon: '📈' },
   { href: '/dashboard/products', label: 'Mahsulotlar', icon: '📦' },
   { href: '/dashboard/categories', label: 'Kategoriyalar', icon: '🗂️' },
-  { href: '/dashboard/partners', label: 'Hamkorlar', icon: '🤝' },
+  { href: '/dashboard/partners', label: 'Hamkorlar', icon: '🫱' },
   { href: '/dashboard/banners', label: 'Bannerlar', icon: '🖼️' },
   { href: '/dashboard/nav-services', label: 'Xizmatlar', icon: '🔗' },
   { href: '/dashboard/settings', label: 'Sozlamalar', icon: '⚙️' },
@@ -79,7 +86,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const pathname = usePathname()
 
-  const pageTitle = nav.find(n => n.exact ? pathname === n.href : pathname.startsWith(n.href))?.label || 'Dashboard'
+  const pageTitle = nav.find(n => n.exact ? pathname === n.href : pathname === n.href)?.label ||
+    nav.find(n => !n.exact && pathname.startsWith(n.href))?.label || 'Dashboard'
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#F8F8F8' }}>
