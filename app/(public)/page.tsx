@@ -49,6 +49,7 @@ function AnimatedWave({ from, to, flip = false }: { from: string; to: string; fl
 
 export default function HomePage() {
   const [banners, setBanners] = useState<any[]>([])
+  const [bannersLoaded, setBannersLoaded] = useState(false)
   const [products, setProducts] = useState<any[]>([])
   const [current, setCurrent] = useState(0)
   const [lang, setLang] = useState<'ru' | 'uz'>('ru')
@@ -61,7 +62,7 @@ export default function HomePage() {
     if (saved) setLang(saved)
     const onLangChange = () => { const l = localStorage.getItem('lang') as 'ru'|'uz'|null; if (l) setLang(l) }
     window.addEventListener('langchange', onLangChange)
-    fetch('/api/banners').then(r => r.json()).then(setBanners).catch(() => {})
+    fetch('/api/banners').then(r => r.json()).then(d => setBanners(Array.isArray(d) ? d : [])).catch(() => {}).finally(() => setBannersLoaded(true))
     fetch('/api/products').then(r => r.json()).then(d => {
       if (!Array.isArray(d)) return setProducts([])
       const seen = new Set<string>()
@@ -88,7 +89,16 @@ export default function HomePage() {
 
       {/* ══════════ HERO ══════════ */}
       <section style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
-        {banners.length === 0 ? (
+        <style>{`
+          .hero-banner-img { display: block; width: 100%; aspect-ratio: 1420 / 600; object-fit: cover; object-position: center; background: transparent; }
+          .hero-skeleton { width: 100%; aspect-ratio: 1420 / 600; background: linear-gradient(110deg, #f4f4f4 30%, #ececec 50%, #f4f4f4 70%); background-size: 200% 100%; animation: heroShimmer 1.4s ease-in-out infinite; }
+          @keyframes heroShimmer { 0% { background-position: 200% 0 } 100% { background-position: -200% 0 } }
+          @media (max-width: 768px) { .hero-banner-img { aspect-ratio: 1080 / 1440; } .hero-skeleton { aspect-ratio: 1080 / 1440; } }
+        `}</style>
+        {!bannersLoaded ? (
+          /* Skeleton — yuklanguncha joyni band qiladi, sakramaydi, animatsiya yo'q */
+          <div className="hero-skeleton" />
+        ) : banners.length === 0 ? (
           <div style={{ background: 'linear-gradient(-45deg, #C62828, #8B0000, #D32F2F, #7B0000)', backgroundSize: '400% 400%', animation: 'gradientShift 8s ease infinite', minHeight: 520, display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
             {/* Animated background shapes */}
             <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
@@ -132,9 +142,6 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            <style>{`
-              .hero-banner-img { display: block; width: 100%; height: auto; background: transparent; }
-            `}</style>
             <div style={{ display: 'flex', transition: 'transform .5s cubic-bezier(.4,0,.2,1)', transform: `translateX(-${current * 100}%)` }}>
               {banners.map((b: any) => {
                 const bare = b.ctaLink && !b.titleRu && !b.ctaText
@@ -185,7 +192,7 @@ export default function HomePage() {
         )}
       </section>
 
-      {banners.length === 0 && <AnimatedWave from="#7B0000" to="#fff" />}
+      {bannersLoaded && banners.length === 0 && <AnimatedWave from="#7B0000" to="#fff" />}
 
       {/* ══════════ PRODUCTS ══════════ */}
       {products.length > 0 && (
