@@ -87,15 +87,10 @@ function CatalogContent() {
   return (
     <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 16px' }}>
 
-      {/* SEO heading */}
-      <h1 style={{ fontSize: 24, fontWeight: 800, color: '#111', marginBottom: 6 }}>
+      {/* SEO heading — vizual yashirin (faqat qidiruv tizimlari uchun) */}
+      <h1 style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }}>
         {lang === 'ru' ? 'Каталог спецодежды и униформы в Ташкенте' : "Toshkentda maxsus kiyim va uniforma katalogi"}
       </h1>
-      <p style={{ fontSize: 14, color: '#666', marginBottom: 20, maxWidth: 760, lineHeight: 1.6 }}>
-        {lang === 'ru'
-          ? 'Рабочая одежда, медицинская и поварская форма, одежда для охранников, промотекстиль, постельное бельё, эко-сумки и аксессуары — пошив на заказ с нанесением логотипа.'
-          : "Ishchi kiyimlar, tibbiy va oshpaz formasi, soqchilar kiyimi, promo tekstil, ko'rpa-to'shak, eko-sumkalar va aksessuarlar — logotip bilan buyurtmaga tikamiz."}
-      </p>
 
 
 
@@ -119,7 +114,7 @@ function CatalogContent() {
           )}
           {(!activeCat && !drillCat && !searchParams.get('categoryId') && !searchParams.get('search')) ? (
             /* Katalog ochilganda — asosiy kategoriyalar (ixcham ro'yxat) */
-            <div style={{ display: 'flex', flexDirection: 'column', maxWidth: 560 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', maxWidth: 440 }}>
               {categories.filter((c: any) => !c.parentId).map((cat: any) => (
                 <button key={cat.id} onClick={() => {
                   if (cat.children?.length) setDrillCat(cat)
@@ -141,7 +136,7 @@ function CatalogContent() {
             </div>
           ) : (drillCat && !activeCat) ? (
             /* Subkategoriyalar ro'yxati */
-            <div style={{ display: 'flex', flexDirection: 'column', maxWidth: 560 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', maxWidth: 440 }}>
               <div style={{ fontSize: 18, fontWeight: 800, color: '#111', padding: '4px 8px 12px' }}>{lang === 'ru' ? drillCat.nameRu : drillCat.nameUz}</div>
               {drillCat.children.map((sub: any) => (
                 <button key={sub.id} onClick={() => { setActiveCat(sub.id); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
