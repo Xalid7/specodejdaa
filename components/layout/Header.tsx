@@ -63,21 +63,6 @@ export default function Header() {
     <>
       <header ref={headerRef} style={{ position: 'sticky', top: 0, zIndex: 100, background: '#fff', boxShadow: '0 1px 0 #eee' }}>
 
-        {/* Top bar */}
-        <div className="header-topbar" style={{ background: '#FAFAFA', borderBottom: '1px solid #F0F0F0' }}>
-          <div className="topbar-inner" style={{ maxWidth: 1280, margin: '0 auto', padding: '0 16px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 16, height: 40 }}>
-            {settings.phone && (
-              <a href={`tel:${settings.phone}`}
-                style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#666', fontSize: 13, textDecoration: 'none', transition: 'color .2s' }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#D32F2F')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#666')}
-              >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .36 1.97.71 2.9a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.17-1.18a2 2 0 012.11-.45c.93.35 1.9.58 2.9.71A2 2 0 0122 16.92z"/></svg>
-                <span className="hidden sm:inline">{settings.phone}</span>
-              </a>
-            )}
-          </div>
-        </div>
 
         {/* Main nav */}
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
@@ -101,8 +86,16 @@ export default function Header() {
             </div>
           </form>
 
-          {/* Social icons (logo qatorida) */}
+          {/* Social icons + telefon (logo qatorida) */}
           <div className="header-social" style={{ display: 'flex', alignItems: 'center', gap: 14, marginLeft: 'auto', flexShrink: 0 }}>
+            {settings.phone && (
+              <a href={`tel:${settings.phone}`} aria-label="Telefon"
+                style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#444', fontSize: 13, fontWeight: 600, textDecoration: 'none', marginRight: 4 }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#D32F2F')} onMouseLeave={e => (e.currentTarget.style.color = '#444')}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .36 1.97.71 2.9a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.17-1.18a2 2 0 012.11-.45c.93.35 1.9.58 2.9.71A2 2 0 0122 16.92z"/></svg>
+                <span className="phone-text">{settings.phone}</span>
+              </a>
+            )}
             {settings.telegram && (
               <a href={settings.telegram} target="_blank" rel="noreferrer" aria-label="Telegram"
                 style={{ display: 'flex', color: '#229ED9', textDecoration: 'none', transition: 'opacity .2s' }}
@@ -265,8 +258,9 @@ export default function Header() {
           .mobile-bottom-nav { display: flex !important; }
           body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
         }
-        @media (max-width: 480px) {
-          .header-topbar .topbar-inner { padding: 0 12px !important; gap: 12px !important; height: 36px !important; }
+        @media (max-width: 600px) {
+          .phone-text { display: none !important; }
+          .header-social { gap: 16px !important; }
         }
       `}</style>
     </>
